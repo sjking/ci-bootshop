@@ -1,0 +1,7 @@
+Test Template
+
+The $QUICK$ brown fox jumps over the $LAZY$ Dog.
+
+A man a plan, a canal, $PANAMA_CANAL$!
+
+End of Test Template. 
