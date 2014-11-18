@@ -9,6 +9,9 @@ class Files
 	 */
 	public function write($filename, $data)
 	{
+		// check if the directory we are writing to exists, and if not then 
+		// create the directory
+		
 		file_put_contents($filename, $data);
 	}
 

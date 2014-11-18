@@ -5,12 +5,18 @@ include_once("Template.php");
 class ControllerTemplate extends Template
 {
 
-	function __construct($config)
+	/* create a new controller template
+	 * @param $config config object
+	 * @param $template the template file
+	 */
+	function __construct($config, $template)
 	{
 		$this->config = $config;
 		$this->suffix = $this->config->get('CONTROLLER', 'SUFFIX');
 		$this->set_base_dir($this->config->get('CONTROLLER', 'BASE_DIR'));
-		$this->set_template($this->config->get('CONTROLLER', 'TEMPLATE'));
+		$template_path = $this->config->get('VIEW', 'TEMPLATE_DIR') . '/' . 
+			$template;
+		$this->set_template($template_path);
 	}
 
 	/* set the name

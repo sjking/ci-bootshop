@@ -7,15 +7,19 @@ class ViewTemplate extends Template
 	protected $header_title; // title in the header
 	protected $page_title; // title in the <head> section
 
-	function __construct($config)
+	/* create a new view template
+	 * @param $config config object
+	 * @param $template the template file
+	 */
+	function __construct($config, $template)
 	{
 		$this->config = $config;
-		// $this->suffix = Config::VIEW_SUFFIX;
-		// $this->set_base_dir(Config::VIEW_BASE_DIR);
-		// $this->set_template(Config::VIEW_TEMPLATE);
 		$this->suffix = $this->config->get('VIEW', 'SUFFIX');
+
 		$this->set_base_dir($this->config->get('VIEW', 'BASE_DIR'));
-		$this->set_template($this->config->get('VIEW', 'TEMPLATE'));
+		$template_path = $this->config->get('VIEW', 'TEMPLATE_DIR') . '/' . 
+			$template;
+		$this->set_template($template_path);
 	}
 
 	/* set the name

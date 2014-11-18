@@ -31,9 +31,11 @@ class Generator
 	function __construct($name, GeneratorConfig $config)
 	{
 		$this->config = $config;
-		$this->controllerTemplate = new ControllerTemplate($this->config);
+		$this->controllerTemplate = new ControllerTemplate($this->config, 
+			'controller.php.template');
 		$this->controllerTemplate->set_name($name);
-		$this->viewTemplate = new ViewTemplate($this->config);
+		$this->viewTemplate = new ViewTemplate($this->config, 
+			'view.php.template');
 		$this->viewTemplate->set_name($name);
 		$this->files = new Files();
 		$this->compiler = new TemplateCompiler();
