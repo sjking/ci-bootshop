@@ -8,14 +8,14 @@ abstract class Template
 	/* template file */
 	private $template;
 
-	/* template data: key => value pairs of replacement */
-	// private $data;
-
 	/* name of the template: which is what it will be named as in project */
-	private $name;
+	protected $name;
 
 	/* the suffix for the filename */
 	protected $suffix;
+
+	/* configuration object */
+	protected $config;
 
 	/* set the base directory
 	 * @param $path
@@ -46,21 +46,6 @@ abstract class Template
 	{
 		return $this->template;
 	}
-
-	/* set the data for replacement
-	 * @param $data
-	 */
-	// public function set_data($data)
-	// {
-	// 	$this->data = $data;
-	// }
-
-	//  get the data for replacement
-	 
-	// public function get_data()
-	// {
-	// 	return $this->data;
-	// }
 
 	/* set the name
 	 * @param $name

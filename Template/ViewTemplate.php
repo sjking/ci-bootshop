@@ -4,11 +4,18 @@ include_once("Template.php");
 
 class ViewTemplate extends Template
 {
-	function __construct()
+	protected $header_title; // title in the header
+	protected $page_title; // title in the <head> section
+
+	function __construct($config)
 	{
-		$this->suffix = Config::VIEW_SUFFIX;
-		$this->set_base_dir(Config::VIEW_BASE_DIR);
-		$this->set_template(Config::VIEW_TEMPLATE);
+		$this->config = $config;
+		// $this->suffix = Config::VIEW_SUFFIX;
+		// $this->set_base_dir(Config::VIEW_BASE_DIR);
+		// $this->set_template(Config::VIEW_TEMPLATE);
+		$this->suffix = $this->config->get('VIEW', 'SUFFIX');
+		$this->set_base_dir($this->config->get('VIEW', 'BASE_DIR'));
+		$this->set_template($this->config->get('VIEW', 'TEMPLATE'));
 	}
 
 	/* set the name
@@ -19,7 +26,7 @@ class ViewTemplate extends Template
 		$name = ucfirst(strtolower($name));
 
 		if ($this->suffix != '') {
-			$this->name = $name + '_' + $this->suffix;
+			$this->name = $name . '_' . $this->suffix;
 		}
 		else {
 			$this->name = $name;
@@ -31,6 +38,34 @@ class ViewTemplate extends Template
 	public function get_name()
 	{
 		return $this->name;
+	}
+
+	/* set the page header 
+	 * @param $name
+	 */
+	public function set_header($name)
+	{
+		$this->header_title = $name;
+	}
+
+	/* get the header for the page title */
+	public function get_header()
+	{
+		return $this->header_title;
+	}
+
+	/* set the page title 
+	 * @param $title
+	 */
+	public function set_page_title($title)
+	{
+		$this->page_title = $title;
+	}
+
+	/* get the title for the head section */
+	public function get_page_title()
+	{
+		return $this->page_title;
 	}
 
 	/* get the full path for this controller in the project */

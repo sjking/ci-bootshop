@@ -4,6 +4,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 {
 	public function index()
 	{
+		$data['title'] = 'Interweb - $PAGE_TITLE$';
 		$data['header'] = '$HEADER$';
 		$this->load->view('$VIEW_NAME$', $data);
 	}

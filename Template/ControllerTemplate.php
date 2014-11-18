@@ -5,11 +5,12 @@ include_once("Template.php");
 class ControllerTemplate extends Template
 {
 
-	function __construct()
+	function __construct($config)
 	{
-		$this->suffix = Config::CONTROLLER_SUFFIX;
-		$this->set_base_dir(Config::CONTROLLER_BASE_DIR);
-		$this->set_template(Config::CONTROLLER_TEMPLATE);
+		$this->config = $config;
+		$this->suffix = $this->config->get('CONTROLLER', 'SUFFIX');
+		$this->set_base_dir($this->config->get('CONTROLLER', 'BASE_DIR'));
+		$this->set_template($this->config->get('CONTROLLER', 'TEMPLATE'));
 	}
 
 	/* set the name
@@ -20,7 +21,7 @@ class ControllerTemplate extends Template
 		$name = ucfirst(strtolower($name));
 
 		if ($this->suffix != '') {
-			$this->name = $name + '_' + $this->suffix;
+			$this->name = $name . '_' . $this->suffix;
 		}
 		else {
 			$this->name = $name;
