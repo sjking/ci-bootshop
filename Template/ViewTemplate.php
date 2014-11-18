@@ -2,14 +2,13 @@
 
 include_once("Template.php");
 
-class ControllerTemplate extends Template
+class ViewTemplate extends Template
 {
-
 	function __construct()
 	{
-		$this->suffix = Config::CONTROLLER_SUFFIX;
-		$this->set_base_dir(Config::CONTROLLER_BASE_DIR);
-		$this->set_template(Config::CONTROLLER_TEMPLATE);
+		$this->suffix = Config::VIEW_SUFFIX;
+		$this->set_base_dir(Config::VIEW_BASE_DIR);
+		$this->set_template(Config::VIEW_TEMPLATE);
 	}
 
 	/* set the name
@@ -40,7 +39,4 @@ class ControllerTemplate extends Template
 		$name = strtolower($this->get_name());
 		return $this->get_base_dir() . '/' . $name . '.php';
 	}
-
 }
-
-?>

@@ -1,12 +1,16 @@
 <?php namespace Generator;
 
-// use King\Generator\Generator;
-include(__DIR__ . "/Generator.php");
+include_once(__DIR__ . "/Generator.php");
 
-$gen = new Generator();
-$gen->test();
-
-echo 'APP: ' . APP;
+echo 'Generator Test:';
 echo "\n";
+
+$generator = new Generator('foobar');
+$controller_data = array("CONTROLLER_TEMPLATE_NAME" => 'foobar');
+// $generator->set_controller_data($controller_data);
+$generator->generate();
+
+// echo 'APP: ' . APP;
+// echo "\n";
 
 ?>

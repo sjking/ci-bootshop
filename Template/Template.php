@@ -14,6 +14,9 @@ abstract class Template
 	/* name of the template: which is what it will be named as in project */
 	private $name;
 
+	/* the suffix for the filename */
+	protected $suffix;
+
 	/* set the base directory
 	 * @param $path
 	 */
@@ -24,7 +27,7 @@ abstract class Template
 
 	/* get the base directory
 	 */
-	public function get_base_dir()
+	protected function get_base_dir()
 	{
 		return $this->base_dir;
 	}
@@ -67,6 +70,9 @@ abstract class Template
 	/* get the name
 	 */
 	abstract public function get_name();
+
+	/* get the path where this file is created in the project */
+	abstract public function get_path();
 
 }
 

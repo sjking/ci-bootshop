@@ -9,7 +9,14 @@ class Files
 	 */
 	public function write($filename, $data)
 	{
+		file_put_contents($filename, $data);
+	}
 
+	/* reads a file from the path and returns the data */
+	public function read($filename)
+	{
+		$data = file_get_contents($filename);
+		return $data;
 	}
 }
 

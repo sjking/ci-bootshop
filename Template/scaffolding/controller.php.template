@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class $CONTROLLER_TEMPLATE_NAME$ extends CI_Controller 
+class $CONTROLLER_NAME$ extends CI_Controller 
 {
-
 	public function index()
 	{
-		$this->load->view('$VIEW_TEMPLATE_NAME$');
+		$data['header'] = '$HEADER$';
+		$this->load->view('$VIEW_NAME$', $data);
 	}
 }
