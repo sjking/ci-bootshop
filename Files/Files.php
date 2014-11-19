@@ -11,7 +11,8 @@ class Files
 	{
 		// check if the directory we are writing to exists, and if not then 
 		// create the directory
-		
+		// TO-DO
+
 		file_put_contents($filename, $data);
 	}
 

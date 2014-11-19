@@ -2,10 +2,25 @@
 
 class $CONTROLLER_NAME$ extends CI_Controller 
 {
+	function __construct()
+	{
+		parent::__construct();
+
+		// $this->load->model('$MODEL_NAME$');
+	}
+
 	public function index()
 	{
 		$data['title'] = 'Interweb - $PAGE_TITLE$';
 		$data['header'] = '$HEADER$';
+		// $data['$TABLE_ROWS$'] = $this->$MODEL_NAME$->getRows();
+		$data['table_rows'] = array(
+			array('id' => 1, 'name' => 'bob', 'title' => 'captain', 'status' => 'deceased'),
+			array('id' => 2, 'name' => 'fred', 'title' => 'skipper', 'status' => 'missing'),
+			array('id' => 3, 'name' => 'jim', 'title' => 'cook', 'status' => 'active')
+		);
+
 		$this->load->view('$VIEW_NAME$', $data);
+		$this->load->view('$TABLE_VIEW$', $data);
 	}
 }
