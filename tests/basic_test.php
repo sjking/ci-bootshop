@@ -6,8 +6,8 @@ include_once(dirname(__DIR__) . "/Model/Model.php");
 
 $conf = new GeneratorConfig('basic_config.ini', __DIR__);
 
-$cols = array('id', 'name', 'title', 'status');
-$model = new Model('foobar_lut', $cols);
+$cols = array('name', 'title', 'status');
+$model = new Model('foobar', 'foobar_lut', $cols, 'id');
 
 $generator = new Generator('foobar', $conf, $model);
 

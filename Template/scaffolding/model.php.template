@@ -1,0 +1,19 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class $MODEL_NAME$ extends CI_Model
+{
+	$MODEL_INSTANCE_VARIABLES$
+
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	/* returns all entries for table */
+	function get_all()
+	{
+		$this->db->select($this);
+		$this->db->get('$DB_TABLE_NAME$')
+	}
+
+}

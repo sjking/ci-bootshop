@@ -4,6 +4,7 @@ include_once("Template.php");
 
 class ModelTemplate extends Template
 {
+	protected $vars = ''; // instance variables
 
 	/* create a new controller template
 	 * @param $config config object
@@ -46,6 +47,26 @@ class ModelTemplate extends Template
 	{
 		$name = strtolower($this->get_name());
 		return $this->get_base_dir() . '/' . $name . '.php';
+	}
+
+	/* sets the instance variables for the model 
+	 * @param $cols
+	 */
+	public function set_vars($cols)
+	{
+		$vars = '';
+
+		foreach($cols as $col)
+		{
+			$vars .= "\t" . 'var $' . $col . ';' . "\n";
+		}
+
+		$this->vars = $vars;
+	}
+
+	public function get_vars()
+	{
+		return $this->vars;
 	}
 
 }
