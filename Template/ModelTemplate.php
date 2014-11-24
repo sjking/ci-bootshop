@@ -5,6 +5,7 @@ include_once("Template.php");
 class ModelTemplate extends Template
 {
 	protected $vars = ''; // instance variables
+	protected $columns = ''; // columns to select in select queries
 
 	/* create a new controller template
 	 * @param $config config object
@@ -60,8 +61,30 @@ class ModelTemplate extends Template
 		{
 			$vars .= "\t" . 'var $' . $col . ';' . "\n";
 		}
+		$vars = rtrim($vars, "\n");
 
 		$this->vars = $vars;
+	}
+
+	/* sets the columns that are selected from get queries
+	 * @param $cols array of column names
+	 */
+	public function set_columns($cols)
+	{
+		$columns = '';
+		foreach($cols as $col)
+		{
+			$columns .= $col . ', ';
+		}
+		$columns = substr($columns, 0, strlen($columns) - 2);
+
+		$this->columns = $columns;
+	}
+
+	/* returns a string list of columns for select queries */
+	public function get_columns()
+	{
+		return $this->columns;
 	}
 
 	public function get_vars()

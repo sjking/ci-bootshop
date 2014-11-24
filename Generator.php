@@ -27,10 +27,10 @@ class Generator
 	private $init = false; // flag if the initialization has happened yet
 	private $config;
 
-	/* create a new generator, at the least we need a name for the class names
-	 * @param $name
-	 * @param $config
-	 * @param $model
+	/* create a new generator
+	 * @param $name the naming of files and classnames in project
+	 * @param $config configuration data
+	 * @param $model 
 	 */
 	function __construct($name, GeneratorConfig $config, Model $model)
 	{
@@ -54,6 +54,7 @@ class Generator
 			'model.php.template');
 		$this->modelTemplate->set_name($name);
 		$this->modelTemplate->set_vars($model->get_columns());
+		$this->modelTemplate->set_columns($model->get_columns());
 
 		$this->files = new Files();
 		$this->compiler = new TemplateCompiler();
@@ -117,6 +118,7 @@ class Generator
 		$data['TABLE_VIEW'] = $this->tableTemplate->get_name();
 		$data['DB_TABLE_NAME'] = $this->model->get_table_name();
 		$data['MODEL_INSTANCE_VARIABLES'] = $this->modelTemplate->get_vars();
+		$data['MODEL_SELECT_COLUMNS'] = $this->modelTemplate->get_columns();
 
 		return $data;
 	}

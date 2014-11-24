@@ -2,7 +2,7 @@
 
 class $MODEL_NAME$ extends CI_Model
 {
-	$MODEL_INSTANCE_VARIABLES$
+$MODEL_INSTANCE_VARIABLES$
 
 	function __construct()
 	{
@@ -10,10 +10,12 @@ class $MODEL_NAME$ extends CI_Model
 	}
 
 	/* returns all entries for table */
-	function get_all()
+	function get_rows()
 	{
-		$this->db->select($this);
-		$this->db->get('$DB_TABLE_NAME$')
+		$this->db->select('$MODEL_SELECT_COLUMNS$');
+		$query = $this->db->get('$DB_TABLE_NAME$');
+
+		return $query->result_array();
 	}
 
 }
