@@ -28,12 +28,23 @@ class Files
 		return $data;
 	}
 
-	/* delete a file at $filepath 
+	/* delete a file at $filepath, and if the directory is empty removes it
 	 * @param $filepath
 	 */
 	public function delete($filepath)
 	{
-		return unlink($filepath);
+		$dir = dirname($filepath);
+
+		if (!unlink($filepath))
+			return false;
+
+		$iterator = new \FilesystemIterator($dir);
+		$isDirEmpty = !$iterator->valid();
+		if ($isDirEmpty) {
+			if (!rmdir($dir))
+				return false;
+		}
+		return true;
 	}
 }
 
