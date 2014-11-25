@@ -30,6 +30,7 @@ $resp = curl_exec($curl);
 
 // test for expected output
 $str = preg_replace('/\s+/', '', $resp);
+
 echo 'Basic Test: Positive Test' . "\n";
 if ($str != $expected) {
 	echo "\t" . '[Error]: Expected output does not match actual output.' . "\n";
