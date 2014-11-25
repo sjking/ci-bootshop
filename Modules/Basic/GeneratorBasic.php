@@ -2,9 +2,9 @@
 
 use \Exception;
 
-include_once(dirname(__DIR__) . "/Generator.php");
+include_once(dirname(dirname(__DIR__)) . "/Generator.php");
 
-class GeneratorBasicTest extends Generator
+class GeneratorBasic extends Generator
 {
 	protected $controllerTemplate;
 	protected $viewTemplate;

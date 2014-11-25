@@ -1,8 +1,7 @@
 <?php namespace Generator;
 /* test the creation of basic controller and view */
 
-include_once("GeneratorBasicTest.php");
-include_once(dirname(__DIR__) . "/Model/Model.php");
+include_once(dirname(__DIR__) . "/Modules/Basic/GeneratorBasic.php");
 
 $name = 'foobar';
 const BASE_URL = 'codeigniter.busdevw';
@@ -14,7 +13,7 @@ $conf = new GeneratorConfig('basic_config.ini', __DIR__);
 $cols = array('id', 'name', 'title', 'status');
 $model = new Model($name, $name . '_lut', $cols, 'id');
 
-$generator = new GeneratorBasicTest('foobar', $conf, $model);
+$generator = new GeneratorBasic('foobar', $conf, $model);
 
 $data = array('CONTROLLER_NAME' => 'Foobar',
 			  'PAGE_TITLE' => 'Foobar Portal',

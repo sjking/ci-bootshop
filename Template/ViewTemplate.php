@@ -32,7 +32,9 @@ class ViewTemplate extends Template
 		return $this->name;
 	}
 
-	/* get the name link for the controller, since it might be in subdirectories */
+	/* get the name link for the controller, since it might be in 
+	 * subdirectories 
+	 */
 	public function get_link() 
 	{
 		return $this->_name . '/' . $this->name;
