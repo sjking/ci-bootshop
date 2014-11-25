@@ -11,7 +11,6 @@ class Files
 	{
 		// check if the directory we are writing to exists, and if not then 
 		// create the directory
-		// TO-DO
 		$dir = dirname($filename);
 		if (!is_dir($dir)) {
 			if (!mkdir($dir)) {
@@ -19,12 +18,7 @@ class Files
 			}
 		}
 		
-
-		echo 'filename: ' . $filename . "\n";
-		echo 'basename: ' . basename($filename) . "\n";
-		echo 'dirname: ' . dirname($filename) . "\n";
 		return file_put_contents($filename, $data);
-
 	}
 
 	/* reads a file from the path and returns the data */
