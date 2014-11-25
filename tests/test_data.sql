@@ -8,9 +8,9 @@ CREATE TABLE `foobar_lut` (
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `testing`.`foobar_lut` (`name`, `title`, `status`) VALUES ('Jim', 'Operator', 'missing');
+INSERT INTO `testing`.`foobar_lut` (`name`, `title`, `status`) VALUES ('Jim', 'Pilot', 'missing');
 
-INSERT INTO `testing`.`foobar_lut` (`name`, `title`, `status`) VALUES ('Fred', 'Hoser', 'deceased');
+INSERT INTO `testing`.`foobar_lut` (`name`, `title`, `status`) VALUES ('Fred', 'Chief', 'deceased');
 
 INSERT INTO `testing`.`foobar_lut` (`name`, `title`, `status`) VALUES ('Doug', 'Scout', 'alive');
 

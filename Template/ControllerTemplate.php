@@ -14,24 +14,9 @@ class ControllerTemplate extends Template
 		$this->config = $config;
 		$this->suffix = $this->config->get('CONTROLLER', 'SUFFIX');
 		$this->set_base_dir($this->config->get('CONTROLLER', 'BASE_DIR'));
-		$template_path = $this->config->get('VIEW', 'TEMPLATE_DIR') . '/' . 
+		$template_path = $this->config->get('CONTROLLER', 'TEMPLATE_DIR') . '/' . 
 			$template;
 		$this->set_template($template_path);
-	}
-
-	/* set the name
-	 * @param $name
-	 */
-	public function set_name($name)
-	{
-		$name = ucfirst(strtolower($name));
-
-		if ($this->suffix != '') {
-			$this->name = $name . '_' . $this->suffix;
-		}
-		else {
-			$this->name = $name;
-		}
 	}
 
 	/* get the name
@@ -46,6 +31,14 @@ class ControllerTemplate extends Template
 	{
 		$name = strtolower($this->get_name());
 		return $this->get_base_dir() . '/' . $name . '.php';
+	}
+
+	protected function set_path()
+	{
+		$name = strtolower($this->get_name());
+
+		$base_dir = $this->config->get('CONTROLLER', 'BASE_DIR');
+		$this->set_base_dir($base_dir);
 	}
 
 }

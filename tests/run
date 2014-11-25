@@ -1,0 +1,7 @@
+#!/bin/bash
+# run - run tests
+
+# basic test
+mysql -u mysqluser -pdevelopment testing < /vagrant/generator/tests/test_data.sql
+php -f basic_test.php
+echo "DROP TABLE IF EXISTS testing.foobar_lut;" | mysql -umysqluser -pdevelopment

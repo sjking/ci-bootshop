@@ -15,7 +15,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['header'] = '$HEADER$';
 		$data['table_rows'] = $this->$MODEL_NAME$->get_rows();
 
-		$this->load->view('$VIEW_NAME$', $data);
-		$this->load->view('$TABLE_VIEW$', $data);
+		$this->load->view('$VIEW_NAME_LINK$', $data);
+		$this->load->view('$TABLE_VIEW_LINK$', $data);
 	}
 }

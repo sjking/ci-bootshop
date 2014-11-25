@@ -15,25 +15,10 @@ class ModelTemplate extends Template
 	{
 		$this->config = $config;
 		$this->suffix = $this->config->get('MODEL', 'SUFFIX');
-		$this->set_base_dir($this->config->get('MODEL', 'BASE_DIR'));
+
 		$template_path = $this->config->get('MODEL', 'TEMPLATE_DIR') . '/' . 
 			$template;
 		$this->set_template($template_path);
-	}
-
-	/* set the name
-	 * @param $name
-	 */
-	public function set_name($name)
-	{
-		$name = ucfirst(strtolower($name));
-
-		if ($this->suffix != '') {
-			$this->name = $name . '_' . $this->suffix;
-		}
-		else {
-			$this->name = $name;
-		}
 	}
 
 	/* get the name
@@ -41,6 +26,22 @@ class ModelTemplate extends Template
 	public function get_name()
 	{
 		return $this->name;
+	}
+
+	/* set an extra folder depth for models when setting the name */
+	public function set_name($name)
+	{
+		parent::set_name($name);
+
+		$this->set_path();
+	}
+
+	protected function set_path()
+	{
+		$name = strtolower($this->get_name());
+
+		$base_dir = $this->config->get('MODEL', 'BASE_DIR');
+		$this->set_base_dir($base_dir);
 	}
 
 	/* get the full path for this controller in the project */

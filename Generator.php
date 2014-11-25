@@ -13,19 +13,14 @@ include_once(APP . "/Template/Table.php");
 include_once(APP . "/Files/Files.php");
 include_once(APP . "/Model/Model.php");
 
-class Generator
+abstract class Generator
 {
-	protected $controllerTemplate;
-	protected $viewTemplate;
-	protected $tableTemplate;
-	protected $modelTemplate;
-	protected $files; // read/write files
-	protected $compiler;
+	protected $name;
 	protected $data; // template data for compiling 
 	protected $model;
-
-	private $init = false; // flag if the initialization has happened yet
-	private $config;
+	protected $config;
+	protected $compiler;
+	protected $files; // read/write files
 
 	/* create a new generator
 	 * @param $name the naming of files and classnames in project
@@ -36,64 +31,13 @@ class Generator
 	{
 		$this->config = $config;
 		$this->model = $model;
-		
-		// table view template
-		$this->tableTemplate = new ViewTemplate($this->config, 
-			'tbody.php.template');
-		$this->tableTemplate->set_name($name . '_table');
-		
-		$this->controllerTemplate = new ControllerTemplate($this->config, 
-			'controller.php.template');
-		$this->controllerTemplate->set_name($name);
-		
-		$this->viewTemplate = new ViewTemplate($this->config, 
-			'view.php.template');
-		$this->viewTemplate->set_name($name);
-
-		$this->modelTemplate = new ModelTemplate($this->config, 
-			'model.php.template');
-		$this->modelTemplate->set_name($name);
-		$this->modelTemplate->set_vars($model->get_columns());
-		$this->modelTemplate->set_columns($model->get_columns());
-
-		$this->files = new Files();
+		$this->name = $name;
 		$this->compiler = new TemplateCompiler();
-		$this->data = $this->_init();
+		$this->files = new Files();
 	}
 
 	/* generates the boilerplate in the project directory */
-	public function generate()
-	{
-		if ($this->init == false)
-			throw new Exception('Generator Error: Data must be initialized.');
-		
-		// table view
-		$table = new Table($this->model->get_name(), $this->model->get_columns());
-		$template = $this->files->read($this->tableTemplate->get_template());
-		$table->set_body($template);
-		$tbl = $table->generate();
-		$table_view = $this->compiler->compile($tbl, $this->data);
-		$table_view_path = $this->tableTemplate->get_path();
-		$this->files->write($table_view_path, $table_view);
-
-		// controller
-		$template = $this->files->read($this->controllerTemplate->get_template());
-		$controller = $this->compiler->compile($template, $this->data);
-		$controller_path = $this->controllerTemplate->get_path();
-		$this->files->write($controller_path, $controller);
-
-		// main view
-		$template = $this->files->read($this->viewTemplate->get_template());
-		$view = $this->compiler->compile($template, $this->data);
-		$view_path = $this->viewTemplate->get_path();
-		$this->files->write($view_path, $view);
-
-		// model
-		$template = $this->files->read($this->modelTemplate->get_template());
-		$model = $this->compiler->compile($template, $this->data);
-		$model_path = $this->modelTemplate->get_path();
-		$this->files->write($model_path, $model);
-	}
+	abstract public function generate();
 
 	/* initialize the data for the template compilation
 	 * @param $data associative array of compilation replacements
@@ -101,27 +45,10 @@ class Generator
 	 * This data should look something like this:
 	 * {'HEADER' => 'Foobar', 'PAGE_TITLE' => 'Bash'}
 	 */
-	public function init($data)
-	{
-		$this->data = array_merge($this->data, $data);
+	abstract public function init($data);
 
-		$this->init = true;
-	}
-
-	/* initialize the known data */
-	private function _init()
-	{
-		$data = array();
-		$data['CONTROLLER_NAME'] = $this->controllerTemplate->get_name();
-		$data['VIEW_NAME'] = $this->viewTemplate->get_name();
-		$data['MODEL_NAME'] = $this->modelTemplate->get_name();
-		$data['TABLE_VIEW'] = $this->tableTemplate->get_name();
-		$data['DB_TABLE_NAME'] = $this->model->get_table_name();
-		$data['MODEL_INSTANCE_VARIABLES'] = $this->modelTemplate->get_vars();
-		$data['MODEL_SELECT_COLUMNS'] = $this->modelTemplate->get_columns();
-
-		return $data;
-	}
+	/* remove all files created with generate */
+	abstract public function destroy();
 
 }
 

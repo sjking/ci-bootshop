@@ -17,6 +17,8 @@ abstract class Template
 	/* configuration object */
 	protected $config;
 
+	protected $_name; // unmodified name
+
 	/* set the base directory
 	 * @param $path
 	 */
@@ -50,7 +52,20 @@ abstract class Template
 	/* set the name
 	 * @param $name
 	 */
-	abstract public function set_name($name);
+	public function set_name($name)
+	{
+		$this->_name = $name;
+
+		$name = ucfirst(strtolower($name));
+
+		if ($this->suffix != '') {
+			$this->name = $name . '_' . $this->suffix;
+		}
+		else {
+			$this->name = $name;
+		}
+
+	}
 
 	/* get the name
 	 */
@@ -58,6 +73,9 @@ abstract class Template
 
 	/* get the path where this file is created in the project */
 	abstract public function get_path();
+
+	/* set the full path of the file in project */
+	abstract protected function set_path();
 
 }
 
