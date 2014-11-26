@@ -34,7 +34,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 									   );
 
 		$data['header'] = '$HEADER$';
-		$data['table_rows'] = $this->$MODEL_NAME$->get_rows();
+		$data['table_rows'] = $this->$MODEL_NAME$->get_rows('$MODEL_TABLE_ID_COL$');
 
 		$this->load->view('_templates/admin/header', $data);
 		$this->load->view('$VIEW_NAME_LINK$', $data);

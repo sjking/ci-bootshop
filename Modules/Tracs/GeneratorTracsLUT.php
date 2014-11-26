@@ -9,24 +9,35 @@ class GeneratorTracsLUT extends Generator
 {
 	protected $controllerTemplate;
 	protected $viewTemplate;
+	
+	// table view templates
 	protected $tableTemplate;
 	protected $modelTemplate;
+
+	// detail form view templates
+	protected $formTemplate;
+	protected $formModelTemplate;
 	
 	private $init; // flag to see if data is initialized
 	private $filenames; // array of filename paths that were created
 
+	private $detail_model;
+
 	/* create a new generator
 	 * @param $name the naming of files and classnames in project
 	 * @param $config configuration data
-	 * @param $model 
+	 * @param $table_model model with selected fields for table view
+	 * @param $detail_model selected fields for detailed form edit view
 	 */
-	function __construct($name, GeneratorConfig $config, Model $model)
+	function __construct($name, GeneratorConfig $config, Model $table_model,
+		Model $detail_model)
 	{
-		parent::__construct($name, $config, $model);
-		
+		parent::__construct($name, $config, $table_model);
+		$this->detail_model = $detail_model;
+
 		// table view template
 		$this->tableTemplate = new ViewTemplate($this->config, 
-			'tracs_tbody.php.template');
+			'tracs_tbody.php.tmpl');
 		$this->tableTemplate->set_name($name, 'table');
 		
 		$this->controllerTemplate = new ControllerTemplate($this->config, 
@@ -38,10 +49,14 @@ class GeneratorTracsLUT extends Generator
 		$this->viewTemplate->set_name($name);
 
 		$this->modelTemplate = new ModelTemplate($this->config, 
-			'model.php.template');
+			'tracs_model.php.tmpl');
 		$this->modelTemplate->set_name($name);
-		$this->modelTemplate->set_vars($model->get_columns());
-		$this->modelTemplate->set_columns($model->get_columns());
+		$this->modelTemplate->set_vars($this->model->get_columns());
+		$this->modelTemplate->set_columns($this->model->get_columns());
+
+		// detail form view template
+		// $this->formTemplate = new ViewTemplate($this->config,
+		// 	'tracs_form.php.tmpl');
 
 		$this->data = $this->_init();
 	}
@@ -123,6 +138,7 @@ class GeneratorTracsLUT extends Generator
 		$data['DB_TABLE_NAME'] = $this->model->get_table_name();
 		$data['MODEL_INSTANCE_VARIABLES'] = $this->modelTemplate->get_vars();
 		$data['MODEL_SELECT_COLUMNS'] = $this->modelTemplate->get_columns();
+		$data['MODEL_TABLE_ID_COL'] = $this->model->get_id();
 
 		return $data;
 	}
