@@ -31,7 +31,7 @@ abstract class HTMLElement
 	/* return the element opening tag */
 	protected function start()
 	{
-		$element = '<' . $this->element;
+		$element = '<' . $this->element . ' ';
 
 		if ($this->params) {
 			foreach($this->params as $param => $val) {
