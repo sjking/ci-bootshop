@@ -53,7 +53,7 @@ class Table
 		return $tbl;
 	}
 
-	private function header()
+	protected function header()
 	{
 		$tbl = '<thead>';
 		foreach($this->columns as $col) {

@@ -1,0 +1,19 @@
+<tbody>
+<?php
+	foreach($table_rows as $row) {
+?>
+	<tr>
+<?php
+		foreach($row as $key => $val) {
+?>
+			<td name="<?php echo $key; ?>"><?php echo $val; ?></td>
+<?php
+		}
+?>
+		<td>edit</td>
+		<td>delete</td>
+	</tr>
+<?php
+	}
+?>
+</tbody>

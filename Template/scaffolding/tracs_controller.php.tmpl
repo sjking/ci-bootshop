@@ -1,0 +1,44 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class $CONTROLLER_NAME$ extends CI_Controller 
+{
+	function __construct()
+	{
+		parent::__construct();
+
+    	//Setup the CAS Authentication and Access Control.
+        $this->load->model('User_access');
+    	
+    	if( !$this->User_access->allowAccessType( array('Admin') ) ){
+    		$data['siteTitle'] 		= "TRACS";
+			$data['title'] 			= "TRACS";
+			$data['noMenu']			= true;
+			echo $this->load->view('_templates/admin/header', $data, true);
+			echo "<p>You (" . $_SESSION['tracs_userComputingID'] . 
+				") do not have the permission to access this page.</p>";
+			echo $this->load->view('_templates/admin/footer', $data, true);
+			exit();
+		}
+
+
+		$this->load->model('$MODEL_NAME$');
+	}
+
+	public function index()
+	{
+		$data['siteTitle'] 		= "TRACS";
+		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
+		$data['javaScript'] 	= array(
+									   );
+		$data['styleSheets']    = array(
+									   );
+
+		$data['header'] = '$HEADER$';
+		$data['table_rows'] = $this->$MODEL_NAME$->get_rows();
+
+		$this->load->view('_templates/admin/header', $data);
+		$this->load->view('$VIEW_NAME_LINK$', $data);
+		$this->load->view('$TABLE_VIEW_LINK$', $data);
+		$this->load->view('_templates/admin/footer', $data);
+	}
+}
