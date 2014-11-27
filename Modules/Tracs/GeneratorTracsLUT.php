@@ -4,6 +4,8 @@ use \Exception;
 
 include_once(dirname(dirname(__DIR__)) . "/Generator.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable.php");
+include_once(dirname(dirname(__DIR__)) . "/Template/Form.php");
+include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
 
 class GeneratorTracsLUT extends Generator
 {
@@ -15,8 +17,8 @@ class GeneratorTracsLUT extends Generator
 	protected $modelTemplate;
 
 	// detail form view templates
-	protected $formTemplate;
-	protected $formModelTemplate;
+	protected $detailViewTemplate;
+	protected $detailModelTemplate;
 	
 	private $init; // flag to see if data is initialized
 	private $filenames; // array of filename paths that were created
@@ -30,7 +32,7 @@ class GeneratorTracsLUT extends Generator
 	 * @param $detail_model selected fields for detailed form edit view
 	 */
 	function __construct($name, GeneratorConfig $config, Model $table_model,
-		Model $detail_model)
+		FormModel $detail_model)
 	{
 		parent::__construct($name, $config, $table_model);
 		$this->detail_model = $detail_model;
@@ -50,13 +52,20 @@ class GeneratorTracsLUT extends Generator
 
 		$this->modelTemplate = new ModelTemplate($this->config, 
 			'tracs_model.php.tmpl');
-		$this->modelTemplate->set_name($name);
+		$this->modelTemplate->set_name($this->model->get_name());
 		$this->modelTemplate->set_vars($this->model->get_columns());
 		$this->modelTemplate->set_columns($this->model->get_columns());
 
 		// detail form view template
-		// $this->formTemplate = new ViewTemplate($this->config,
-		// 	'tracs_form.php.tmpl');
+		$this->detailModelTemplate = new ModelTemplate($this->config,
+			'tracs_detail_model.php.tmpl');
+		$this->detailModelTemplate->set_name($this->detail_model->get_name());
+		$this->detailModelTemplate->set_vars(null);
+		$this->detailModelTemplate->set_columns($this->detail_model->get_columns());
+
+		$this->detailViewTemplate = new ViewTemplate($this->config,
+			'tracs_form.php.tmpl');
+		$this->detailViewTemplate->set_name($name, 'detail');
 
 		$this->data = $this->_init();
 	}
@@ -101,6 +110,28 @@ class GeneratorTracsLUT extends Generator
 		$model_path = $this->modelTemplate->get_path();
 		if ($this->files->write($model_path, $model))
 			$this->filenames[] = $model_path;
+
+		// detail view 
+		$form = new Form($this->detail_model->get_fields());
+		$template = $this->files->read($this->detailViewTemplate->get_template());
+		$params = array('id' => $this->name . '-form', 
+						'class' => 'form-horizontal',
+						'method' => 'post',
+						'role' => 'form');
+		$form->set_params($params);
+		$this->data['FORM_DATA'] = $form->generate();
+
+		$form_view = $this->compiler->compile($template, $this->data);
+		$form_view_path = $this->detailViewTemplate->get_path();
+		if ($this->files->write($form_view_path, $form_view))
+			$this->filenames[] = $form_view_path;
+
+		// detail model
+		$template = $this->files->read($this->detailModelTemplate->get_template());
+		$model = $this->compiler->compile($template, $this->data);
+		$model_path = $this->detailModelTemplate->get_path();
+		if ($this->files->write($model_path, $model))
+			$this->filenames[] = $model_path;
 	}
 
 	/* initialize the data for the template compilation
@@ -125,7 +156,7 @@ class GeneratorTracsLUT extends Generator
 		}
 	}
 
-	/* initialize the known data */
+	/* initialize the replacements data */
 	private function _init()
 	{
 		$data = array();
@@ -139,6 +170,13 @@ class GeneratorTracsLUT extends Generator
 		$data['MODEL_INSTANCE_VARIABLES'] = $this->modelTemplate->get_vars();
 		$data['MODEL_SELECT_COLUMNS'] = $this->modelTemplate->get_columns();
 		$data['MODEL_TABLE_ID_COL'] = $this->model->get_id();
+
+		// detail view
+		$data['DETAIL_MODEL_NAME'] = $this->detailModelTemplate->get_name();
+		$data['DETAIL_VIEW_LINK'] = 'admin/' . $this->detailViewTemplate->get_link();
+		$data['DETAIL_MODEL_INSTANCE_VARIABLES'] = $this->detailModelTemplate->get_vars();
+		$data['DETAIL_MODEL_SELECT_COLUMNS'] = $this->detailModelTemplate->get_columns();
+		$data['DETAIL_MODEL_TABLE_ID_COL'] = $this->detail_model->get_id();
 
 		return $data;
 	}

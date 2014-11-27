@@ -9,8 +9,16 @@ $conf = new GeneratorConfig('config.ini', __DIR__);
 
 $cols = array('Iso', 'PrintableName', 'Continent');
 $table_model = new Model($name, $name . '_lut', $cols, 'Iso');
-$cols = array('*'); // select all columns
-$detail_model = new Model($name, $name . '_lut', $cols, 'Iso');
+
+$fields = array('Iso' => 'input',
+	 			'PrintableName' => 'input',
+	 			'Iso3' => 'input',
+	 			'NumCode' => 'input',
+	 			'Continent' => 'input',
+	 			'International' => 'input'
+	 		   );
+
+$detail_model = new FormModel($name . '_detail', $name . '_lut', $fields, 'Iso');
 
 $generator = new GeneratorTracsLUT('countries', $conf, $table_model, 
 								   $detail_model);

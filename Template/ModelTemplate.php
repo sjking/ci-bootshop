@@ -58,11 +58,13 @@ class ModelTemplate extends Template
 	{
 		$vars = '';
 
-		foreach($cols as $col)
-		{
-			$vars .= "\t" . 'var $' . $col . ';' . "\n";
+		if ($cols) {
+			foreach($cols as $col)
+			{
+				$vars .= "\t" . 'var $' . $col . ';' . "\n";
+			}
+			$vars = rtrim($vars, "\n");
 		}
-		$vars = rtrim($vars, "\n");
 
 		$this->vars = $vars;
 	}

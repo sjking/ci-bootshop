@@ -15,7 +15,7 @@ $MODEL_INSTANCE_VARIABLES$
 	function get_rows($id_name)
 	{
 		$this->db->select('$MODEL_SELECT_COLUMNS$' . ', ' 
-			. $id_name . ' as $MODEL_NAME$_id');
+			. '$MODEL_TABLE_ID_COL$ as $MODEL_NAME$_id');
 		$query = $this->db->get('$DB_TABLE_NAME$');
 
 		return $query->result_array();

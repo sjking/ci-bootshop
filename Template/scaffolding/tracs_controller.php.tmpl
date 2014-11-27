@@ -19,13 +19,12 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			echo $this->load->view('_templates/admin/footer', $data, true);
 			exit();
 		}
-
-
-		$this->load->model('$MODEL_NAME$');
 	}
 
 	public function index()
 	{
+		$this->load->model('$MODEL_NAME$');
+
 		$data['siteTitle'] 		= "TRACS";
 		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
 		$data['javaScript'] 	= array(
@@ -36,9 +35,30 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['header'] = '$HEADER$';
 		$data['table_rows'] = $this->$MODEL_NAME$->get_rows('$MODEL_TABLE_ID_COL$');
 
+		$data['controller'] = strtolower('$CONTROLLER_NAME$');
+
 		$this->load->view('_templates/admin/header', $data);
 		$this->load->view('$VIEW_NAME_LINK$', $data);
 		$this->load->view('$TABLE_VIEW_LINK$', $data);
+		$this->load->view('_templates/admin/footer', $data);
+	}
+
+	public function view($id)
+	{
+		$this->load->model('$DETAIL_MODEL_NAME$');
+
+		$data['siteTitle'] 		= "TRACS";
+		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
+		$data['javaScript'] 	= array(
+									   );
+		$data['styleSheets']    = array(
+									   );
+		
+		$data['header'] = '$HEADER$' . ' Detail';
+		$data['table_rows'] = $this->$DETAIL_MODEL_NAME$->get($id);
+
+		$this->load->view('_templates/admin/header', $data);
+		$this->load->view('$DETAIL_VIEW_LINK$', $data);
 		$this->load->view('_templates/admin/footer', $data);
 	}
 }
