@@ -4,7 +4,7 @@ use \Exception;
 
 include_once(dirname(dirname(__DIR__)) . "/Generator.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable.php");
-include_once(dirname(dirname(__DIR__)) . "/Template/Form.php");
+include_once(dirname(dirname(__DIR__)) . "/Template/TracsForm.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
 
 class GeneratorTracsLUT extends Generator
@@ -112,7 +112,7 @@ class GeneratorTracsLUT extends Generator
 			$this->filenames[] = $model_path;
 
 		// detail view 
-		$form = new Form($this->detail_model->get_fields());
+		$form = new TracsForm($this->detail_model->get_fields());
 		$template = $this->files->read($this->detailViewTemplate->get_template());
 		$params = array('id' => $this->name . '-form', 
 						'class' => 'form-horizontal',

@@ -18,7 +18,7 @@ class Form extends HTMLElement
 	}
 
 	/* generate the form fields */
-	private function fields()
+	protected function fields()
 	{
 		$fields = '';
 
@@ -43,7 +43,7 @@ class Form extends HTMLElement
 	}
 
 	/* generate an input form element */
-	private function form_input($name, $type)
+	protected function form_input($name, $type)
 	{	
 		$input = '<input ';
 		$input .= 'name="' . $name . '" id="' . $name . '">';
