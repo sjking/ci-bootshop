@@ -47,5 +47,16 @@ else {
  	echo "OK.\n";
 }
 
+// Negative test
+echo "Negative test: ";
+$pass = false;
+try {
+	$test = FormElementFactory::create($name, '#$#!@$#@%DSD', $val);
+}
+catch (FormElementException $e) {
+	$pass = true;
+}
+echo $pass ? "OK.\n" : "Failed.\n";
+
 
 ?>
