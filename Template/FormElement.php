@@ -41,7 +41,7 @@ class InputFormElement extends FormElement
 	// this would be output in the value="" section of input element
 	public function output()
 	{
-		$out = '<?php echo ' . $this->value . '; ?>';
+		$out = '<?php echo $' . $this->value . '; ?>';
 		return $out;
 	}
 }
@@ -55,7 +55,7 @@ class DropdownFormElement extends FormElement
 	// output the php code to generate all the option tags
 	public function output()
 	{	
-		$out = '<?php foreach(' . $this->value . ' as $name => $val) { ?>';
+		$out = '<?php foreach($' . $this->value . ' as $name => $val) { ?>';
 		$out .= '<option value="<?php echo $val; ?>"><?php echo $name; ?></option>';
 		$out .= '<?php } ?>';
 		return $out;
