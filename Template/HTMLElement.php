@@ -3,13 +3,15 @@
 /* Generic html element: <content>...</content> */
 abstract class HTMLElement
 {
+	const NEST_SEP = '  ';
 	protected $element; // name of element
 	protected $body;
 	protected $params = null;
 
-	function __construct($element)
+	function __construct($element, $params = null)
 	{
 		$this->element = $element;
+		$this->params = $params;
 	}
 
 	/* set the body of the element
@@ -55,6 +57,17 @@ abstract class HTMLElement
 	protected function body()
 	{
 		return $this->body;
+	}
+
+	/* nest each line of $child string to the end of $parent string 
+	 * (concatenation), while appending $sep at the beginning of each line of
+	 * $child string. This is used to nest html elements. */
+	protected function nest_str($child, $parent, $sep = self::NEST_SEP)
+	{
+		foreach(preg_split("/\n/", $child) as $line){
+			$parent .= "\n" . $sep . $line;
+		} 
+		return $parent;
 	}
 
 	/* output the full html element */

@@ -8,43 +8,27 @@ include_once(dirname(__DIR__) . '/Model/FormModel.php');
 /* Generate an html table */
 class Form extends HTMLElement
 {	
-	// associative array of FormElement objects,
-	// ex:
-	// 		elements = array(
-	//			FormElement{'name' => 'id',
-    //						'type' => 'input',
-    //						'value' => 'name_id'},
-	//			FormElement{'name' => 'status',
-	//						'type' => 'dropdown',
-	//						'value' => 'status_dropdown'});
-	//
-	// The above example uses a JSON-like notation to illustrate the structure
-	// of the elements property. The values are the FormElement
-	// objects for each of those variables. 'value' represents the name of the
-	// $php variable used in the controller and views: here we use a convention
-	// of concatenating the 'name' and 'type' between an underscore.
-	protected $elements;
+	protected $elements; // array of FormElement template objects
 
 	/* Instantiate new html form with $fields
-	 * The choice of creating a wrapper class for an associative array is to 
-	 * enforce the type.
-	 * @param $fields array of fields from FormModel
+	 * @param $fields array of FormFieldModel objects
 	 */
-	function __construct(FormFieldsModel $fields)
+	function __construct(array $fields, $params = null)
 	{
-		parent::__construct('form');
+		parent::__construct('form', $params);
 
-		$elements = array();
 		$this->set_elements($fields);
 		$this->fields();
 	}
 
-	private function set_elements(FormFieldsModel $fields)
+	private function set_elements(array $fields)
 	{
-		foreach ($fields->get_fields() as $name => $type) {
-			// echo 'name: ' . $name . ', type: ' . $type . "\n";
-			$var = $name . '_' . $type;
-			$this->elements[] = FormElementFactory::create($name, $type, $var);
+		$elements = array();
+
+		foreach ($fields as $field) {
+			$var = $field->name() . '_' . $field->type();
+			$this->elements[] = FormElementFactory::create($field->name(), 
+				$field->type(), $var, $field->params());
 		}
 	}
 
@@ -54,47 +38,77 @@ class Form extends HTMLElement
 		$fields = '';
 
 		foreach($this->elements as $element) {
-			$func = 'form_' . $element->get_type(); // variable function call
-			$fields .= $this->$func($element);
+			$func = 'form_' . $element->type(); // variable function call
+			$fields .= $this->$func($element) . "\n";
 		}
+		$fields = rtrim($fields, "\n");
 
 		$this->body = $fields;
 	}
 
 	/* generate an input form element */
-	protected function form_input($e)
+	protected function form_input(FormElement $e)
 	{	
 		$input = '<input ';
-		$input .= 'name="' . $e->get_name() . '" ';
-		$input .= 'id="' . $e->get_name() . '-input" ';
-		$input .= 'value="' . $e->output() .'">';
+		$input .= 'name="' . $e->name() . '" ';
+		$input .= 'value="' . $e->output() .'"';
+		if ($e->params()) {
+			foreach($e->params() as $param => $val) {
+				$input .= ' ' . $param . '"' . $val . '"';
+			}
+		}
+		$input .= '>';
 
-		$label = '<label for="' . $e->get_name() .'" >';
-		$label .= $e->get_name() . '</label>';
+		$label = $this->form_label($e->name());
 
-		return $label . $input;
+		return $label . "\n" . $input;
 	}
 
 	/* generate a drop-down form element */
-	protected function form_dropdown($e)
+	protected function form_dropdown(FormElement $e)
 	{
 		$select = '<select ';
-		$select .= 'name="' . $e->get_name() . '" '; 
-		$select .= 'id="' . $e->get_name() . '-select">';
+		$select .= 'name="' . $e->name() . '"'; 
+		if ($e->params()) {
+			foreach($e->params() as $param => $val) {
+				$select .= ' ' . $param . '"' . $val . '"';
+			}
+		}
+		$select .= '>';
 
+		$label = $this->form_label($e->name());
 		$options = $e->output();
-
-		return $select . $options . '</select>';
+		$select = $this->nest_str($options, $select);
+		
+		return $label . "\n" . $select . "\n" . '</select>';
 	}
 
 	/* output the table */
 	public function generate()
 	{
 		$form = $this->start();
-		$form .= $this->body();
-		$form .= $this->end();
+		$form = $this->nest_str($this->body(), $form);
+		$form .= "\n" . $this->end();
 
 		return $form;
+	}
+
+	/* return a form control label 
+	 * @param $for should be the same as the elements id
+	 * @param $params array of optional params
+	 */
+	protected function form_label($for, $params = null) 
+	{
+		$label = '<label for="' . $for .'"';
+		
+		if ($params) {
+			foreach($params as $param => $val) {
+				$label .= ' ' . $param . '"' . $val . '"';
+			}
+		}
+		$label .= '>' . $for . '</label>';
+		
+		return $label;
 	}
 	
 }
