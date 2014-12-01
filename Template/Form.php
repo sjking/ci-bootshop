@@ -11,6 +11,7 @@ class Form extends HTMLElement
 	protected $elements; // array of FormElement template objects
 	protected $label_params; // associative array
 	protected $submit_btn;
+	protected $button_params;
 
 	/* Instantiate new html form with $fields
 	 * @param $fields array of FormFieldModel objects
@@ -22,6 +23,7 @@ class Form extends HTMLElement
 
 		$this->set_elements($model->get_fields(), $model->get_row());
 		$this->set_label_params($model->get_label_params());
+		$this->set_button_params($model->get_button_params());
 		$this->submit_btn = 'Submit';
 		$this->fields();
 	}
@@ -40,6 +42,11 @@ class Form extends HTMLElement
 	private function set_label_params(array $params)
 	{
 		$this->label_params = $params;
+	}
+
+	private function set_button_params(array $params)
+	{
+		$this->button_params = $params;
 	}
 
 	/* generate the form fields */
@@ -114,7 +121,11 @@ class Form extends HTMLElement
 
 	protected function submit_btn()
 	{
-		$submit = '<button type="submit">' . $this->submit_btn . '</button>';
+		$submit = '<button type="submit"'; 
+		if ($this->button_params) {
+			$submit .= $this->params_str($this->button_params);
+		}
+		$submit .= '>' . $this->submit_btn . '</button>';
 		return $submit;
 	}
 

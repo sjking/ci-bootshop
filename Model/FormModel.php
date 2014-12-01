@@ -51,9 +51,11 @@ class FormModel
 	 * @param $fields form fields, array of FormFieldModel objects
 	 * @param $id the primary key of the db table
 	 * @param $params optional parameters
+	 * @param $label_params
+	 * @param $button_params
 	 */
 	function __construct($name, $table, array $fields, $id, $params = null, 
-		$label_params = null)
+		$label_params = null, $button_params = null)
 	{
 		$this->name = $name;
 		$this->table = $table;
@@ -62,6 +64,7 @@ class FormModel
 		$this->init_cols($fields);
 		$this->params = $params;
 		$this->label_params = $label_params;
+		$this->button_params = $button_params;
 	}
 
 	private function init_cols(array $fields)
@@ -107,6 +110,11 @@ class FormModel
 	public function get_label_params()
 	{
 		return $this->label_params;
+	}
+
+	public function get_button_params()
+	{
+		return $this->button_params;
 	}
 
 	/* return the variable name used for the row data */
