@@ -19,7 +19,7 @@ $DETAIL_MODEL_INSTANCE_VARIABLES$
 		$this->db->where('$DETAIL_MODEL_TABLE_ID_COL$', $id);
 		$query = $this->db->get('$DB_TABLE_NAME$');
 
-		return $query->result();
+		return $query->result_array()[0];
 	}
 
 }

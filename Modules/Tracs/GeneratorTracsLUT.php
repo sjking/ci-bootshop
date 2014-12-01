@@ -63,8 +63,7 @@ class GeneratorTracsLUT extends Generator
 		$this->detailModelTemplate->set_vars(null);
 		$this->detailModelTemplate->set_columns($this->detail_model->get_columns());
 
-		$this->detailViewTemplate = new ViewTemplate($this->config,
-			'tracs_form.php.tmpl');
+		$this->detailViewTemplate = new ViewTemplate($this->config);
 		$this->detailViewTemplate->set_name($name, 'detail');
 
 		$this->data = $this->_init();
@@ -78,12 +77,11 @@ class GeneratorTracsLUT extends Generator
 		
 		// table view
 		$table = new TracsTable($this->model->get_name(), 
-								$this->model->get_columns());
+								$this->model->get_columns(),
+								$this->model->get_params());
 		$template = $this->files->read($this->tableTemplate->get_template());
 		$table->set_body($template);
-		$params = array('id' => $this->name . '-table', 
-						'class' => 'list table table-striped table-hover');
-		$table->set_params($params);
+
 		$tbl = $table->generate();
 		$table_view = $this->compiler->compile($tbl, $this->data);
 		$table_view_path = $this->tableTemplate->get_path();
@@ -112,16 +110,8 @@ class GeneratorTracsLUT extends Generator
 			$this->filenames[] = $model_path;
 
 		// detail view 
-		$form = new TracsForm($this->detail_model->get_fields());
-		$template = $this->files->read($this->detailViewTemplate->get_template());
-		$params = array('id' => $this->name . '-form', 
-						'class' => 'form-horizontal',
-						'method' => 'post',
-						'role' => 'form');
-		$form->set_params($params);
-		$this->data['FORM_DATA'] = $form->generate();
-
-		$form_view = $this->compiler->compile($template, $this->data);
+		$form = new Form($this->detail_model);
+		$form_view = $form->generate();
 		$form_view_path = $this->detailViewTemplate->get_path();
 		if ($this->files->write($form_view_path, $form_view))
 			$this->filenames[] = $form_view_path;
@@ -177,6 +167,7 @@ class GeneratorTracsLUT extends Generator
 		$data['DETAIL_MODEL_INSTANCE_VARIABLES'] = $this->detailModelTemplate->get_vars();
 		$data['DETAIL_MODEL_SELECT_COLUMNS'] = $this->detailModelTemplate->get_columns();
 		$data['DETAIL_MODEL_TABLE_ID_COL'] = $this->detail_model->get_id();
+		$data['DETAIL_ROW'] = $this->detail_model->get_row();
 
 		return $data;
 	}

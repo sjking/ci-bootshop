@@ -9,9 +9,9 @@ class ViewTemplate extends Template
 
 	/* create a new view template
 	 * @param $config config object
-	 * @param $template the template file
+	 * @param $template the template file (optional)
 	 */
-	function __construct($config, $template)
+	function __construct($config, $template = null)
 	{
 		$this->config = $config;
 		$this->suffix = $this->config->get('VIEW', 'SUFFIX');
@@ -20,9 +20,11 @@ class ViewTemplate extends Template
 
 		$base_dir = $name . '/' . $this->config->get('VIEW', 'BASE_DIR');
 		$this->set_base_dir($base_dir);
-		$template_path = $this->config->get('VIEW', 'TEMPLATE_DIR') . '/' . 
-			$template;
-		$this->set_template($template_path);
+		if ($template) {
+			$template_path = $this->config->get('VIEW', 'TEMPLATE_DIR') . '/' . 
+				$template;
+			$this->set_template($template_path);
+		}
 	}
 
 	/* get the name

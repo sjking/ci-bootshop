@@ -7,6 +7,10 @@ class GeneratorConfig
 {
 	protected $settings; // associative array of configurations
 	
+	/* create a new configuration object
+	 * $file name of config file
+	 * $base_dir full path where config file is stored
+	 */
 	function __construct($file = "config.ini", $base_dir = null)
 	{
 		$path = $base_dir ? $base_dir . '/' . $file : $file;

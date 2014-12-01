@@ -55,7 +55,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 									   );
 		
 		$data['header'] = '$HEADER$' . ' Detail';
-		$data['table_rows'] = $this->$DETAIL_MODEL_NAME$->get($id);
+		$data['$DETAIL_ROW$'] = $this->$DETAIL_MODEL_NAME$->get($id);
 
 		$this->load->view('_templates/admin/header', $data);
 		$this->load->view('$DETAIL_VIEW_LINK$', $data);

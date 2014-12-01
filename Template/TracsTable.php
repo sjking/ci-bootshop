@@ -6,9 +6,9 @@ include_once('Table.php');
 class TracsTable extends Table
 {
 	
-	function __construct($name, $columns)
+	function __construct($name, $columns, $params = null)
 	{
-		parent::__construct($name, $columns);
+		parent::__construct($name, $columns, $params);
 	}
 
 	/* overide header function so we can add buttons for tracs edit/delete */

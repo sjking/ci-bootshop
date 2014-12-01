@@ -19,17 +19,17 @@ class Form extends HTMLElement
 	{
 		parent::__construct('form', $model->get_params());
 
-		$this->set_elements($model->get_fields());
+		$this->set_elements($model->get_fields(), $model->get_row());
 		$this->set_label_params($model->get_label_params());
 		$this->fields();
 	}
 
-	private function set_elements(array $fields)
+	private function set_elements(array $fields, $row)
 	{
 		$elements = array();
 
 		foreach ($fields as $field) {
-			$var = $field->name() . '_' . $field->type();
+			$var = $row . "['" . $field->name() . "']";
 			$this->elements[] = FormElementFactory::create($field->name(), 
 				$field->type(), $var, $field->params());
 		}
