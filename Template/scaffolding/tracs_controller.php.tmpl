@@ -54,10 +54,14 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['styleSheets']    = array(
 									   );
 		
-		$data['header'] = '$HEADER$' . ' Detail';
+		// $data['header'] = '$DETAIL_HEADER$' ;
 		$data['$DETAIL_ROW$'] = $this->$DETAIL_MODEL_NAME$->get($id);
+		$data['header'] = $data['$DETAIL_ROW$']['$DETAIL_HEADER$'];
+		$data['detail_id'] = $id;
+		$data['controller'] = strtolower('$CONTROLLER_NAME$');
 
 		$this->load->view('_templates/admin/header', $data);
+		$this->load->view('$DETAIL_VIEW_HEADER_LINK$', $data);
 		$this->load->view('$DETAIL_VIEW_LINK$', $data);
 		$this->load->view('_templates/admin/footer', $data);
 	}

@@ -40,12 +40,14 @@ $button_params = array('class' => 'btn btn-primary');
 $params = array('id' => 'countries-form', 'class' => 'form-horizontal', 'method' => 'post');
 
 $detail_model = new FormModel($name . '_detail', $table, $fields, $id, $params, $label_params, $button_params);
+$detail_model->set_col_header('PrintableName');
 
 $generator = new GeneratorTracsLUT($name, $conf, $table_model, $detail_model);
 
-$data = $data = array('CONTROLLER_NAME' => 'Countries',
+$data = array('CONTROLLER_NAME' => 'Countries',
 			  'PAGE_TITLE' => 'Countries Management',
-			  'HEADER' => 'Countries Management');
+			  'HEADER' => 'Countries Management'
+			  );
 
 $generator->init($data);
 $generator->generate();

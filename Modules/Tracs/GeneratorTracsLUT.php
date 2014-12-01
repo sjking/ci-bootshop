@@ -19,6 +19,7 @@ class GeneratorTracsLUT extends Generator
 	// detail form view templates
 	protected $detailViewTemplate;
 	protected $detailModelTemplate;
+	protected $detailViewHeader;
 	
 	private $init; // flag to see if data is initialized
 	private $filenames; // array of filename paths that were created
@@ -65,6 +66,9 @@ class GeneratorTracsLUT extends Generator
 
 		$this->detailViewTemplate = new ViewTemplate($this->config);
 		$this->detailViewTemplate->set_name($name, 'detail');
+
+		$this->detailViewHeader = new ViewTemplate($this->config, 
+			'detail_view_header.php.tmpl');
 
 		$this->data = $this->_init();
 	}
@@ -115,6 +119,12 @@ class GeneratorTracsLUT extends Generator
 		$form_view_path = $this->detailViewTemplate->get_path();
 		if ($this->files->write($form_view_path, $form_view))
 			$this->filenames[] = $form_view_path;
+
+		$template = $this->files->read($this->detailViewHeader->get_template());
+		$detail_header = $this->compiler->compile($template, $this->data);
+		$detail_header_path = $this->detailViewHeader->get_path();
+		if ($this->files->write($detail_header_path, $detail_header))
+			$this->filenames[] = $detail_header_path;
 
 		// detail model
 		$template = $this->files->read($this->detailModelTemplate->get_template());
@@ -168,6 +178,8 @@ class GeneratorTracsLUT extends Generator
 		$data['DETAIL_MODEL_SELECT_COLUMNS'] = $this->detailModelTemplate->get_columns();
 		$data['DETAIL_MODEL_TABLE_ID_COL'] = $this->detail_model->get_id();
 		$data['DETAIL_ROW'] = $this->detail_model->get_row();
+		$data['DETAIL_HEADER'] = $this->detail_model->get_col_header();
+		$data['DETAIL_VIEW_HEADER_LINK'] = 'admin/' . $this->detailViewHeader->get_link();
 
 		return $data;
 	}
