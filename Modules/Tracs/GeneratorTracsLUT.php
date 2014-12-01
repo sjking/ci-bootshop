@@ -69,6 +69,8 @@ class GeneratorTracsLUT extends Generator
 
 		$this->detailViewHeader = new ViewTemplate($this->config, 
 			'detail_view_header.php.tmpl');
+		$this->detailViewHeader->set_name($name, 'detail_header');
+
 
 		$this->data = $this->_init();
 	}
