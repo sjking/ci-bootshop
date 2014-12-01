@@ -44,6 +44,8 @@ class FormModel
 	protected $params; // associative array of params and values
 					   // ex: {'class' => 'form-control', id => 'id-input' }
 	protected $label_params; // the parameters for form labels
+	protected $col_header; // what is the column to use for the title/header of
+						   // each row?
 
 	/* create a new form
 	 * @param $name used for the model file/class name
@@ -122,6 +124,16 @@ class FormModel
 	{
 		$row = $this->name . '_row';
 		return $row;
+	}
+
+	public function set_col_header($col)
+	{
+		$this->col_header = $col;
+	}
+
+	public function get_col_header()
+	{
+		return $this->col_header;
 	}
 }
 
