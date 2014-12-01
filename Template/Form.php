@@ -22,8 +22,10 @@ class Form extends HTMLElement
 		parent::__construct('form', $model->get_params());
 
 		$this->set_elements($model->get_fields(), $model->get_row());
-		$this->set_label_params($model->get_label_params());
-		$this->set_button_params($model->get_button_params());
+		if ($model->get_label_params())
+			$this->set_label_params($model->get_label_params());
+		if ($model->get_button_params())
+			$this->set_button_params($model->get_button_params());
 		$this->submit_btn = 'Submit';
 		$this->fields();
 	}
@@ -128,9 +130,6 @@ class Form extends HTMLElement
 		$submit .= '>' . $this->submit_btn . '</button>';
 		return $submit;
 	}
-
-	/* add a submit button to a form 
-	 * @param $name the name to give
 
 	/* return a form label 
 	 * @param $for should be the same as the elements id

@@ -15,12 +15,13 @@ $fields[] = new FormFieldModel('name', 'input',
 $fields[] = new FormFieldModel('status', 'dropdown',
 	array('class' => 'form-control', 'id' => 'status-select'));
 $label_params = array('class' => 'control-label');
+$button_params = array('class' => 'btn btn-primary');
 
 $id = 'id';
 
-$params = array('id' => 'foobar-form', 'class' => 'form-horizontal');
+$params = array('id' => 'foobar-form', 'class' => 'form-horizontal', 'method' => 'post');
 
-$form_model = new FormModel($name, $table, $fields, $id, $params, $label_params);
+$form_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 
 $form = new Form($form_model);
 
