@@ -15,7 +15,6 @@ class FormFieldModel
 		$this->name = $name;
 		$this->type = $type;
 		$this->params = $params;
-		$this->label_params = $label_params;
 	}
 
 	public function name() 
