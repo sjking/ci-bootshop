@@ -9,4 +9,5 @@
       <option value="<?php echo $val; ?>" <?php echo $val == $status_dropdown_selected ? "selected" : null ?>><?php echo $name; ?></option>
     <?php } ?>
   </select>
+  <button type="submit">Submit</button>
 </form>
