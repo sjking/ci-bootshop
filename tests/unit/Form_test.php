@@ -5,6 +5,7 @@ include_once(dirname(dirname(__DIR__)) . '/Model/FormModel.php');
 
 $name = 'foobar';
 $table = 'foobar_table';
+$expected = file_get_contents('Form_test.out');
 
 $fields = array();
 $fields[] = new FormFieldModel('id', 'input', 
@@ -26,6 +27,14 @@ $form = new Form($form_model);
 
 $output = $form->generate();
 
-echo "output:\n" . $output . "\n";
+// echo "output:\n" . $output . "\n";
+// echo $output;
+echo "Form Test:\n";
+if ($output != $expected) {
+	echo "\t" . '[Error]: Expected output does not match actual output.' . "\n";
+}
+else {
+	echo "\t" . "OK.\n";
+}
 
 ?>
