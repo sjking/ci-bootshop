@@ -104,7 +104,13 @@ class DropdownFormElement extends FormElement
 /* factory for creating form elements */
 class FormElementFactory
 {
-	public static function create($name, $type, $value, $params)
+	/* create a new form element
+	 * @param $name name paramater
+	 * @param $type type of form element (input, dropdown, etc.)
+	 * @param $value the string to put in the value parameter
+	 * @param $params optional associative array of parameters (class, id, etc.)
+	 */
+	public static function create($name, $type, $value, $params = null)
 	{
 		$formElement = 'Generator\\' . ucfirst(strtolower($type)) . 'FormElement';
 

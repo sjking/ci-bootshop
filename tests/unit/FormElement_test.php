@@ -4,7 +4,7 @@ include_once(dirname(dirname(__DIR__)) . '/Template/FormElement.php');
 
 $name = 'foobar';
 $test;
-$val = '$foo';
+$val = 'foo';
 
 echo "Testing input form element:\n";
 echo "Testing creating new input element: ";
@@ -18,7 +18,7 @@ echo "OK.\n";
 echo "Testing output: ";
 
 // echo "\toutput: " . $test->output() . "\n";
-$out = '<?php echo ' . $val . '; ?>';
+$out = '<?php echo $' . $val . '; ?>';
 if ($test->output() !== $out) {
 	echo " Failed.\n";
 }
@@ -36,11 +36,9 @@ catch (Exception $e) {
 }
 echo "OK.\n";
 echo "Testing output: ";
-// echo "\toutput: " . $test->output() . "\n";
-$out = '<?php foreach(' . $val . ' as $name => $val) { ?>';
-$out .= '<option value="<?php echo $val; ?>"><?php echo $name; ?></option>';
-$out .= '<?php } ?>';
-if ($test->output() !== $out) {
+$out = '<?phpforeach($fooas$name=>$val){?><optionvalue="<?phpecho$val;?>"<?phpecho$val==$foo_selected?"selected":null?>><?phpecho$name;?></option><?php}?>';
+$actual = preg_replace('/\s+/', '', $test->output());
+if ($actual != $out) {
 	echo "Failed.\n";
 }
 else {
