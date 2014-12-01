@@ -5,17 +5,19 @@ class $CONTROLLER_NAME$ extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-
-		$this->load->model('$MODEL_NAME$');
 	}
 
 	public function index()
 	{
-		$data['title'] = 'Interweb - $PAGE_TITLE$';
+		$this->load->model('$MODEL_NAME$');
+
+		$data['title'] = 'TRACS - $PAGE_TITLE$';
 		$data['header'] = '$HEADER$';
 		$data['table_rows'] = $this->$MODEL_NAME$->get_rows();
 
 		$this->load->view('$VIEW_NAME_LINK$', $data);
 		$this->load->view('$TABLE_VIEW_LINK$', $data);
 	}
+
+
 }

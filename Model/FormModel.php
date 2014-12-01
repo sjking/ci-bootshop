@@ -2,46 +2,77 @@
 
 include_once(dirname(__DIR__) . '/Template/FormElement.php');
 
-/* encapsulate the data model for form fields */
-class FormFieldsModel
+/* encapsulate the data model for a form field */
+class FormFieldModel
 {
-	protected $fields; // associative array
+	protected $name;
+	protected $type; // input, dropdown, hidden, etc.
+	protected $params; // associative array of params and values
+					   // ex: {'class' => 'form-control', id => 'id-input' }
 
-	/* create new form fields model
-	 * @param $fields associative array of fieldnames and form input element
-	 *   ex: {'firstName' => 'input', 'status' => 'dropdown', 
-	 *        'personId' => 'hidden'}
-	 */
-	function __construct($fields) 
+	function __construct($name, $type, $params = null) 
 	{
-		$this->fields = $fields;
+		$this->name = $name;
+		$this->type = $type;
+		$this->params = $params;
+		$this->label_params = $label_params;
 	}
 
-	/* returns the array of fields */
-	public function get_fields() 
+	public function name() 
 	{
-		return $this->fields;
+		return $this->name;
 	}
+
+	public function type() 
+	{
+		return $this->type;
+	}
+
+	public function params() 
+	{
+		return $this->params;
+	}
+
 }
 
 class FormModel 
 {
 	protected $name; // model name
 	protected $table; // name of table in db
-	protected $fields; // associative array
+	protected $fields;
 	protected $cols;
 	protected $id; // name of primary key id for table
+	protected $params; // associative array of params and values
+					   // ex: {'class' => 'form-control', id => 'id-input' }
+	protected $label_params; // the parameters for form labels
 
-	// fields is associative array of fieldnames and form input element
-	//   ex: {'firstName' => 'input', 'status' => 'dropdown', 
-	//        'personId' => 'hidden'}
-	function __construct($name, $table, array $fields, $id)
+	/* create a new form
+	 * @param $name used for the model file/class name
+	 * @param $table db table to use
+	 * @param $fields form fields, array of FormFieldModel objects
+	 * @param $id the primary key of the db table
+	 * @param $params optional parameters
+	 */
+	function __construct($name, $table, array $fields, $id, $params = null, 
+		$label_params = null)
 	{
 		$this->name = $name;
 		$this->table = $table;
 		$this->id = $id;
-		$this->fields = new FormFieldsModel($fields);
-		$this->cols = array_keys($fields);
+		$this->fields = $fields;
+		$this->init_cols($fields);
+		$this->params = $params;
+		$this->label_params = $label_params;
+	}
+
+	private function init_cols(array $fields)
+	{
+		$cols = array();
+
+		foreach($fields as $field) {
+			$cols[] = $field->name();
+		}
+		$this->cols = $cols;
 	}
 
 	public function get_name()
@@ -68,8 +99,16 @@ class FormModel
 	{
 		return $this->id;
 	}
+
+	public function get_params()
+	{
+		return $this->params;
+	}
+
+	public function get_label_params()
+	{
+		return $this->label_params;
+	}
 }
-
-
 
 ?>

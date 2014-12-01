@@ -1,0 +1,12 @@
+<form id="foobar-form" class="form-horizontal">
+  <label for="id" class="control-label">id</label>
+  <input name="id" value="<?php echo $id_input; ?>" class="form-control" id="id-input">
+  <label for="name" class="control-label">name</label>
+  <input name="name" value="<?php echo $name_input; ?>" class="form-control" id="name-input">
+  <label for="status" class="control-label">status</label>
+  <select name="status" class="form-control" id="status-select">
+    <?php foreach($status_dropdown as $name => $val) { ?>
+      <option value="<?php echo $val; ?>" <?php echo $val == $status_dropdown_selected ? "selected" : null ?>><?php echo $name; ?></option>
+    <?php } ?>
+  </select>
+</form>

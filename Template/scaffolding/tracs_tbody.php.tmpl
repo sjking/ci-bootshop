@@ -1,0 +1,29 @@
+<tbody>
+<?php
+	foreach($table_rows as $row) {
+?>
+	<tr>
+<?php
+		$id;
+		foreach($row as $key => $val) {
+			if ($key == '$MODEL_NAME$_id') {
+				$id = $val;
+				continue;
+			}
+			else
+?>
+				<td name="<?php echo $key; ?>"><?php echo $val; ?></td>
+<?php
+		}
+?>
+		<td>
+			<a href="<?=$controller;?>/view/<?=$id;?>" id="edit-$MODEL_NAME$_id">Edit</a>
+		</td>
+		<td>
+			<a href="<?=$controller;?>/delete/<?=$id;?>" id="delete-$MODEL_NAME$_id">Delete</a>
+		</td>
+	</tr>
+<?php
+	}
+?>
+</tbody>
