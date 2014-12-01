@@ -36,9 +36,10 @@ $fields[] = new FormFieldModel('International', 'input',
 
 $id = 'Iso';
 $label_params = array('class' => 'control-label');
-$params = array('id' => 'countries-form', 'class' => 'form-horizontal');
+$button_params = array('class' => 'btn btn-primary');
+$params = array('id' => 'countries-form', 'class' => 'form-horizontal', 'method' => 'post');
 
-$detail_model = new FormModel($name . '_detail', $table, $fields, $id, $params, $label_params);
+$detail_model = new FormModel($name . '_detail', $table, $fields, $id, $params, $label_params, $button_params);
 
 $generator = new GeneratorTracsLUT($name, $conf, $table_model, $detail_model);
 
