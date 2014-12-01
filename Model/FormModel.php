@@ -108,6 +108,13 @@ class FormModel
 	{
 		return $this->label_params;
 	}
+
+	/* return the variable name used for the row data */
+	public function get_row() 
+	{
+		$row = $this->name . '_row';
+		return $row;
+	}
 }
 
 ?>

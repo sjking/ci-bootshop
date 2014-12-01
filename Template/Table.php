@@ -8,9 +8,9 @@ class Table extends HTMLElement
 	protected $name;
 	protected $columns = null; // the column names for the table header
 
-	function __construct($name, $columns)
+	function __construct($name, $columns, $params = null)
 	{
-		parent::__construct('table');
+		parent::__construct('table', $params);
 
 		$this->name = $name;
 		$this->columns = $columns;

@@ -7,12 +7,13 @@ class Model
 	protected $columns; // array of field names from the table in db
 	protected $id; // name of primary key id for table
 
-	function __construct($name, $table, $cols, $id)
+	function __construct($name, $table, $cols, $id, $params = null)
 	{
 		$this->name = $name;
 		$this->columns = $cols;
 		$this->table = $table;
 		$this->id = $id;
+		$this->params = $params;
 	}
 
 	public function get_name()
@@ -33,6 +34,11 @@ class Model
 	public function get_id()
 	{
 		return $this->id;
+	}
+
+	public function get_params()
+	{
+		return $this->params;
 	}
 }
 
