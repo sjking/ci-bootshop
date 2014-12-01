@@ -15,6 +15,7 @@ class FormFieldModel
 		$this->name = $name;
 		$this->type = $type;
 		$this->params = $params;
+		$this->label_params = $label_params;
 	}
 
 	public function name() 
@@ -43,6 +44,7 @@ class FormModel
 	protected $id; // name of primary key id for table
 	protected $params; // associative array of params and values
 					   // ex: {'class' => 'form-control', id => 'id-input' }
+	protected $label_params; // the parameters for form labels
 
 	/* create a new form
 	 * @param $name used for the model file/class name
@@ -51,7 +53,8 @@ class FormModel
 	 * @param $id the primary key of the db table
 	 * @param $params optional parameters
 	 */
-	function __construct($name, $table, array $fields, $id, $params = null)
+	function __construct($name, $table, array $fields, $id, $params = null, 
+		$label_params = null)
 	{
 		$this->name = $name;
 		$this->table = $table;
@@ -59,6 +62,7 @@ class FormModel
 		$this->fields = $fields;
 		$this->init_cols($fields);
 		$this->params = $params;
+		$this->label_params = $label_params;
 	}
 
 	private function init_cols(array $fields)
@@ -99,6 +103,11 @@ class FormModel
 	public function get_params()
 	{
 		return $this->params;
+	}
+
+	public function get_label_params()
+	{
+		return $this->label_params;
 	}
 }
 

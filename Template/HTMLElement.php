@@ -70,6 +70,20 @@ abstract class HTMLElement
 		return $parent;
 	}
 
+	/* returns a string of html element parameters
+	 * @param $params associative array of parameters
+	 */
+	protected function params_str(array $params)
+	{
+		$str = '';
+		
+		foreach($params as $param => $val) {
+			$str .= ' ' . $param . '="' . $val . '"';
+		}
+
+		return $str;
+	}
+
 	/* output the full html element */
 	abstract public function generate();
 

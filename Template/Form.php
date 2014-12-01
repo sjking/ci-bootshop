@@ -9,15 +9,18 @@ include_once(dirname(__DIR__) . '/Model/FormModel.php');
 class Form extends HTMLElement
 {	
 	protected $elements; // array of FormElement template objects
+	protected $label_params; // associative array
 
 	/* Instantiate new html form with $fields
 	 * @param $fields array of FormFieldModel objects
 	 */
-	function __construct(array $fields, $params = null)
+	// function __construct(array $fields, $params = null)
+	function __construct(FormModel $model)
 	{
-		parent::__construct('form', $params);
+		parent::__construct('form', $model->get_params());
 
-		$this->set_elements($fields);
+		$this->set_elements($model->get_fields());
+		$this->set_label_params($model->get_label_params());
 		$this->fields();
 	}
 
@@ -30,6 +33,11 @@ class Form extends HTMLElement
 			$this->elements[] = FormElementFactory::create($field->name(), 
 				$field->type(), $var, $field->params());
 		}
+	}
+
+	private function set_label_params(array $params)
+	{
+		$this->label_params = $params;
 	}
 
 	/* generate the form fields */
@@ -46,16 +54,16 @@ class Form extends HTMLElement
 		$this->body = $fields;
 	}
 
-	/* generate an input form element */
+	/* generate an input form element 
+	 * @param $e form element
+	 */
 	protected function form_input(FormElement $e)
 	{	
 		$input = '<input ';
 		$input .= 'name="' . $e->name() . '" ';
 		$input .= 'value="' . $e->output() .'"';
 		if ($e->params()) {
-			foreach($e->params() as $param => $val) {
-				$input .= ' ' . $param . '"' . $val . '"';
-			}
+			$input .= $this->params_str($e->params());
 		}
 		$input .= '>';
 
@@ -64,15 +72,15 @@ class Form extends HTMLElement
 		return $label . "\n" . $input;
 	}
 
-	/* generate a drop-down form element */
+	/* generate a drop-down form element 
+	 * @param $e form element
+	 */
 	protected function form_dropdown(FormElement $e)
 	{
 		$select = '<select ';
 		$select .= 'name="' . $e->name() . '"'; 
 		if ($e->params()) {
-			foreach($e->params() as $param => $val) {
-				$select .= ' ' . $param . '"' . $val . '"';
-			}
+			$select .= $this->params_str($e->params());
 		}
 		$select .= '>';
 
@@ -93,7 +101,7 @@ class Form extends HTMLElement
 		return $form;
 	}
 
-	/* return a form control label 
+	/* return a form label 
 	 * @param $for should be the same as the elements id
 	 * @param $params array of optional params
 	 */
@@ -101,10 +109,8 @@ class Form extends HTMLElement
 	{
 		$label = '<label for="' . $for .'"';
 		
-		if ($params) {
-			foreach($params as $param => $val) {
-				$label .= ' ' . $param . '"' . $val . '"';
-			}
+		if ($this->label_params) {
+			$label .= $this->params_str($this->label_params);
 		}
 		$label .= '>' . $for . '</label>';
 		
