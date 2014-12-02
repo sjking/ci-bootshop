@@ -47,6 +47,11 @@ class $CONTROLLER_NAME$ extends CI_Controller
 	{
 		$this->load->model('$DETAIL_MODEL_NAME$');
 
+		// check if its a post (update)
+		if ($update = $this->input->post()) {
+			$this->$DETAIL_MODEL_NAME$->update($id, $update);
+		}
+
 		$data['siteTitle'] 		= "TRACS";
 		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
 		$data['javaScript'] 	= array(
