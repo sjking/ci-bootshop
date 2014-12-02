@@ -34,6 +34,34 @@ class FormFieldModel
 
 }
 
+/* dropdown has extra information about the data of its options */
+class DropDownFormFieldModel extends FormFieldModel
+{
+	protected $table = null; // table where to get the data
+	protected $col = null; // the column in the table
+	protected $enum_array = null; // an array of pre-set enums
+
+	function set_enum_array(array $enums)
+	{
+		$this->enum_array = $enum;
+		$this->table = null;
+		$this->col = null;
+	}
+
+	/* set table and column name from database for populating dropdown
+	 * @param $table
+	 * @param $col
+	 */
+	function set_table_col($table, $col)
+	{
+		$this->table = $table;
+		$this->col = $col;
+		$this->enum_array = null;
+	}
+
+	
+}
+
 class FormModel 
 {
 	protected $name; // model name

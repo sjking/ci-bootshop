@@ -31,8 +31,8 @@ $fields[] = new FormFieldModel('NumCode', 'input',
 	array('class' => 'form-control', 'id' => 'NumCode-input'));
 $fields[] = new FormFieldModel('Continent', 'input',
 	array('class' => 'form-control', 'id' => 'Continent-input'));
-$fields[] = new FormFieldModel('International', 'input',
-	array('class' => 'form-control', 'id' => 'International-input'));
+// $fields[] = new FormFieldModel('International', 'dropdown',
+// 	array('class' => 'form-control', 'id' => 'International-dropdown'));
 
 $id = 'Iso';
 $label_params = array('class' => 'control-label');
