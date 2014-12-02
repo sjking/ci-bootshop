@@ -35,9 +35,9 @@ class Form extends HTMLElement
 		$elements = array();
 
 		foreach ($fields as $field) {
-			$var = $row . "['" . $field->name() . "']";
-			$this->elements[] = FormElementFactory::create($field->name(), 
-				$field->type(), $var, $field->params());
+			// $var = $row . "['" . $field->name() . "']";
+			// $var = $field->name();
+			$this->elements[] = FormElementFactory::create($field);
 		}
 	}
 

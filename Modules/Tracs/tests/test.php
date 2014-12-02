@@ -33,6 +33,11 @@ $fields[] = new FormFieldModel('Continent', 'input',
 	array('class' => 'form-control', 'id' => 'Continent-input'));
 // $fields[] = new FormFieldModel('International', 'dropdown',
 // 	array('class' => 'form-control', 'id' => 'International-dropdown'));
+// setup the dropdown
+$dropdown = new DropdownFormFieldModel('International', 'dropdown',
+	array('class' => 'form-control', 'id' => 'International-dropdown'));
+$dropdown->set_enum_array(array('Yes', 'No'));
+$fields[] = $dropdown;
 
 $id = 'Iso';
 $label_params = array('class' => 'control-label');

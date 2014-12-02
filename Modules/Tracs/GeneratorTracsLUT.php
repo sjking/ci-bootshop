@@ -118,6 +118,7 @@ class GeneratorTracsLUT extends Generator
 		// detail view 
 		$form = new Form($this->detail_model);
 		$form_view = $form->generate();
+		$form_view = $this->compiler->compile($form_view, $this->data);
 		$form_view_path = $this->detailViewTemplate->get_path();
 		if ($this->files->write($form_view_path, $form_view))
 			$this->filenames[] = $form_view_path;
@@ -158,6 +159,34 @@ class GeneratorTracsLUT extends Generator
 		}
 	}
 
+	private function get_dropdown_methods($model)
+	{
+		$str = '';
+
+		foreach($model->get_fields() as $field) {
+			if ($field->type() == 'dropdown') {
+				$str .= $field->get_model_method();
+			}
+		}
+
+		return $str;
+	}
+
+	private function get_dropdown_controller_variables($model)
+	{
+		$str = '';
+
+		foreach($model->get_fields() as $field) {
+			if ($field->type() == 'dropdown') {
+				$str .= '$data[' . "'" . $field->get_controller_dropdown_variable() . "'" . ']';
+				$str .= ' = ' . '$this->' . $this->detailModelTemplate->get_name() . '->';
+				$str .= $field->get_method_name() . '();';
+			}
+		}
+
+		return $str;
+	}
+
 	/* initialize the replacements data */
 	private function _init()
 	{
@@ -182,6 +211,8 @@ class GeneratorTracsLUT extends Generator
 		$data['DETAIL_ROW'] = $this->detail_model->get_row();
 		$data['DETAIL_HEADER'] = $this->detail_model->get_col_header();
 		$data['DETAIL_VIEW_HEADER_LINK'] = 'admin/' . $this->detailViewHeader->get_link();
+		$data['DETAIL_MODEL_DROPDOWN_METHODS'] = $this->get_dropdown_methods($this->detail_model);
+		$data['DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES'] = $this->get_dropdown_controller_variables($this->detail_model);
 
 		return $data;
 	}

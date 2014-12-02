@@ -59,6 +59,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['header'] = $data['$DETAIL_ROW$']['$DETAIL_HEADER$'];
 		$data['detail_id'] = $id;
 		$data['controller'] = strtolower('$CONTROLLER_NAME$');
+		$DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES$
 
 		$this->load->view('_templates/admin/header', $data);
 		$this->load->view('$DETAIL_VIEW_HEADER_LINK$', $data);

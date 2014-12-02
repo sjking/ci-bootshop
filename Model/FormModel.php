@@ -34,31 +34,131 @@ class FormFieldModel
 
 }
 
-/* dropdown has extra information about the data of its options */
-class DropDownFormFieldModel extends FormFieldModel
+/* dropdown has extra information about the data of its options; this is
+ * only to represent the dropdown values, but not the value itself */
+class DropdownFormFieldModel extends FormFieldModel
 {
+	// look-up table
 	protected $table = null; // table where to get the data
-	protected $col = null; // the column in the table
+	protected $table_id = null; // the column primary key in the table
+	protected $table_col = null; // the name of the row to display to user
+
+	// enum
 	protected $enum_array = null; // an array of pre-set enums
 
-	function set_enum_array(array $enums)
+	function __construct($name, $type, $params = null) 
 	{
-		$this->enum_array = $enum;
+		parent::__construct($name, $type, $params);
+		$this->method_name = 'get_' . $this->name . '_dropdown';
+	}
+
+	/* set the pre-set values of the dropdown
+	 * @param $vals
+	 */
+	public function set_enum_array(array $vals)
+	{
+		$this->enum_array = $vals;
 		$this->table = null;
 		$this->col = null;
+	}
+
+	/* return the method name used in codeigniter model */
+	public function get_method_name()
+	{
+		return $this->method_name;
+	}
+
+	/* return the controller variable used in controller and view */
+	public function get_controller_dropdown_variable()
+	{
+		$str = $this->name . '_dropdown';
+		return $str;
 	}
 
 	/* set table and column name from database for populating dropdown
 	 * @param $table
 	 * @param $col
 	 */
-	function set_table_col($table, $col)
+	public function set_table_col($table, $id, $col)
 	{
 		$this->table = $table;
-		$this->col = $col;
+		$this->table_id = $id;
+		$this->table_col = $col;
 		$this->enum_array = null;
 	}
 
+	private function is_enum()
+	{
+		return $this->enum_array;
+	}
+
+	private function is_lookup_table()
+	{
+		return $this->table && $this->table_id && $this->table_col;
+	}
+
+	/* returns the code for the method to compile into the php codeigniter 
+	 * model
+	 */
+	public function get_model_method()
+	{
+		$str = 'function get_' . $this->name . '_dropdown()' . "\n";
+		$str .= "\t" . '{' . "\n";
+		$str .= "\t\t" . $this->get_values();
+		$str .= "\n\t" . '}';
+
+		return $str;
+	}
+
+	/* returns the data to put in the codeigniter model method that returns the
+	 * associative array of dropdown values */
+	private function get_values()
+	{
+		if ($this->is_lookup_table()) {
+			return $this->lookup_table_vals();
+		}
+		else if ($this->is_enum()) {
+			return $this->enum_vals();
+		}
+		else {
+			return $this->empty_method();
+		}
+	}
+
+	private function lookup_table_vals()
+	{
+		$str = '$this->db->select(' . "'" . $this->table_id . ', ' 
+			. $this->table_col . "'" . ');' . "\n";
+		$str .= "\t" . '$this->db->from(' . "'" . $this->table . "'" . ');' 
+			. "\n";
+		$str .= "\t" . '$query = $this->db->get();' . "\n";
+		$str .= "\t" . '$vals = array();' . "\n";
+		$str .= "\t" . 'foreach($query->result_array() as $row)' . "\n";
+		$str .= "\t\t" . '$vals[$row[' . "'" . $this->table_id . "'" . 
+			'] = $row[' . "'" . $this->table_col . "'" . '];' . "\n";
+		$str .= "\t" . 'return $vals;'; 
+
+		return $str;
+	}
+
+	private function enum_vals()
+	{
+		$str = '$enums = array(' . "\n";
+		foreach($this->enum_array as $val) {
+			$str .= "\t\t\t" . "'" . $val . "'" . ' => ' . "'" . $val . "',\n";
+		}
+		$str = rtrim($str, ",\n");
+		$str .= ');' . "\n";
+		$str .= "\t\t" . 'return $enums;';
+
+		return $str;
+	}
+
+	private function empty_method()
+	{
+		$str = '// TO-DO' . "\n\t" . 'return null;';
+		return $str;
+	}
 	
 }
 
