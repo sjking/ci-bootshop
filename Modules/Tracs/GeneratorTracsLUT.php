@@ -192,6 +192,7 @@ class GeneratorTracsLUT extends Generator
 	{
 		$data = array();
 		$data['CONTROLLER_NAME'] = $this->controllerTemplate->get_name();
+		$data['NAME'] = strtolower($data['CONTROLLER_NAME']);
 		$data['VIEW_NAME'] = $this->viewTemplate->get_name();
 		$data['VIEW_NAME_LINK'] = 'admin/' . $this->viewTemplate->get_link();
 		$data['MODEL_NAME'] = $this->modelTemplate->get_name();
