@@ -71,4 +71,22 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$this->load->view('$DETAIL_VIEW_LINK$', $data);
 		$this->load->view('_templates/admin/footer', $data);
 	}
+
+	public function delete($id)
+	{
+		$this->load->model('$DETAIL_MODEL_NAME$');
+		$this->load->helper('url');
+		$controller = strtolower('$CONTROLLER_NAME$');
+
+		$to = base_url('admin/' . $controller);
+
+		// TO-DO: handle warning message to delete
+		if ($this->$DETAIL_MODEL_NAME$->delete($id)) {
+			redirect($to, 'refresh');
+		}
+		else {
+			// TO-DO: handle error message
+			echo 'Error: Could not delete field from database.';
+		}
+	}
 }

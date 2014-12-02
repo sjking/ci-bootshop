@@ -34,6 +34,16 @@ $DETAIL_MODEL_INSTANCE_VARIABLES$
 		return $result;
 	}
 
+	/* Delete the field with primary key $id 
+	 * @param $id
+	 */
+	function delete($id)
+	{
+		$this->db->where('$DETAIL_MODEL_TABLE_ID_COL$', $id);
+		$result = $this->db->delete('$DB_TABLE_NAME$');
+		return $result;
+	}
+
 	$DETAIL_MODEL_DROPDOWN_METHODS$
 
 }
