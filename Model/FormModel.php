@@ -98,6 +98,7 @@ class DropdownFormFieldModel extends FormFieldModel
 
 	/* set table and column name from database for populating dropdown
 	 * @param $table
+	 * @param $id used as foreign key
 	 * @param $col
 	 */
 	public function set_table_col($table, $id, $col)
@@ -152,12 +153,12 @@ class DropdownFormFieldModel extends FormFieldModel
 			. $this->table_col . "'" . ');' . "\n";
 		$str .= "\t" . '$this->db->from(' . "'" . $this->table . "'" . ');' 
 			. "\n";
-		$str .= "\t" . '$query = $this->db->get();' . "\n";
-		$str .= "\t" . '$vals = array();' . "\n";
-		$str .= "\t" . 'foreach($query->result_array() as $row)' . "\n";
-		$str .= "\t\t" . '$vals[$row[' . "'" . $this->table_id . "'" . 
-			'] = $row[' . "'" . $this->table_col . "'" . '];' . "\n";
-		$str .= "\t" . 'return $vals;'; 
+		$str .= "\t\t" . '$query = $this->db->get();' . "\n";
+		$str .= "\t\t" . '$vals = array();' . "\n";
+		$str .= "\t\t" . 'foreach($query->result_array() as $row)' . "\n";
+		$str .= "\t\t\t" . '$vals[$row[' . "'" . $this->table_col . "']" . 
+			'] = $row[' . "'" . $this->table_id . "'" . '];' . "\n";
+		$str .= "\t\t" . 'return $vals;'; 
 
 		return $str;
 	}

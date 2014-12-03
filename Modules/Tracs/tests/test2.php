@@ -21,14 +21,17 @@ $table_model = new Model($name, $table, $cols, 'question_id', $params);
 
 // set the detail view data
 $fields = array();
-$dropdown = new DropdownFormFieldModel('category_id', 'dropdown', 
-	array('class' => 'form-control', 'id' => 'category-dropdown'));
+
 $fields[] = new FormFieldModel('question', 'input',
 	array('class' => 'form-control', 'id' => 'question-input'));
 $fields[] = new FormFieldModel('answer', 'input',
 	array('class' => 'form-control', 'id' => 'answer-input'));
 $fields[] = new FormFieldModel('html', 'input',
 	array('class' => 'form-control', 'id' => 'html-input'));
+
+$dropdown = new DropdownFormFieldModel('category_id', 'dropdown', 
+	array('class' => 'form-control', 'id' => 'category-dropdown'));
+$dropdown->set_table_col('faq_categories', 'category_id', 'name');
 
 // $dropdown = new DropdownFormFieldModel('International', 'dropdown',
 // 	array('class' => 'form-control', 'id' => 'International-dropdown'));
