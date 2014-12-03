@@ -116,8 +116,9 @@ class Form extends HTMLElement
 
 		$label = $this->form_label($e->name());
 		$text = $e->output();
+		$txt = $this->nest_str($text, $txt);
 
-		return $label . "\n" . $txt .$text . "\n" . '</textarea>';
+		return $label . "\n" . $txt . "\n" . '</textarea>';
 	}
 
 	/* output the table */
