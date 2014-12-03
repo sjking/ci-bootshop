@@ -36,6 +36,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['table_rows'] = $this->$MODEL_NAME$->get_rows('$MODEL_TABLE_ID_COL$');
 
 		$data['controller'] = strtolower('$CONTROLLER_NAME$');
+		$data['create_link'] = base_url('admin/' . $data['controller'] . '/create');
+		$data['display_name'] = '$CONTROLLER_NAME$';
 
 		$this->load->view('_templates/admin/header', $data);
 		$this->load->view('$VIEW_NAME_LINK$', $data);
@@ -59,7 +61,6 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['styleSheets']    = array(
 									   );
 		
-		// $data['header'] = '$DETAIL_HEADER$' ;
 		$data['$DETAIL_ROW$'] = $this->$DETAIL_MODEL_NAME$->get($id);
 		$data['header'] = $data['$DETAIL_ROW$']['$DETAIL_HEADER$'];
 		$data['detail_id'] = $id;
@@ -69,6 +70,37 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$this->load->view('_templates/admin/header', $data);
 		$this->load->view('$DETAIL_VIEW_HEADER_LINK$', $data);
 		$this->load->view('$DETAIL_VIEW_LINK$', $data);
+		$this->load->view('_templates/admin/footer', $data);
+	}
+
+	public function create()
+	{
+		$this->load->model('$DETAIL_MODEL_NAME$');
+
+		// check if its a post (create)
+		if ($update = $this->input->post()) {
+			if ($id = $this->$DETAIL_MODEL_NAME$->create($update)) {
+				// redirect to detail view for newly created entry
+				$controller = strtolower('$CONTROLLER_NAME$');
+				$view = base_url('admin/' . $controller . '/view/' . $id);
+				redirect($view, 'refresh');
+			}
+		}
+
+		$data['siteTitle'] 		= "TRACS";
+		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
+		$data['javaScript'] 	= array(
+									   );
+		$data['styleSheets']    = array(
+									   );
+
+		$data['header'] = 'Create new $CONTROLLER_NAME$ entry.';
+		$data['controller'] = strtolower('$CONTROLLER_NAME$');
+		$DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES$
+
+		$this->load->view('_templates/admin/header', $data);
+		$this->load->view('$CREATE_VIEW_HEADER_LINK$', $data);
+		$this->load->view('$CREATE_VIEW_LINK$', $data);
 		$this->load->view('_templates/admin/footer', $data);
 	}
 

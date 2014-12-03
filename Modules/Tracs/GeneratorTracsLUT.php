@@ -89,8 +89,10 @@ class GeneratorTracsLUT extends Generator
 
 		$this->createViewTemplate = new ViewTemplate($this->config);
 		$this->createViewTemplate->set_name($name, 'create');
-		// TO-DO
-		$this->createViewHeader = null;
+		
+		$this->createViewHeader = new ViewTemplate($this->config, 
+			'create_view_header.php.tmpl');
+		$this->createViewHeader->set_name($name, 'create_header');
 
 		$this->data = $this->_init();
 	}
@@ -163,6 +165,12 @@ class GeneratorTracsLUT extends Generator
 		$form_view_path = $this->createViewTemplate->get_path();
 		if ($this->files->write($form_view_path, $form_view))
 			$this->filenames[] = $form_view_path;
+
+		$template = $this->files->read($this->createViewHeader->get_template());
+		$create_header = $this->compiler->compile($template, $this->data);
+		$create_header_path = $this->createViewHeader->get_path();
+		if ($this->files->write($create_header_path, $create_header))
+			$this->filenames[] = $create_header_path;
 
 	}
 
@@ -243,6 +251,10 @@ class GeneratorTracsLUT extends Generator
 		$data['DETAIL_VIEW_HEADER_LINK'] = 'admin/' . $this->detailViewHeader->get_link();
 		$data['DETAIL_MODEL_DROPDOWN_METHODS'] = $this->get_dropdown_methods($this->detail_model);
 		$data['DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES'] = $this->get_dropdown_controller_variables($this->detail_model);
+
+		// create view
+		$data['CREATE_VIEW_LINK'] = 'admin/' . $this->createViewTemplate->get_link();
+		$data['CREATE_VIEW_HEADER_LINK'] = 'admin/' . $this->createViewHeader->get_link();
 
 		return $data;
 	}

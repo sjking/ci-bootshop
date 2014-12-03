@@ -44,6 +44,26 @@ $DETAIL_MODEL_INSTANCE_VARIABLES$
 		return $result;
 	}
 
+	/* Create a new entry with $data data, and return its id
+	 * @params $data
+	 */
+	function create($data)
+	{
+        $id = isset($data['$DETAIL_MODEL_TABLE_ID_COL$']) ? 
+        	$data['$DETAIL_MODEL_TABLE_ID_COL$'] : null;
+		
+		$this->db->trans_start();
+		if($this->db->insert('$DB_TABLE_NAME$', $data)) {
+			$id = $id ? $id : $this->db->insert_id();
+		}
+		else {
+			$id = null;
+		}
+		$this->db->trans_complete();
+
+		return $id;
+	}
+
 	$DETAIL_MODEL_DROPDOWN_METHODS$
 
 }
