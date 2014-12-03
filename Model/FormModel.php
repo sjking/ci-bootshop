@@ -9,6 +9,9 @@ class FormFieldModel
 	protected $type; // input, dropdown, hidden, etc.
 	protected $params; // associative array of params and values
 					   // ex: {'class' => 'form-control', id => 'id-input' }
+	protected $update_form = true; // if true, then the form will populate the
+								   // fields with its data, otherwise its an 
+	 							   // empty form.
 
 	function __construct($name, $type, $params = null) 
 	{
@@ -30,6 +33,24 @@ class FormFieldModel
 	public function params() 
 	{
 		return $this->params;
+	}
+
+	public function empty_form()
+	{
+		$this->update_form = false;
+	}
+
+	public function update_form()
+	{
+		$this->update_form = true;
+	}
+
+	public function variable_name()
+	{
+		if ($this->update_form)
+			return $this->name();
+		else
+			return null;
 	}
 
 }
@@ -174,6 +195,9 @@ class FormModel
 	protected $label_params; // the parameters for form labels
 	protected $col_header; // what is the column to use for the title/header of
 						   // each row?
+	protected $update_form = true; // if true, then the form will populate the
+								   // fields with its data, otherwise its an 
+	 							   // empty form.
 
 	/* create a new form
 	 * @param $name used for the model file/class name
@@ -197,6 +221,17 @@ class FormModel
 		$this->button_params = $button_params;
 	}
 
+	function __clone()
+	{	
+		$fields = array();
+
+		foreach($this->fields as $f) {
+			$fields[] = clone $f;
+		}
+
+		$this->fields = $fields;
+	}
+
 	private function init_cols(array $fields)
 	{
 		$cols = array();
@@ -210,6 +245,11 @@ class FormModel
 	public function get_name()
 	{
 		return $this->name;
+	}
+
+	public function set_name($name)
+	{
+		$this->name = $name;
 	}
 
 	public function get_fields()
@@ -262,6 +302,22 @@ class FormModel
 	public function get_col_header()
 	{
 		return $this->col_header;
+	}
+
+	public function empty_form()
+	{
+		$this->update_form = false;
+		foreach($this->fields as $field) {
+			$field->empty_form();
+		}
+	}
+
+	public function update_form()
+	{
+		$this->update_form = true;
+		foreach($this->fields as $field) {
+			$field->update_form();
+		}
 	}
 }
 

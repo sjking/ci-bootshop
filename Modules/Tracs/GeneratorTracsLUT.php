@@ -20,11 +20,16 @@ class GeneratorTracsLUT extends Generator
 	protected $detailViewTemplate;
 	protected $detailModelTemplate;
 	protected $detailViewHeader;
+
+	// create form 
+	protected $createViewTemplate;
+	protected $createViewHeader;
 	
 	private $init; // flag to see if data is initialized
 	private $filenames; // array of filename paths that were created
 
 	private $detail_model;
+	private $create_model;
 
 	/* create a new generator
 	 * @param $name the naming of files and classnames in project
@@ -71,6 +76,21 @@ class GeneratorTracsLUT extends Generator
 			'detail_view_header.php.tmpl');
 		$this->detailViewHeader->set_name($name, 'detail_header');
 
+		// create form view
+		$create_model = clone $this->detail_model; // almost same as update form
+		$create_model->empty_form();
+		$create_model->set_name($name . '_create');
+		$this->create_model = $create_model;
+
+		$this->createModelTemplate = new ModelTemplate($this->config);
+		$this->createModelTemplate->set_name($this->create_model->get_name());
+		$this->createModelTemplate->set_vars(null);
+		$this->createModelTemplate->set_columns($this->create_model->get_columns());
+
+		$this->createViewTemplate = new ViewTemplate($this->config);
+		$this->createViewTemplate->set_name($name, 'create');
+		// TO-DO
+		$this->createViewHeader = null;
 
 		$this->data = $this->_init();
 	}
@@ -135,6 +155,15 @@ class GeneratorTracsLUT extends Generator
 		$model_path = $this->detailModelTemplate->get_path();
 		if ($this->files->write($model_path, $model))
 			$this->filenames[] = $model_path;
+
+		// create view
+		$form = new Form($this->create_model);
+		$form_view = $form->generate();
+		$form_view = $this->compiler->compile($form_view, $this->data);
+		$form_view_path = $this->createViewTemplate->get_path();
+		if ($this->files->write($form_view_path, $form_view))
+			$this->filenames[] = $form_view_path;
+
 	}
 
 	/* initialize the data for the template compilation

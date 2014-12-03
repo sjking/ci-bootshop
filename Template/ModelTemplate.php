@@ -11,14 +11,15 @@ class ModelTemplate extends Template
 	 * @param $config config object
 	 * @param $template the template file
 	 */
-	function __construct($config, $template)
+	function __construct($config, $template = null)
 	{
 		$this->config = $config;
 		$this->suffix = $this->config->get('MODEL', 'SUFFIX');
 
 		$template_path = $this->config->get('MODEL', 'TEMPLATE_DIR') . '/' . 
 			$template;
-		$this->set_template($template_path);
+		if ($template)
+			$this->set_template($template_path);
 	}
 
 	/* get the name

@@ -49,8 +49,10 @@ class InputFormElement extends FormElement
 	// this would be output in the value="" section of input element
 	public function output()
 	{
-		$val = $this->model->name();
-		$out = '<?php echo $$DETAIL_ROW$[' . "'" . $val . "']" . '; ?>';
+		$val = $this->model->variable_name();
+		$out = '';
+		if ($val) // true if its edit form, false if its create form
+			$out = '<?php echo $$DETAIL_ROW$[' . "'" . $val . "']" . '; ?>';
 		return $out;
 	}
 
@@ -64,12 +66,13 @@ class DropdownFormElement extends FormElement
 	public function output()
 	{	
 		$dropdown = $this->model->get_controller_dropdown_variable();
-		$selected = $this->model->name();
+		$selected = $this->model->variable_name();
 
 		$out = '<?php foreach($' . $dropdown . ' as $name => $val) { ?>';
 		$out .= "\n  ";
 		$out .= '<option value="<?php echo $val; ?>"';
-		$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "selected" : null ?>>';
+		if ($selected) // true if its edit form, false if its create form
+			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "selected" : null ?>>';
 		$out .= '<?php echo $name; ?></option>';
 		$out .= "\n";
 		$out .= '<?php } ?>';
