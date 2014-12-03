@@ -24,8 +24,8 @@ $fields = array();
 
 $fields[] = new FormFieldModel('question', 'input',
 	array('class' => 'form-control', 'id' => 'question-input'));
-$fields[] = new FormFieldModel('answer', 'input',
-	array('class' => 'form-control', 'id' => 'answer-input'));
+$fields[] = new FormFieldModel('answer', 'textarea',
+	array('class' => 'form-control', 'id' => 'answer-textarea', 'rows' =>'5'));
 $fields[] = new FormFieldModel('html', 'input',
 	array('class' => 'form-control', 'id' => 'html-input'));
 

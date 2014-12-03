@@ -102,6 +102,24 @@ class Form extends HTMLElement
 		return $label . "\n" . $select . "\n" . '</select>';
 	}
 
+	/* generate a textarea drop-down form element
+	 * @param $e form element
+	 */
+	protected function form_textarea(FormElement $e)
+	{
+		$txt = '<textarea ';
+		$txt .= 'name="' . $e->name() . '"'; 
+		if ($e->params()) {
+			$txt .= $this->params_str($e->params());
+		}
+		$txt .= '>';
+
+		$label = $this->form_label($e->name());
+		$text = $e->output();
+
+		return $label . "\n" . $txt .$text . "\n" . '</textarea>';
+	}
+
 	/* output the table */
 	public function generate()
 	{

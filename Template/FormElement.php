@@ -83,6 +83,18 @@ class DropdownFormElement extends FormElement
 
 }
 
+class TextareaFormElement extends FormElement
+{
+	public function output()
+	{
+		$val = $this->model->variable_name();
+		$out = '';
+		if ($val) // true if its edit form, false if its create form
+			$out = '<?php echo $$DETAIL_ROW$[' . "'" . $val . "']" . '; ?>';
+		return $out;
+	}
+}
+
 /* factory for creating form elements */
 class FormElementFactory
 {
