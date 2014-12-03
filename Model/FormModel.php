@@ -151,7 +151,7 @@ class DropdownFormFieldModel extends FormFieldModel
 	{
 		$str = '$this->db->select(' . "'" . $this->table_id . ', ' 
 			. $this->table_col . "'" . ');' . "\n";
-		$str .= "\t" . '$this->db->from(' . "'" . $this->table . "'" . ');' 
+		$str .= "\t\t" . '$this->db->from(' . "'" . $this->table . "'" . ');' 
 			. "\n";
 		$str .= "\t\t" . '$query = $this->db->get();' . "\n";
 		$str .= "\t\t" . '$vals = array();' . "\n";

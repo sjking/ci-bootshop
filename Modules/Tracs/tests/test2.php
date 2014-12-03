@@ -43,7 +43,7 @@ $label_params = array('class' => 'control-label');
 $button_params = array('class' => 'btn btn-primary');
 $params = array('id' => 'countries-form', 'class' => 'form-horizontal', 'method' => 'post');
 
-$detail_model = new FormModel($name . '_detail', $table, $fields, $id, $params, $label_params, $button_params);
+$detail_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $detail_model->set_col_header('question');
 
 $generator = new GeneratorTracsLUT($name, $conf, $table_model, $detail_model);

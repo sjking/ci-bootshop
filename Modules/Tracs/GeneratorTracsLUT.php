@@ -59,12 +59,11 @@ class GeneratorTracsLUT extends Generator
 		$this->modelTemplate = new ModelTemplate($this->config, 
 			'tracs_model.php.tmpl');
 		$this->modelTemplate->set_name($this->model->get_name());
-		$this->modelTemplate->set_vars($this->model->get_columns());
+		$this->modelTemplate->set_vars(null);
 		$this->modelTemplate->set_columns($this->model->get_columns());
 
 		// detail form view template
-		$this->detailModelTemplate = new ModelTemplate($this->config,
-			'tracs_detail_model.php.tmpl');
+		$this->detailModelTemplate = new ModelTemplate($this->config);
 		$this->detailModelTemplate->set_name($this->detail_model->get_name());
 		$this->detailModelTemplate->set_vars(null);
 		$this->detailModelTemplate->set_columns($this->detail_model->get_columns());
@@ -152,11 +151,11 @@ class GeneratorTracsLUT extends Generator
 			$this->filenames[] = $detail_header_path;
 
 		// detail model
-		$template = $this->files->read($this->detailModelTemplate->get_template());
-		$model = $this->compiler->compile($template, $this->data);
-		$model_path = $this->detailModelTemplate->get_path();
-		if ($this->files->write($model_path, $model))
-			$this->filenames[] = $model_path;
+		// $template = $this->files->read($this->detailModelTemplate->get_template());
+		// $model = $this->compiler->compile($template, $this->data);
+		// $model_path = $this->detailModelTemplate->get_path();
+		// if ($this->files->write($model_path, $model))
+		// 	$this->filenames[] = $model_path;
 
 		// create view
 		$form = new Form($this->create_model);
@@ -241,11 +240,8 @@ class GeneratorTracsLUT extends Generator
 		$data['MODEL_TABLE_ID_COL'] = $this->model->get_id();
 
 		// detail view
-		$data['DETAIL_MODEL_NAME'] = $this->detailModelTemplate->get_name();
 		$data['DETAIL_VIEW_LINK'] = 'admin/' . $this->detailViewTemplate->get_link();
-		$data['DETAIL_MODEL_INSTANCE_VARIABLES'] = $this->detailModelTemplate->get_vars();
 		$data['DETAIL_MODEL_SELECT_COLUMNS'] = $this->detailModelTemplate->get_columns();
-		$data['DETAIL_MODEL_TABLE_ID_COL'] = $this->detail_model->get_id();
 		$data['DETAIL_ROW'] = $this->detail_model->get_row();
 		$data['DETAIL_HEADER'] = $this->detail_model->get_col_header();
 		$data['DETAIL_VIEW_HEADER_LINK'] = 'admin/' . $this->detailViewHeader->get_link();
