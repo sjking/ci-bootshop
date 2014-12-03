@@ -37,6 +37,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		$data['controller'] = strtolower('$CONTROLLER_NAME$');
 		$data['create_link'] = base_url('admin/' . $data['controller'] . '/create');
+		$data['view_link'] = base_url('admin/' . $data['controller'] . '/view');
+		$data['delete_link'] = base_url('admin/' . $data['controller'] . '/delete');
 		$data['display_name'] = '$CONTROLLER_NAME$';
 
 		$this->load->view('_templates/admin/header', $data);
@@ -47,11 +49,11 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 	public function view($id)
 	{
-		$this->load->model('$DETAIL_MODEL_NAME$');
+		$this->load->model('$MODEL_NAME$');
 
 		// check if its a post (update)
 		if ($update = $this->input->post()) {
-			$this->$DETAIL_MODEL_NAME$->update($id, $update);
+			$this->$MODEL_NAME$->update($id, $update);
 		}
 
 		$data['siteTitle'] 		= "TRACS";
@@ -61,7 +63,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['styleSheets']    = array(
 									   );
 		
-		$data['$DETAIL_ROW$'] = $this->$DETAIL_MODEL_NAME$->get($id);
+		$data['$DETAIL_ROW$'] = $this->$MODEL_NAME$->get($id);
 		$data['header'] = $data['$DETAIL_ROW$']['$DETAIL_HEADER$'];
 		$data['detail_id'] = $id;
 		$data['controller'] = strtolower('$CONTROLLER_NAME$');
@@ -75,11 +77,11 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 	public function create()
 	{
-		$this->load->model('$DETAIL_MODEL_NAME$');
+		$this->load->model('$MODEL_NAME$');
 
 		// check if its a post (create)
 		if ($update = $this->input->post()) {
-			if ($id = $this->$DETAIL_MODEL_NAME$->create($update)) {
+			if ($id = $this->$MODEL_NAME$->create($update)) {
 				// redirect to detail view for newly created entry
 				$controller = strtolower('$CONTROLLER_NAME$');
 				$view = base_url('admin/' . $controller . '/view/' . $id);
@@ -106,14 +108,14 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 	public function delete($id)
 	{
-		$this->load->model('$DETAIL_MODEL_NAME$');
+		$this->load->model('$MODEL_NAME$');
 		$this->load->helper('url');
 		$controller = strtolower('$CONTROLLER_NAME$');
 
 		$to = base_url('admin/' . $controller);
 
 		// TO-DO: handle warning message to delete
-		if ($this->$DETAIL_MODEL_NAME$->delete($id)) {
+		if ($this->$MODEL_NAME$->delete($id)) {
 			redirect($to, 'refresh');
 		}
 		else {
