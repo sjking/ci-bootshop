@@ -172,9 +172,11 @@ class Form extends HTMLElement
 	/* return a form label 
 	 * @param $for should be the same as the elements id
 	 */
-	protected function form_label($for) 
+	protected function form_label($for = null) 
 	{
-		$label = '<label for="' . $for .'"';
+		$label = '<label';
+		if ($for)
+			$label .= ' for="' . $for .'"';
 		
 		if ($this->label_params) {
 			$label .= $this->params_str($this->label_params);

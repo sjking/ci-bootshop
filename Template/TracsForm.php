@@ -25,13 +25,24 @@ class TracsForm extends Form
 		$str = '';
 
 		if ($type) {
-			$str = '<div class="col-md-10">' . $content . '</div>';
+			$str .= '<div class="col-md-10">';
 		}
 		else {
-			$str = '<div class="form-group">' . $content . '</div>';
+			$str .= '<div class="form-group">';
 		}
+		$str = $this->nest_str($content, $str) . "\n" .'</div>';
 		
 		return $str;
+	}
+
+	protected function submit_btn()
+	{
+		$str = '<div class="form-group">';
+		$label = $this->form_label();
+		$str = $this->nest_str($label, $str);
+		$str = $this->nest_str(parent::submit_btn(), $str);
+
+		return $str . "\n" . '</div>';
 	}
 	
 }

@@ -108,7 +108,9 @@ class RadioFormElement extends FormElement
 		$out = '<?php foreach($' . $options . ' as $name => $val) { ?>';
 		$out .= "\n  ";
 		$out .= '<div class="radio">';
+		$out .= "\n    ";
 		$out .= '<label>';
+		$out .= "\n      ";
 		$out .= '<input type=' . "'radio' " . 'name="' . $this->name() . '" ';
 		$out .= 'value="<?php echo $val; ?>"';
 		if ($this->params_str) {
@@ -117,9 +119,11 @@ class RadioFormElement extends FormElement
 		if ($selected) // true if its edit form, false if its create form
 			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "checked" : null ?>';
 		$out .= '>';
-
+		$out .= "\n      ";
 		$out .= '<?php echo $name; ?>';
+		$out .= "\n    ";
 		$out .= '</label>';
+		$out .= "\n  ";
 		$out .= '</div>';
 		$out .= "\n";
 		$out .= '<?php } ?>';
