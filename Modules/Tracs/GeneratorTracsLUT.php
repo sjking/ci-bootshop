@@ -136,8 +136,9 @@ class GeneratorTracsLUT extends Generator
 		if ($this->files->write($model_path, $model))
 			$this->filenames[] = $model_path;
 
-		// detail view 
+		// detail view (for editing)
 		$form = new Form($this->detail_model);
+		$form->set_submit_button('Update');
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
 		$form_view_path = $this->detailViewTemplate->get_path();
@@ -152,6 +153,7 @@ class GeneratorTracsLUT extends Generator
 
 		// create view
 		$form = new Form($this->create_model);
+		$form->set_submit_button('Create');
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
 		$form_view_path = $this->createViewTemplate->get_path();
