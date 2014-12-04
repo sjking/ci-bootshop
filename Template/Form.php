@@ -30,7 +30,7 @@ class Form extends HTMLElement
 		$this->fields();
 	}
 
-	private function set_elements(array $fields, $row)
+	protected function set_elements(array $fields, $row)
 	{
 		$elements = array();
 
@@ -41,12 +41,12 @@ class Form extends HTMLElement
 		}
 	}
 
-	private function set_label_params(array $params)
+	protected function set_label_params(array $params)
 	{
 		$this->label_params = $params;
 	}
 
-	private function set_button_params(array $params)
+	protected function set_button_params(array $params)
 	{
 		$this->button_params = $params;
 	}
@@ -65,6 +65,11 @@ class Form extends HTMLElement
 		$this->body = $fields;
 	}
 
+	protected function form_group($content, $type = null)
+	{
+		return $content;
+	}
+
 	/* generate an input form element 
 	 * @param $e form element
 	 */
@@ -80,7 +85,7 @@ class Form extends HTMLElement
 
 		$label = $this->form_label($e->name());
 
-		return $label . "\n" . $input;
+		return $label . "\n" . $this->form_group($input, $e->type());
 	}
 
 	/* generate a radio form element
@@ -94,7 +99,7 @@ class Form extends HTMLElement
 		$label = $this->form_label($e->name());
 		$output = $e->output();
 
-		return $label . "\n" . $output;
+		return $label . "\n" . $this->form_group($output, $e->type());
 	}
 
 	/* generate a drop-down form element 
@@ -105,7 +110,7 @@ class Form extends HTMLElement
 		$select = '<select ';
 		$select .= 'name="' . $e->name() . '"'; 
 		if ($e->params()) {
-			$select .= $this->params_str($e->params());
+			$select .= $this->params_str($e->params(), $e->type());
 		}
 		$select .= '>';
 
@@ -113,7 +118,7 @@ class Form extends HTMLElement
 		$options = $e->output();
 		$select = $this->nest_str($options, $select);
 		
-		return $label . "\n" . $select . "\n" . '</select>';
+		return $label . "\n" . $this->form_group($select . "\n" . '</select>', $e->type());
 	}
 
 	/* generate a textarea drop-down form element
@@ -132,7 +137,7 @@ class Form extends HTMLElement
 		$text = $e->output();
 		$txt = $this->nest_str($text, $txt);
 
-		return $label . "\n" . $txt . "\n" . '</textarea>';
+		return $label . "\n" . $this->form_group($txt . "\n" . '</textarea>', $e->type());
 	}
 
 	/* output the table */
@@ -166,9 +171,8 @@ class Form extends HTMLElement
 
 	/* return a form label 
 	 * @param $for should be the same as the elements id
-	 * @param $params array of optional params
 	 */
-	protected function form_label($for, $params = null) 
+	protected function form_label($for) 
 	{
 		$label = '<label for="' . $for .'"';
 		

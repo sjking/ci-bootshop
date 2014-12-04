@@ -115,7 +115,7 @@ class RadioFormElement extends FormElement
 			$out .= $this->params_str;
 		}
 		if ($selected) // true if its edit form, false if its create form
-			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "selected" : null ?>';
+			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "checked" : null ?>';
 		$out .= '>';
 
 		$out .= '<?php echo $name; ?>';

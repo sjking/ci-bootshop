@@ -44,7 +44,7 @@ $fields[] = $dropdown;
 $fields[] = $radio;
 
 $id = 'question_id';
-$label_params = array('class' => 'control-label');
+$label_params = array('class' => 'control-label col-md-2');
 $button_params = array('class' => 'btn btn-primary');
 $params = array('id' => 'countries-form', 'class' => 'form-horizontal', 'method' => 'post');
 

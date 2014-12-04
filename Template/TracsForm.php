@@ -5,26 +5,33 @@ include_once('Form.php');
 /* Generate an html table */
 class TracsForm extends Form
 {	
-
-	function __construct($fields)
+	/* override the form fields output */
+	protected function fields()
 	{
-		parent::__construct($fields);
+		$fields = '';
+
+		foreach($this->elements as $element) {
+			$func = 'form_' . $element->type(); // variable function call
+			// enclose in a form-group div
+			$fields .= $this->form_group($this->$func($element)) . "\n";
+		}
+		$fields = rtrim($fields, "\n");
+
+		$this->body = $fields;
 	}
 
-	/* generate an input form element, override the Form class to include
-	 * bootstrap stuff
-	 */
-	protected function form_input($name, $type)
-	{	$container = '<div class="col-md-10">';
-		$input = '<input ';
-		$input .= 'name="' . $name . '" id="' . $name . '" ';
-		$input .= 'class="form-control" type="text">'; 
-		$input = $container . $input . '</div>';
+	protected function form_group($content, $type = null)
+	{
+		$str = '';
 
-		$label = '<label for="' . $name .'" class="col-md-2 control-label">';
-		$label .= $name . '</label>';
-
-		return '<div class="form-group">' . $label . $input . '</div>';
+		if ($type) {
+			$str = '<div class="col-md-10">' . $content . '</div>';
+		}
+		else {
+			$str = '<div class="form-group">' . $content . '</div>';
+		}
+		
+		return $str;
 	}
 	
 }
