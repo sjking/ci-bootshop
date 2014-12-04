@@ -14,7 +14,7 @@ const BASE_URL = 'dev.busdevw/tracs/admin';
 $conf = new GeneratorConfig('config.ini', MODULE_DIR);
 
 // set the main list view data
-$cols = array('category_id', 'answer');
+$cols = array('category_id', 'question');
 $params = array('id' => $name . '-table', 
 				'class' => 'list table table-striped table-hover');
 $table_model = new Model($name, $table, $cols, 'question_id', $params);
@@ -26,22 +26,21 @@ $fields[] = new FormFieldModel('question', 'input',
 	array('class' => 'form-control', 'id' => 'question-input'));
 $fields[] = new FormFieldModel('answer', 'textarea',
 	array('class' => 'form-control', 'id' => 'answer-textarea', 'rows' =>'5'));
-$fields[] = new FormFieldModel('html', 'input',
-	array('class' => 'form-control', 'id' => 'html-input'));
+// $radio = new RadioFormFieldModel('html', 'radio',
+// 	array('id' => 'html-radio'));
+// $radio->set_enum_array(array(false => 'No', true => 'Yes'));
+// $fields[] = $radio;
 
 $radio = new RadioFormFieldModel('status', 'radio',
 	array('id' => 'status-radio'));
 $radio->set_enum_array(array('Active' => 'Active', 'Cancelled' => 'Cancelled'));
+$fields[] = $radio;
 
 $dropdown = new DropdownFormFieldModel('category_id', 'dropdown', 
 	array('class' => 'form-control', 'id' => 'category-dropdown'));
 $dropdown->set_table_col('faq_categories', 'category_id', 'name');
-
-// $dropdown = new DropdownFormFieldModel('International', 'dropdown',
-// 	array('class' => 'form-control', 'id' => 'International-dropdown'));
-// $dropdown->set_enum_array(array('Yes', 'No'));
 $fields[] = $dropdown;
-$fields[] = $radio;
+
 
 $id = 'question_id';
 $label_params = array('class' => 'control-label col-md-2');
@@ -54,8 +53,8 @@ $detail_model->set_col_header('question');
 $generator = new GeneratorTracsLUT($name, $conf, $table_model, $detail_model);
 
 $data = array('CONTROLLER_NAME' => 'GradApp',
-			  'PAGE_TITLE' => 'Graudate Application FAQ System',
-			  'HEADER' => 'Graudate Application FAQ System'
+			  'PAGE_TITLE' => 'Graduate Application FAQ',
+			  'HEADER' => 'Graduate Application FAQ'
 			  );
 
 $generator->init($data);
