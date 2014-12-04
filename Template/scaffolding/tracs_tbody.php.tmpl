@@ -10,17 +10,18 @@
 				$id = $val;
 				continue;
 			}
-			else
 ?>
-				<td name="<?php echo $key; ?>"><?php echo $val; ?></td>
-<?php
-		}
-?>
+		<td name="<?php echo $key; ?>"><?php echo $val; ?></td>
+<?php 	} ?>
 		<td>
-			<a href="<?php echo $view_link;?>/<?php echo $id;?>" class="edit-$NAME$">Edit</a>
+			<a href="<?php echo $view_link;?>/<?php echo $id;?>" class="edit-$NAME$ btn btn-default">
+				<span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit
+			</a>
 		</td>
 		<td>
-			<a href="<?php echo $delete_link;?>/<?php echo $id;?>" class="delete-$NAME$">Delete</a>
+			<a href="<?php echo $delete_link;?>/<?php echo $id;?>" class="delete-$NAME$ btn btn-danger">
+				<span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+			</a>
 		</td>
 	</tr>
 <?php
