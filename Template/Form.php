@@ -70,7 +70,7 @@ class Form extends HTMLElement
 	 */
 	protected function form_input(FormElement $e)
 	{	
-		$input = '<input ';
+		$input = '<input type=' . "'text' ";
 		$input .= 'name="' . $e->name() . '" ';
 		$input .= 'value="' . $e->output() .'"';
 		if ($e->params()) {
@@ -81,6 +81,20 @@ class Form extends HTMLElement
 		$label = $this->form_label($e->name());
 
 		return $label . "\n" . $input;
+	}
+
+	/* generate a radio form element
+	 * @param $e form element
+	 */
+	protected function form_radio(FormElement $e)
+	{
+		// TO-DO: Refactor, this is weird coupling
+		$e->set_params_str($this->params_str($e->params()));
+
+		$label = $this->form_label($e->name());
+		$output = $e->output();
+
+		return $label . "\n" . $output;
 	}
 
 	/* generate a drop-down form element 

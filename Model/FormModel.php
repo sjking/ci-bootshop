@@ -55,10 +55,18 @@ class FormFieldModel
 
 }
 
+/* alias to DropdownFormFieldModel */
+class RadioFormFieldModel extends DropdownFormFieldModel
+{
+	protected $array_var_suffix = 'radio';
+}
+
 /* dropdown has extra information about the data of its options; this is
  * only to represent the dropdown values, but not the value itself */
 class DropdownFormFieldModel extends FormFieldModel
 {
+	protected $array_var_suffix = 'dropdown';
+
 	// look-up table
 	protected $table = null; // table where to get the data
 	protected $table_id = null; // the column primary key in the table
@@ -70,7 +78,7 @@ class DropdownFormFieldModel extends FormFieldModel
 	function __construct($name, $type, $params = null) 
 	{
 		parent::__construct($name, $type, $params);
-		$this->method_name = 'get_' . $this->name . '_dropdown';
+		$this->method_name = 'get_' . $this->name . '_' . $type;
 	}
 
 	/* set the pre-set values of the dropdown
@@ -90,9 +98,9 @@ class DropdownFormFieldModel extends FormFieldModel
 	}
 
 	/* return the controller variable used in controller and view */
-	public function get_controller_dropdown_variable()
+	public function get_controller_array_variable()
 	{
-		$str = $this->name . '_dropdown';
+		$str = $this->name . '_' . $this->array_var_suffix;
 		return $str;
 	}
 
@@ -109,12 +117,12 @@ class DropdownFormFieldModel extends FormFieldModel
 		$this->enum_array = null;
 	}
 
-	private function is_enum()
+	protected function is_enum()
 	{
 		return $this->enum_array;
 	}
 
-	private function is_lookup_table()
+	protected function is_lookup_table()
 	{
 		return $this->table && $this->table_id && $this->table_col;
 	}
@@ -124,7 +132,8 @@ class DropdownFormFieldModel extends FormFieldModel
 	 */
 	public function get_model_method()
 	{
-		$str = 'function get_' . $this->name . '_dropdown()' . "\n";
+		$str = 'function get_' . $this->name . '_' . $this->array_var_suffix . 
+			'()' . "\n";
 		$str .= "\t" . '{' . "\n";
 		$str .= "\t\t" . $this->get_values();
 		$str .= "\n\t" . '}';
@@ -134,7 +143,7 @@ class DropdownFormFieldModel extends FormFieldModel
 
 	/* returns the data to put in the codeigniter model method that returns the
 	 * associative array of dropdown values */
-	private function get_values()
+	protected function get_values()
 	{
 		if ($this->is_lookup_table()) {
 			return $this->lookup_table_vals();
@@ -147,7 +156,7 @@ class DropdownFormFieldModel extends FormFieldModel
 		}
 	}
 
-	private function lookup_table_vals()
+	protected function lookup_table_vals()
 	{
 		$str = '$this->db->select(' . "'" . $this->table_id . ', ' 
 			. $this->table_col . "'" . ');' . "\n";
@@ -163,7 +172,7 @@ class DropdownFormFieldModel extends FormFieldModel
 		return $str;
 	}
 
-	private function enum_vals()
+	protected function enum_vals()
 	{
 		$str = '$enums = array(' . "\n";
 		foreach($this->enum_array as $val) {
@@ -176,7 +185,7 @@ class DropdownFormFieldModel extends FormFieldModel
 		return $str;
 	}
 
-	private function empty_method()
+	protected function empty_method()
 	{
 		$str = '// TO-DO' . "\n\t" . 'return null;';
 		return $str;

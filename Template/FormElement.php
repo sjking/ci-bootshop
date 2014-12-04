@@ -65,7 +65,7 @@ class DropdownFormElement extends FormElement
 	// output the php code to generate all the option tags
 	public function output()
 	{	
-		$dropdown = $this->model->get_controller_dropdown_variable();
+		$dropdown = $this->model->get_controller_array_variable();
 		$selected = $this->model->variable_name();
 
 		$out = '<?php foreach($' . $dropdown . ' as $name => $val) { ?>';
@@ -92,6 +92,44 @@ class TextareaFormElement extends FormElement
 		if ($val) // true if its edit form, false if its create form
 			$out = '<?php echo $$DETAIL_ROW$[' . "'" . $val . "']" . '; ?>';
 		return $out;
+	}
+}
+
+/* radio form element for selecting one from many choices */
+class RadioFormElement extends FormElement
+{
+	private $params_str = null;
+
+	public function output()
+	{
+		$options = $this->model->get_controller_array_variable();
+		$selected = $this->model->variable_name();
+
+		$out = '<?php foreach($' . $options . ' as $name => $val) { ?>';
+		$out .= "\n  ";
+		$out .= '<div class="radio">';
+		$out .= '<label>';
+		$out .= '<input type=' . "'radio' " . 'name="' . $this->name() . '" ';
+		$out .= 'value="<?php echo $val; ?>"';
+		if ($this->params_str) {
+			$out .= $this->params_str;
+		}
+		if ($selected) // true if its edit form, false if its create form
+			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "selected" : null ?>';
+		$out .= '>';
+
+		$out .= '<?php echo $name; ?>';
+		$out .= '</label>';
+		$out .= '</div>';
+		$out .= "\n";
+		$out .= '<?php } ?>';
+
+		return $out;
+	}
+
+	public function set_params_str($str)
+	{
+		$this->params_str = $str;
 	}
 }
 

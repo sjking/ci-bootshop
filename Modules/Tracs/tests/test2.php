@@ -29,6 +29,10 @@ $fields[] = new FormFieldModel('answer', 'textarea',
 $fields[] = new FormFieldModel('html', 'input',
 	array('class' => 'form-control', 'id' => 'html-input'));
 
+$radio = new RadioFormFieldModel('status', 'radio',
+	array('id' => 'status-radio'));
+$radio->set_enum_array(array('Active' => 'Active', 'Cancelled' => 'Cancelled'));
+
 $dropdown = new DropdownFormFieldModel('category_id', 'dropdown', 
 	array('class' => 'form-control', 'id' => 'category-dropdown'));
 $dropdown->set_table_col('faq_categories', 'category_id', 'name');
@@ -37,6 +41,7 @@ $dropdown->set_table_col('faq_categories', 'category_id', 'name');
 // 	array('class' => 'form-control', 'id' => 'International-dropdown'));
 // $dropdown->set_enum_array(array('Yes', 'No'));
 $fields[] = $dropdown;
+$fields[] = $radio;
 
 $id = 'question_id';
 $label_params = array('class' => 'control-label');
