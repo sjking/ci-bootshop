@@ -20,9 +20,10 @@ class Table extends HTMLElement
 	{
 		$tbl = '<thead>';
 		foreach($this->columns as $col) {
-			$tbl .= '<th>' . $col . '</th>';
+			$hdr = '<th>' . $col . '</th>';
+			$tbl = $this->nest_str($hdr, $tbl);
 		}
-		$tbl .= '</thead>';
+		$tbl .= "\n" . '</thead>';
 
 		return $tbl;
 	}
@@ -32,9 +33,9 @@ class Table extends HTMLElement
 	{
 		$tbl = $this->start();
 		if ($this->columns)
-			$tbl .= $this->header();
-		$tbl .= $this->body();
-		$tbl .= $this->end();
+			$tbl = $this->nest_str($this->header(), $tbl);
+		$tbl = $this->nest_str($this->body(), $tbl);
+		$tbl .= "\n" . $this->end();
 
 		return $tbl;
 	}
