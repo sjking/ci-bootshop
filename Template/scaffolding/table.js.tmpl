@@ -9,6 +9,40 @@ $(document).ready(function ()
 		// TO-DO:
 		// Action to take when edit button clicked
 		event.preventDefault();
-		var link = $(this).attr('href');
+		var href = $(this).attr('href');
+		var id = href.substr(href.lastIndexOf('/') + 1);
+		$('#universalModal').modal('show');
+		$('#universalModal .modal-title').html('Delete Confirm');
+		$('#universalModal form').attr('id','delete-$NAME$-form');
+		$('#universalModal .modal-body')
+			.html('Are you sure you want to delete record ' + id + '?');
+		$('#universalModal .modal-footer button#submitButton')
+			.attr('class', 'btn btn-primary');
+		$('#universalModal .modal-footer button#submitButton')
+			.html('<span class="glyphicon glyphicon-trash"></span> Delete');
+
+		$('#delete-$NAME$-form').on('submit', function(event) {
+			event.preventDefault();
+			$.post(href, function(resp) {
+				// console.log('data: ' + data);
+				if (resp.success) {
+					console.log('success: ' + resp.msg);
+				}
+				else {
+					console.log('failure: ' + resp.msg);
+					$('#error-alert').show();
+				}
+			});
+		});
 	});
 });
+
+function delete_success(msg)
+{
+	
+}
+
+function delete_failure(msg)
+{
+	
+}

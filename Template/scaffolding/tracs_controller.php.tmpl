@@ -8,16 +8,13 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
     	//Setup the CAS Authentication and Access Control.
         $this->load->model('User_access');
+        $this->load->library('error');
     	
     	if( !$this->User_access->allowAccessType( array('Admin') ) ){
-    		$data['siteTitle'] 		= "TRACS";
-			$data['title'] 			= "TRACS";
-			$data['noMenu']			= true;
-			echo $this->load->view('_templates/admin/header', $data, true);
-			echo "<p>You (" . $_SESSION['tracs_userComputingID'] . 
-				") do not have the permission to access this page.</p>";
-			echo $this->load->view('_templates/admin/footer', $data, true);
-			exit();
+    		$msg = 'You ("' . $_SESSION['tracs_userComputingID'] . 
+				'") do not have the permission to access this page.';
+			$link = base_url('admin');
+			$this->error->access_denied($msg, $link);
 		}
 	}
 
@@ -44,6 +41,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$this->load->view('_templates/admin/header', $data);
 		$this->load->view('$VIEW_NAME_LINK$', $data);
 		$this->load->view('$TABLE_VIEW_LINK$', $data);
+		$this->load->view('_templates/universal_modal_view.php');
+		$this->load->view('_templates/alerts_view.php');
 		$this->load->view('_templates/admin/footer', $data);
 	}
 
@@ -55,6 +54,10 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		if ($update = $this->input->post()) {
 			$this->$MODEL_NAME$->update($id, $update);
 		}
+
+		// check if it's an ajax request, which means to bring up the modal
+		// view to edit the entry
+
 
 		$data['siteTitle'] 		= "TRACS";
 		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
@@ -110,17 +113,28 @@ class $CONTROLLER_NAME$ extends CI_Controller
 	{
 		$this->load->model('$MODEL_NAME$');
 		$this->load->helper('url');
+		$this->load->helper('ajax_helper');
 		$controller = strtolower('$CONTROLLER_NAME$');
 
-		$to = base_url('admin/' . $controller);
-
-		// TO-DO: handle warning message to delete
 		if ($this->$MODEL_NAME$->delete($id)) {
-			redirect($to, 'refresh');
+			if ($this->input->is_ajax_request()) {
+				echo ajax_success();
+			}
+			else {
+				$to = base_url('admin/' . $controller);
+				redirect($to, 'refresh');
+			}
 		}
 		else {
-			// TO-DO: handle error message
-			echo 'Error: Could not delete field from database.';
+			$msg = 'Could not delete record ' . $id . '.';
+			if ($this->input->is_ajax_request()) {
+				echo ajax_failure($msg);
+			}
+			else {
+				$link = base_url('admin/' . $controller);
+				$this->error->error_page($msg, $link);
+			}
 		}
 	}
+
 }
