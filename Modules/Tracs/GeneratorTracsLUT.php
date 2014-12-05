@@ -5,6 +5,7 @@ use \Exception;
 include_once(dirname(dirname(__DIR__)) . "/Generator.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/TracsForm.php");
+include_once(dirname(dirname(__DIR__)) . "/Template/JavascriptTemplate.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
 
 class GeneratorTracsLUT extends Generator
@@ -30,6 +31,8 @@ class GeneratorTracsLUT extends Generator
 
 	private $detail_model;
 	private $create_model;
+
+	private $javascriptTableTemplate;
 
 	/* Create a new generator
 	 * @param $name the naming of files and classnames in project
@@ -92,6 +95,12 @@ class GeneratorTracsLUT extends Generator
 		$this->createViewHeader = new ViewTemplate($this->config, 
 			'create_view_header.php.tmpl');
 		$this->createViewHeader->set_name($name, 'create_header');
+
+		// javascript
+		$this->javascriptTableTemplate = new JavascriptTemplate($this->config, 
+			'table.js.tmpl');
+		$this->javascriptTableTemplate->set_name($name, 'table');
+
 
 		$this->data = $this->_init();
 	}
@@ -166,6 +175,12 @@ class GeneratorTracsLUT extends Generator
 		if ($this->files->write($create_header_path, $create_header))
 			$this->filenames[] = $create_header_path;
 
+		// javascript
+		$template = $this->files->read($this->javascriptTableTemplate->get_template());
+		$js = $this->compiler->compile($template, $this->data);
+		$js_path = $this->javascriptTableTemplate->get_path();
+		if ($this->files->write($js_path, $js))
+			$this->filenames[] = $js_path;
 	}
 
 	/* initialize the data for the template compilation
@@ -254,6 +269,9 @@ class GeneratorTracsLUT extends Generator
 		// create view
 		$data['CREATE_VIEW_LINK'] = 'admin/' . $this->createViewTemplate->get_link();
 		$data['CREATE_VIEW_HEADER_LINK'] = 'admin/' . $this->createViewHeader->get_link();
+
+		// javascript
+		$data['JAVASCRIPT_TABLE'] = $this->javascriptTableTemplate->get_link();
 
 		return $data;
 	}
