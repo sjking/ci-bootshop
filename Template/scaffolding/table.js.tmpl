@@ -8,5 +8,7 @@ $(document).ready(function ()
 	$('a.delete-$NAME$').on('click', function(event) {
 		// TO-DO:
 		// Action to take when edit button clicked
+		event.preventDefault();
+		var link = $(this).attr('href');
 	});
 });
