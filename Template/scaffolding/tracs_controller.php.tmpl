@@ -24,9 +24,10 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		$data['siteTitle'] 		= "TRACS";
 		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
-		$data['javaScript'] 	= array('$JAVASCRIPT_TABLE$'
+		$data['javaScript'] 	= array('$JAVASCRIPT_TABLE$',
+										'alert.js'
 									   );
-		$data['styleSheets']    = array(
+		$data['styleSheets']    = array('alert.css'
 									   );
 
 		$data['header'] = '$HEADER$';
@@ -118,7 +119,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		if ($this->$MODEL_NAME$->delete($id)) {
 			if ($this->input->is_ajax_request()) {
-				echo ajax_success();
+				echo ajax_success($id);
 			}
 			else {
 				$to = base_url('admin/' . $controller);

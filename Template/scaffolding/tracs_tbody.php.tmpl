@@ -2,7 +2,7 @@
 <?php
 	foreach($table_rows as $row) {
 ?>
-	<tr>
+	<tr id="<?php echo $row['$MODEL_NAME$_id']; ?>">
 <?php
 		$id;
 		foreach($row as $key => $val) {

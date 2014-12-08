@@ -6,8 +6,6 @@ $(document).ready(function ()
 	});
 
 	$('a.delete-$NAME$').on('click', function(event) {
-		// TO-DO:
-		// Action to take when edit button clicked
 		event.preventDefault();
 		var href = $(this).attr('href');
 		var id = href.substr(href.lastIndexOf('/') + 1);
@@ -24,25 +22,28 @@ $(document).ready(function ()
 		$('#delete-$NAME$-form').on('submit', function(event) {
 			event.preventDefault();
 			$.post(href, function(resp) {
-				// console.log('data: ' + data);
 				if (resp.success) {
-					console.log('success: ' + resp.msg);
+					delete_success(resp.msg);
 				}
 				else {
-					console.log('failure: ' + resp.msg);
-					$('#error-alert').show();
+					delete_failure(resp.msg);
 				}
 			});
 		});
 	});
+
 });
 
-function delete_success(msg)
+function delete_success(id)
 {
-	
+	$('#universalModal').modal('hide');
+	$('#' + id).remove();
 }
 
 function delete_failure(msg)
 {
-	
+	$('#error-alert').show();
+	$('#error-alert').find('.alert-msg').text('Error: ' + msg);
+	$('#universalModal').modal('hide');
+	$('#error-alert').show();
 }
