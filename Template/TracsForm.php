@@ -39,8 +39,10 @@ class TracsForm extends Form
 	{
 		$str = '<div class="form-group">';
 		$label = $this->form_label();
+		$btn = parent::submit_btn();
+		$btn = $this->form_group($btn, true);
 		$str = $this->nest_str($label, $str);
-		$str = $this->nest_str(parent::submit_btn(), $str);
+		$str = $this->nest_str($btn, $str);
 
 		return $str . "\n" . '</div>';
 	}
