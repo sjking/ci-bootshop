@@ -87,24 +87,6 @@ class CheckboxFormFieldModel extends FormFieldModel
 		return $this->default_value;
 	}
 
-	/* returns the code for the method to compile into the php codeigniter 
-	 * model
-	 */
-	public function get_model_method()
-	{
-		$str = 'function get_' . $this->name . '_' . $this->type() . '()' . "\n";
-		$str .= "\t" . '{' . "\n";
-		$str .= "\t\t" . $this->get_values();
-		$str .= "\n\t" . '}';
-
-		return $str;
-	}
-
-	/* return the method name used in codeigniter model */
-	public function get_method_name()
-	{
-		return $this->method_name;
-	}
 }
 
 /* alias to DropdownFormFieldModel */
@@ -216,9 +198,10 @@ class DropdownFormFieldModel extends FormFieldModel
 			. "\n";
 		$str .= "\t\t" . '$query = $this->db->get();' . "\n";
 		$str .= "\t\t" . '$vals = array();' . "\n";
+		$str .= "\t\t" . '$vals[""] = "";' . "\n";
 		$str .= "\t\t" . 'foreach($query->result_array() as $row)' . "\n";
-		$str .= "\t\t\t" . '$vals[$row[' . "'" . $this->table_col . "']" . 
-			'] = $row[' . "'" . $this->table_id . "'" . '];' . "\n";
+		$str .= "\t\t\t" . '$vals[trim($row[' . "'" . $this->table_col . "'])" . 
+			'] = trim($row[' . "'" . $this->table_id . "'" . ']);' . "\n";
 		$str .= "\t\t" . 'return $vals;'; 
 
 		return $str;

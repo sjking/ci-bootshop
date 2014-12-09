@@ -72,7 +72,7 @@ class DropdownFormElement extends FormElement
 		$out .= "\n  ";
 		$out .= '<option value="<?php echo $val; ?>"';
 		if ($selected) // true if its edit form, false if its create form
-			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "selected" : null ?>';
+			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "selected" : null; ?>';
 		$out .= '>';
 		$out .= '<?php echo $name; ?></option>';
 		$out .= "\n";
