@@ -21,21 +21,27 @@ $table_model = new Model($name, $table, $cols, 'pad_id', $params);
 /* Detail View Data */
 $fields = array();
 
-$fields[] = new FormFieldModel('NameAbb', 'input',
+$field = new FormFieldModel('NameAbb', 'input',
 	array('class' => 'form-control', 'id' => 'NameAbb-input'));
+$field->set_label_name('Name Abbreviation');
+$fields[] = $field;
 
 $fields[] = new FormFieldModel('Name', 'input',
 	array('class' => 'form-control', 'id' => 'Name-input'));
+
 $dropdown = new DropdownFormFieldModel('ACAD_PROG', 'dropdown', 
 	array('class' => 'form-control', 'id' => 'ACAD_PROG-dropdown'));
 $dropdown->set_table_col('sims_code_lut', 'code', 'code');
+$dropdown->set_label_name('Academic Program');
 $fields[] = $dropdown;
 
 $fields[] = new FormFieldModel('School', 'input',
 	array('class' => 'form-control', 'id' => 'School-input'));
 
-$fields[] = new FormFieldModel('ProgramAreaDepartment', 'input',
+$field = new FormFieldModel('ProgramAreaDepartment', 'input',
 	array('class' => 'form-control', 'id' => 'ProgramAreaDepartment-input'));
+$field->set_label_name('Program Area Department');
+$fields[] = $field;
 
 $radio = new RadioFormFieldModel('Type', 'radio', array('id' => 'Type-radio'));
 $radio->set_enum_array(array('Internal' => 'Internal', 'External' => 'External'));
@@ -62,33 +68,43 @@ $fields[] = $checkbox;
 $checkbox = new CheckboxFormFieldModel('WebDirectory', 'checkbox', array('id' => 'WebDirectory-checkbox'));
 $checkbox->set_checked_value('Yes');
 $checkbox->set_default_value('No');
+$checkbox->set_label_name('Web Directory');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('FacultyProfiles', 'checkbox', array('id' => 'FacultyProfiles-checkbox'));
 $checkbox->set_checked_value('Yes');
 $checkbox->set_default_value('No');
+$checkbox->set_label_name('Faculty Profiles');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('SixSemesterPlan', 'checkbox', array('id' => 'SixSemesterPlan-checkbox'));
 $checkbox->set_checked_value('Yes');
 $checkbox->set_default_value('No');
+$checkbox->set_label_name('Six Semester Plan');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('AoL', 'checkbox', array('id' => 'AoL-checkbox'));
 $checkbox->set_checked_value('Yes');
 $checkbox->set_default_value('No');
+$checkbox->set_label_name('Assurance of Learning');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('RecordStatus', 'checkbox', array('id' => 'RecordStatus-checkbox'));
 $checkbox->set_checked_value('Yes');
 $checkbox->set_default_value('No');
-$fields[] = $checkbox;
+
+$radio = new RadioFormFieldModel('RecordStatus', 'radio', array('id' => 'RecordStatus-radio'));
+$radio->set_enum_array(array('Active' => 'Active', 'Past' => 'Past'));
+$radio->set_label_name('Status');
+$fields[] = $radio;
 
 $fields[] = new FormFieldModel('Notes', 'textarea',
 	array('class' => 'form-control', 'id' => 'Notes-textarea', 'rows' =>'2'));
 
-$fields[] = new FormFieldModel('UndergraduateConcentration', 'input',
+$field = new FormFieldModel('UndergraduateConcentration', 'input',
 	array('class' => 'form-control', 'id' => 'UndergraduateConcentration-input'));
+$field->set_label_name('Undergraduate Concentration');
+$fields[] = $field;
 
 $id = 'pad_id';
 $label_params = array('class' => 'control-label col-md-2');
