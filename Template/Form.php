@@ -83,7 +83,7 @@ class Form extends HTMLElement
 		}
 		$input .= '>';
 
-		$label = $this->form_label($e->name());
+		$label = $this->form_label($e->label_name());
 
 		return $label . "\n" . $this->form_group($input, $e->type());
 	}
@@ -96,7 +96,7 @@ class Form extends HTMLElement
 		// TO-DO: Refactor, this is weird coupling
 		$e->set_params_str($this->params_str($e->params()));
 
-		$label = $this->form_label($e->name());
+		$label = $this->form_label($e->label_name());
 		$output = $e->output();
 
 		return $label . "\n" . $this->form_group($output, $e->type());
@@ -114,7 +114,7 @@ class Form extends HTMLElement
 		}
 		$select .= '>';
 
-		$label = $this->form_label($e->name());
+		$label = $this->form_label($e->label_name());
 		$options = $e->output();
 		$select = $this->nest_str($options, $select);
 		
@@ -133,7 +133,7 @@ class Form extends HTMLElement
 		}
 		$txt .= '>';
 
-		$label = $this->form_label($e->name());
+		$label = $this->form_label($e->label_name());
 		$text = $e->output();
 		$txt = $this->nest_str($text, $txt);
 
@@ -151,7 +151,7 @@ class Form extends HTMLElement
 		}
 		$check .= '>';
 		$check = $this->nest_str($check, '<label>');
-		$check .= $e->name() . "\n" . '</label>';
+		$check .= $e->label_name() . "\n" . '</label>';
 
 		$div = '<div class="checkbox">';
 

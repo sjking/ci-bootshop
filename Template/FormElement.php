@@ -23,6 +23,11 @@ abstract class FormElement
 		return $this->model->name();
 	}
 
+	public function label_name()
+	{
+		return $this->model->label_name();
+	}
+
 	public function type()
 	{
 		return $this->model->type();

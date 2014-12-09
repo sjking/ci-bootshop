@@ -12,6 +12,8 @@ class FormFieldModel
 	protected $update_form = true; // if true, then the form will populate the
 								   // fields with its data, otherwise its an 
 	 							   // empty form.
+	protected $label_name = null; // optional, change the name of label as seen
+								  // in form labels
 
 	function __construct($name, $type, $params = null) 
 	{
@@ -23,6 +25,16 @@ class FormFieldModel
 	public function name() 
 	{
 		return $this->name;
+	}
+
+	public function label_name()
+	{
+		return $this->label_name ? $this->label_name : $this->name;
+	}
+
+	public function set_label_name($name)
+	{
+		$this->label_name = $name;
 	}
 
 	public function type() 
