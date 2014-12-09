@@ -56,9 +56,13 @@ $radio = new RadioFormFieldModel('Staff', 'radio', array('id' => 'Staff-radio'))
 $radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
 $fields[] = $radio;
 
-$radio = new RadioFormFieldModel('Faculty', 'radio', array('id' => 'Faculty-radio'));
-$radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-$fields[] = $radio;
+// $radio = new RadioFormFieldModel('Faculty', 'radio', array('id' => 'Faculty-radio'));
+// $radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
+// $fields[] = $radio;
+$checkbox = new CheckboxFormFieldModel('Faculty', 'checkbox', array('id' => 'Faculty-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$fields[] = $checkbox;
 
 $radio = new RadioFormFieldModel('Research', 'radio', array('id' => 'Research-radio'));
 $radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));

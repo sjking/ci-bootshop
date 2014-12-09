@@ -55,6 +55,58 @@ class FormFieldModel
 
 }
 
+class CheckboxFormFieldModel extends FormFieldModel
+{
+	protected $checked_value;
+	protected $default_value;
+	protected $method_name;
+
+	function __construct($name, $type, $params = null) 
+	{
+		parent::__construct($name, $type, $params);
+		$this->method_name = 'get_' . $this->name . '_' . $type;
+	}
+
+	public function set_checked_value($value)
+	{
+		$this->checked_value = $value;
+	}
+
+	public function get_checked_value()
+	{
+		return $this->checked_value;
+	}
+
+	public function set_default_value($value)
+	{
+		$this->default_value = $value;
+	}
+
+	public function get_default_value()
+	{
+		return $this->default_value;
+	}
+
+	/* returns the code for the method to compile into the php codeigniter 
+	 * model
+	 */
+	public function get_model_method()
+	{
+		$str = 'function get_' . $this->name . '_' . $this->type() . '()' . "\n";
+		$str .= "\t" . '{' . "\n";
+		$str .= "\t\t" . $this->get_values();
+		$str .= "\n\t" . '}';
+
+		return $str;
+	}
+
+	/* return the method name used in codeigniter model */
+	public function get_method_name()
+	{
+		return $this->method_name;
+	}
+}
+
 /* alias to DropdownFormFieldModel */
 class RadioFormFieldModel extends DropdownFormFieldModel
 {

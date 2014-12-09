@@ -140,6 +140,29 @@ class Form extends HTMLElement
 		return $label . "\n" . $this->form_group($txt . "\n" . '</textarea>', $e->type());
 	}
 
+	/* generate checkbox form element
+	 * @param $e form element
+	 */
+	protected function form_checkbox(FormElement $e)
+	{
+		$check = $e->output();
+		if ($e->params()) {
+			$check .= $this->params_str($e->params());
+		}
+		$check .= '>';
+		$check = $this->nest_str($check, '<label>');
+		$check .= $e->name() . "\n" . '</label>';
+
+		$div = '<div class="checkbox">';
+
+		$check = $this->nest_str($check, $div);
+		$check .= "\n" . '</div>';
+
+		$label = $this->form_label();
+
+		return $label . "\n" . $this->form_group($check, $e->type());
+	}
+
 	/* output the table */
 	public function generate()
 	{

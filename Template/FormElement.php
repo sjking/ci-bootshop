@@ -117,7 +117,7 @@ class RadioFormElement extends FormElement
 			$out .= $this->params_str;
 		}
 		if ($selected) // true if its edit form, false if its create form
-			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "checked" : null ?>';
+			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "checked" : null; ?>';
 		$out .= '>';
 		$out .= "\n      ";
 		$out .= '<?php echo $name; ?>';
@@ -136,6 +136,30 @@ class RadioFormElement extends FormElement
 		$this->params_str = $str;
 	}
 }
+
+class CheckboxFormElement extends FormElement 
+{
+	public function output()
+	{
+		$checked = $this->model->get_checked_value();
+		$default = $this->model->get_default_value();
+		$selected = $this->model->variable_name();
+
+		$hidden = '<input type=' . "'hidden' ";
+		$hidden .= 'name="' . $this->name() . '" ';
+		$hidden .= 'value="' . $default .'"' . '>';
+
+		$check = '<input type=' . "'checkbox' ";
+		$check .= 'name="' . $this->name() . '" ';
+		$check .= 'value="' . $checked .'"';
+		if ($selected)
+			$check .= ' <?php echo $$DETAIL_ROW$[' . "'" . $selected . "']" . '== "' . $checked . '" ? "checked" : null; ?>';
+
+		return $hidden . "\n" . $check;
+	}
+}
+
+/* checkbox form element for selecting
 
 /* factory for creating form elements */
 class FormElementFactory
