@@ -37,14 +37,6 @@ $fields[] = new FormFieldModel('School', 'input',
 $fields[] = new FormFieldModel('ProgramAreaDepartment', 'input',
 	array('class' => 'form-control', 'id' => 'ProgramAreaDepartment-input'));
 
-// Program, Area and Department are mutually exclusive. Since there are three
-// separate columns in table, the model must be configured manually
-// TO-DO
-// $radio = new RadioFormFieldModel('pad', 'radio', array('id' => 'pad-radio'));
-// $radio->set_enum_array(array('Program' => 'Program', 'Area' => 'Area', 
-// 	'Department' => 'Department')); 
-// $fields[] = $radio;
-
 $radio = new RadioFormFieldModel('Type', 'radio', array('id' => 'Type-radio'));
 $radio->set_enum_array(array('Internal' => 'Internal', 'External' => 'External'));
 $fields[] = $radio;
@@ -52,41 +44,45 @@ $fields[] = $radio;
 $fields[] = new FormFieldModel('Career', 'input',
 	array('class' => 'form-control', 'id' => 'Career-input'));
 
-$radio = new RadioFormFieldModel('Staff', 'radio', array('id' => 'Staff-radio'));
-$radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-$fields[] = $radio;
+$checkbox = new CheckboxFormFieldModel('Staff', 'checkbox', array('id' => 'Staff-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$fields[] = $checkbox;
 
-// $radio = new RadioFormFieldModel('Faculty', 'radio', array('id' => 'Faculty-radio'));
-// $radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-// $fields[] = $radio;
 $checkbox = new CheckboxFormFieldModel('Faculty', 'checkbox', array('id' => 'Faculty-checkbox'));
 $checkbox->set_checked_value('Yes');
 $checkbox->set_default_value('No');
 $fields[] = $checkbox;
 
-$radio = new RadioFormFieldModel('Research', 'radio', array('id' => 'Research-radio'));
-$radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-$fields[] = $radio;
+$checkbox = new CheckboxFormFieldModel('Research', 'checkbox', array('id' => 'Research-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$fields[] = $checkbox;
 
-$radio = new RadioFormFieldModel('WebDirectory', 'radio', array('id' => 'WebDirectory-radio'));
-$radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-$fields[] = $radio;
+$checkbox = new CheckboxFormFieldModel('WebDirectory', 'checkbox', array('id' => 'WebDirectory-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$fields[] = $checkbox;
 
-$radio = new RadioFormFieldModel('FacultyProfiles', 'radio', array('id' => 'FacultyProfiles-radio'));
-$radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-$fields[] = $radio;
+$checkbox = new CheckboxFormFieldModel('FacultyProfiles', 'checkbox', array('id' => 'FacultyProfiles-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$fields[] = $checkbox;
 
-$radio = new RadioFormFieldModel('SixSemesterPlan', 'radio', array('id' => 'SixSemesterPlan-radio'));
-$radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-$fields[] = $radio;
+$checkbox = new CheckboxFormFieldModel('SixSemesterPlan', 'checkbox', array('id' => 'SixSemesterPlan-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$fields[] = $checkbox;
 
-$radio = new RadioFormFieldModel('AoL', 'radio', array('id' => 'AoL-radio'));
-$radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-$fields[] = $radio;
+$checkbox = new CheckboxFormFieldModel('AoL', 'checkbox', array('id' => 'AoL-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$fields[] = $checkbox;
 
-$radio = new RadioFormFieldModel('RecordStatus', 'radio', array('id' => 'RecordStatus-radio'));
-$radio->set_enum_array(array('Yes' => 'Yes', 'No' => 'No'));
-$fields[] = $radio;
+$checkbox = new CheckboxFormFieldModel('RecordStatus', 'checkbox', array('id' => 'RecordStatus-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$fields[] = $checkbox;
 
 $fields[] = new FormFieldModel('Notes', 'textarea',
 	array('class' => 'form-control', 'id' => 'Notes-textarea', 'rows' =>'2'));
