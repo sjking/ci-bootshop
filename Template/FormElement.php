@@ -164,8 +164,6 @@ class CheckboxFormElement extends FormElement
 	}
 }
 
-/* checkbox form element for selecting
-
 /* factory for creating form elements */
 class FormElementFactory
 {
