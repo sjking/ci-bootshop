@@ -20,7 +20,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 	public function index()
 	{
-		$this->load->model('$MODEL_NAME$');
+		$this->load->model('lut/$MODEL_NAME$');
 
 		$data['siteTitle'] 		= "TRACS";
 		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
@@ -34,9 +34,9 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['table_rows'] = $this->$MODEL_NAME$->get_rows('$MODEL_TABLE_ID_COL$');
 
 		$data['controller'] = strtolower('$CONTROLLER_NAME$');
-		$data['create_link'] = base_url('admin/' . $data['controller'] . '/create');
-		$data['view_link'] = base_url('admin/' . $data['controller'] . '/view');
-		$data['delete_link'] = base_url('admin/' . $data['controller'] . '/delete');
+		$data['create_link'] = base_url('lut/' . $data['controller'] . '/create');
+		$data['view_link'] = base_url('lut/' . $data['controller'] . '/view');
+		$data['delete_link'] = base_url('lut/' . $data['controller'] . '/delete');
 		$data['display_name'] = '$CONTROLLER_NAME$';
 
 		$this->load->view('_templates/admin/header', $data);
@@ -49,7 +49,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 	public function view($id)
 	{
-		$this->load->model('$MODEL_NAME$');
+		$this->load->model('lut/$MODEL_NAME$');
 
 		// check if its a post (update)
 		if ($update = $this->input->post()) {
@@ -81,14 +81,14 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 	public function create()
 	{
-		$this->load->model('$MODEL_NAME$');
+		$this->load->model('lut/$MODEL_NAME$');
 
 		// check if its a post (create)
 		if ($update = $this->input->post()) {
 			if ($id = $this->$MODEL_NAME$->create($update)) {
 				// redirect to detail view for newly created entry
 				$controller = strtolower('$CONTROLLER_NAME$');
-				$view = base_url('admin/' . $controller . '/view/' . $id);
+				$view = base_url('lut/' . $controller . '/view/' . $id);
 				redirect($view, 'refresh');
 			}
 		}
@@ -112,7 +112,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 	public function delete($id)
 	{
-		$this->load->model('$MODEL_NAME$');
+		$this->load->model('lut/$MODEL_NAME$');
 		$this->load->helper('url');
 		$this->load->helper('ajax_helper');
 		$controller = strtolower('$CONTROLLER_NAME$');
@@ -122,7 +122,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 				echo ajax_success($id);
 			}
 			else {
-				$to = base_url('admin/' . $controller);
+				$to = base_url('lut/' . $controller);
 				redirect($to, 'refresh');
 			}
 		}
@@ -132,7 +132,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 				echo ajax_failure($msg);
 			}
 			else {
-				$link = base_url('admin/' . $controller);
+				$link = base_url('lut/' . $controller);
 				$this->error->error_page($msg, $link);
 			}
 		}

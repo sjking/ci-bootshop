@@ -248,30 +248,30 @@ class GeneratorTracsLUT extends Generator
 		$data['CONTROLLER_NAME'] = $this->controllerTemplate->get_name();
 		$data['NAME'] = strtolower($data['CONTROLLER_NAME']);
 		$data['VIEW_NAME'] = $this->viewTemplate->get_name();
-		$data['VIEW_NAME_LINK'] = 'admin/' . $this->viewTemplate->get_link();
+		$data['VIEW_NAME_LINK'] = 'lut/' . $this->viewTemplate->get_link();
 		$data['MODEL_NAME'] = $this->modelTemplate->get_name();
 		$data['TABLE_VIEW'] = $this->tableTemplate->get_name();
-		$data['TABLE_VIEW_LINK'] = 'admin/' . $this->tableTemplate->get_link();
+		$data['TABLE_VIEW_LINK'] = 'lut/' . $this->tableTemplate->get_link();
 		$data['DB_TABLE_NAME'] = $this->model->get_table_name();
 		$data['MODEL_INSTANCE_VARIABLES'] = $this->modelTemplate->get_vars();
 		$data['MODEL_SELECT_COLUMNS'] = $this->modelTemplate->get_columns();
 		$data['MODEL_TABLE_ID_COL'] = $this->model->get_id();
 
 		// detail view
-		$data['DETAIL_VIEW_LINK'] = 'admin/' . $this->detailViewTemplate->get_link();
+		$data['DETAIL_VIEW_LINK'] = 'lut/' . $this->detailViewTemplate->get_link();
 		$data['DETAIL_MODEL_SELECT_COLUMNS'] = $this->detailModelTemplate->get_columns();
 		$data['DETAIL_ROW'] = $this->detail_model->get_row();
 		$data['DETAIL_HEADER'] = $this->detail_model->get_col_header();
-		$data['DETAIL_VIEW_HEADER_LINK'] = 'admin/' . $this->detailViewHeader->get_link();
+		$data['DETAIL_VIEW_HEADER_LINK'] = 'lut/' . $this->detailViewHeader->get_link();
 		$data['DETAIL_MODEL_DROPDOWN_METHODS'] = $this->get_array_methods($this->detail_model);
 		$data['DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES'] = $this->get_array_controller_variables($this->detail_model);
 
 		// create view
-		$data['CREATE_VIEW_LINK'] = 'admin/' . $this->createViewTemplate->get_link();
-		$data['CREATE_VIEW_HEADER_LINK'] = 'admin/' . $this->createViewHeader->get_link();
+		$data['CREATE_VIEW_LINK'] = 'lut/' . $this->createViewTemplate->get_link();
+		$data['CREATE_VIEW_HEADER_LINK'] = 'lut/' . $this->createViewHeader->get_link();
 
 		// javascript
-		$data['JAVASCRIPT_TABLE'] = $this->javascriptTableTemplate->get_link();
+		$data['JAVASCRIPT_TABLE'] = 'lut/' . $this->javascriptTableTemplate->get_link();
 
 		return $data;
 	}
