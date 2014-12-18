@@ -1,5 +1,17 @@
 <?php namespace Generator;
 /* bus_pad_lut - lookup table for managing business program-area-department
+ *
+ * Programs, Areas and Departments (pad) look up table stores
+ *  - academic programs (e.g. Undergraduate Program, Executive Masters of 
+ *    Business Administration Program, MSc Finance Program, …)
+ *  - areas (e.g. Accounting, Finance, Strategy, …)
+ *  - departments (e.g. Dean’s Office, Advancement, Career Management Centre, …)
+ * pad look up table is used throughout TRACS to specify area/program/department 
+ * information for courses, ranks, stakeholders, .... Then, that pad information 
+ * is used to look at courses/ranks/stakeholders in a specific 
+ * program/area/department to support decision making.
+ *
+ * @author Steve King
  */
 
 define('MODULE_DIR', dirname(__DIR__));
