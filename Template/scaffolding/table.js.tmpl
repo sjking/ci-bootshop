@@ -32,7 +32,29 @@ $(document).ready(function ()
 		});
 	});
 
+	pagination_links();
+
 });
+
+function pagination_links()
+{
+	$('.pagination').find('li').not('.active').find('a').on('click', function(event) {
+		event.preventDefault();
+		var $page = $(this);
+		var href = $page.attr('href');
+
+		var $panel = $('#$NAME$-table').parent();
+		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img.attr('class', 'loading');
+		$panel.empty().html($img);
+
+		$.post(href, function(data) {
+			$panel.html(data.table);
+			$('.pagination-links').empty().html(data.links);
+			pagination_links();
+		});
+	});
+}
 
 function delete_success(id)
 {

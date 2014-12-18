@@ -48,14 +48,23 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			->get_rows_pagination($config['per_page'], $page);
 		$data['links'] = $this->pagination->create_links();
 
-		$this->load->view('_templates/admin/header', $data);
-		$this->load->view('$VIEW_NAME_LINK$', $data);
-		$this->load->view('$PANEL_HEADER_PATH$', $data);
-		$this->load->view('$TABLE_VIEW_LINK$', $data);
-		$this->load->view('$PANEL_FOOTER_PATH$', $data);
-		$this->load->view('_templates/universal_modal_view.php');
-		$this->load->view('_templates/alerts_view.php');
-		$this->load->view('_templates/admin/footer', $data);
+		if ($this->input->is_ajax_request()) {
+			$this->load->helper('ajax_helper');
+			$views = array();
+			$views['links'] = $data['links'];
+			$views['table'] = $this->load->view('$TABLE_VIEW_LINK$', $data, true);
+			echo ajax_html($views);
+		}
+		else {
+			$this->load->view('_templates/admin/header', $data);
+			$this->load->view('$VIEW_NAME_LINK$', $data);
+			$this->load->view('$PANEL_HEADER_PATH$', $data);
+			$this->load->view('$TABLE_VIEW_LINK$', $data);
+			$this->load->view('$PANEL_FOOTER_PATH$', $data);
+			$this->load->view('_templates/universal_modal_view.php');
+			$this->load->view('_templates/alerts_view.php');
+			$this->load->view('_templates/admin/footer', $data);
+		}
 	}
 
 	public function view($id)
