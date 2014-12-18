@@ -28,7 +28,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['javaScript'] 	= array('$JAVASCRIPT_TABLE$',
 										'alert.js'
 									   );
-		$data['styleSheets']    = array('alert.css'
+		$data['styleSheets']    = array('alert.css',
+										'lut/lut_main.css'
 									   );
 		$data['header'] = '$HEADER$';
 
@@ -50,7 +51,9 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		$this->load->view('_templates/admin/header', $data);
 		$this->load->view('$VIEW_NAME_LINK$', $data);
+		$this->load->view('$PANEL_HEADER_PATH$', $data);
 		$this->load->view('$TABLE_VIEW_LINK$', $data);
+		$this->load->view('$PANEL_FOOTER_PATH$', $data);
 		$this->load->view('_templates/universal_modal_view.php');
 		$this->load->view('_templates/alerts_view.php');
 		$this->load->view('_templates/admin/footer', $data);

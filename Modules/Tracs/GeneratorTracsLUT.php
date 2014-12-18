@@ -34,6 +34,9 @@ class GeneratorTracsLUT extends Generator
 
 	private $javascriptTableTemplate;
 
+	private $panelHeaderTemplate;
+	private $panelFooterTemplate;
+
 	/* Create a new generator
 	 * @param $name the naming of files and classnames in project
 	 * @param $config configuration data
@@ -101,6 +104,13 @@ class GeneratorTracsLUT extends Generator
 			'table.js.tmpl');
 		$this->javascriptTableTemplate->set_name($name, 'table');
 
+		// panel
+		$this->panelHeaderTemplate = new ViewTemplate($this->config,
+			'tracs_panel_header.php.tmpl');
+		$this->panelHeaderTemplate->set_name($name, 'panel_header');
+		$this->panelFooterTemplate = new ViewTemplate($this->config,
+			'tracs_panel_footer.php.tmpl');
+		$this->panelFooterTemplate->set_name($name, 'panel_footer');
 
 		$this->data = $this->_init();
 	}
@@ -120,14 +130,26 @@ class GeneratorTracsLUT extends Generator
 
 		$tbl = $table->generate();
 		$table_view = $this->compiler->compile($tbl, $this->data);
-		$this->data['TABLE_HTML'] = $table_view;
+		// $this->data['TABLE_HTML'] = $table_view;
 		// put table inside of a panel
-		$panel = new ViewTemplate($this->config, 'tracs_table_panel.php.tmpl');
-		$panel_template = $this->files->read($panel->get_template());
-		$table_panel_view = $this->compiler->compile($panel_template, $this->data);
+		// $panel = new ViewTemplate($this->config, 'tracs_table_panel.php.tmpl');
+		// $panel_template = $this->files->read($panel->get_template());
+		// $table_panel_view = $this->compiler->compile($panel_template, $this->data);
 		$table_view_path = $this->tableTemplate->get_path();
-		if ($this->files->write($table_view_path, $table_panel_view))
+		if ($this->files->write($table_view_path, $table_view))
 			$this->filenames[] = $table_view_path;
+
+		// compile the panel view, which contains the table
+		$panel_footer_template = $this->files->read($this->panelFooterTemplate->get_template());
+		$panel_footer_view = $this->compiler->compile($panel_footer_template, $this->data);
+		$panel_footer_path = $this->panelFooterTemplate->get_path();
+		if ($this->files->write($panel_footer_path, $panel_footer_view))
+			$this->filenames[] = $panel_footer_path;
+		$panel_header_template = $this->files->read($this->panelHeaderTemplate->get_template());
+		$panel_header_view = $this->compiler->compile($panel_header_template, $this->data);
+		$panel_header_path = $this->panelHeaderTemplate->get_path();
+		if ($this->files->write($panel_header_path, $panel_header_view))
+			$this->filenames[] = $panel_header_path;
 
 		// controller
 		$template = $this->files->read($this->controllerTemplate->get_template());
@@ -261,6 +283,9 @@ class GeneratorTracsLUT extends Generator
 		$data['MODEL_INSTANCE_VARIABLES'] = $this->modelTemplate->get_vars();
 		$data['MODEL_SELECT_COLUMNS'] = $this->modelTemplate->get_columns();
 		$data['MODEL_TABLE_ID_COL'] = $this->model->get_id();
+
+		$data['PANEL_HEADER_PATH'] = 'lut/' . $this->panelHeaderTemplate->get_link();
+		$data['PANEL_FOOTER_PATH'] = 'lut/' . $this->panelFooterTemplate->get_link();
 
 		// detail view
 		$data['DETAIL_VIEW_LINK'] = 'lut/' . $this->detailViewTemplate->get_link();
