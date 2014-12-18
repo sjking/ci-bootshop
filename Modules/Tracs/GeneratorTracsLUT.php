@@ -120,8 +120,13 @@ class GeneratorTracsLUT extends Generator
 
 		$tbl = $table->generate();
 		$table_view = $this->compiler->compile($tbl, $this->data);
+		$this->data['TABLE_HTML'] = $table_view;
+		// put table inside of a panel
+		$panel = new ViewTemplate($this->config, 'tracs_table_panel.php.tmpl');
+		$panel_template = $this->files->read($panel->get_template());
+		$table_panel_view = $this->compiler->compile($panel_template, $this->data);
 		$table_view_path = $this->tableTemplate->get_path();
-		if ($this->files->write($table_view_path, $table_view))
+		if ($this->files->write($table_view_path, $table_panel_view))
 			$this->filenames[] = $table_view_path;
 
 		// controller

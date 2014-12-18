@@ -76,6 +76,36 @@ $MODEL_INSTANCE_VARIABLES$
 		return $id;
 	}
 
+	/* Return the count of all records matching select $data, or count of all
+	 * rows for the table if $data is null
+	 * @param $data
+	 */
+	function rowCount($data = null)
+	{
+		$this->db->from('$DB_TABLE_NAME$');
+		if ($data)
+			$this->db->where($data);
+
+		return $this->db->count_all_results();
+	}
+
+	/* gets all rows for a pagination page
+	 * @param $limit
+	 * @param $start
+	 */
+	function get_rows_pagination($limit, $start)
+	{
+		$this->db->limit($limit, $start);
+		$this->db->select('$MODEL_SELECT_COLUMNS$' . ', ' 
+			. '$MODEL_TABLE_ID_COL$ as $MODEL_NAME$_id');
+		$query = $this->db->get('$DB_TABLE_NAME$');
+
+		if ($query->num_rows() > 0)
+            return $query->result_array();
+        else 
+            return false;
+	}
+
 	$DETAIL_MODEL_DROPDOWN_METHODS$
 
 }
