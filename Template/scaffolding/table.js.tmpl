@@ -1,11 +1,35 @@
 $(document).ready(function ()
 {
-	
-
-	
-
 	pagination_links();
 
+	var $filter_button;
+
+	$('#$NAME$-filter').find('button').on('click', function() {
+		$filter_button = $(this);
+	});
+
+	$('#$NAME$-filter').on('submit', function(event) {
+		event.preventDefault();
+
+		var href = $(location).attr('href');
+		var $panel = $('#$NAME$-table').parent();
+		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img.attr('class', 'loading');
+		$panel.empty().html($img);
+		var filter_data = $(this).serialize();
+		filter_data = filter_data + '&' + $filter_button.attr('name') + '=' + $filter_button.val();
+
+		$.post(href, filter_data, function(data) {
+			$panel.html(data.table);
+			$('.pagination-links').empty().html(data.links);
+			$('#filter-panel').find('.panel-heading').find('strong').text(data.num_records);
+
+			if ($filter_button.val() == 'clear') {
+				$('#bus_pad-filter').find('.filter-input').val('');
+			}
+			pagination_links();
+		});
+	});
 });
 
 function pagination_links()

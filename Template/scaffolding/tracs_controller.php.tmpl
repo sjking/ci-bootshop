@@ -41,6 +41,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		$data['table_col_params'] = $TABLE_COL_PARAMS$;
 
+		$is_filter_request = false;
+
 		if ($this->input->post()) {
 			$post_data = $this->input->post(null, true);
 
@@ -51,7 +53,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			else if ($this->input->post('filter-submit') == 'clear') {
 				$this->session->unset_userdata('filter_data');
 			}
-
+			$is_filter_request = true;
 		}
 		$filter_data = $this->session->userdata('filter_data') ? 
 			$this->session->userdata('filter_data') : null;
@@ -77,6 +79,9 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			$views = array();
 			$views['links'] = $data['links'];
 			$views['table'] = $this->load->view('$TABLE_VIEW_LINK$', $data, true);
+			if ($is_filter_request) {
+				$views['num_records'] = $data['number_of_records'] ? $data['number_of_records'] : 0;
+			}
 			echo ajax_html($views);
 		}
 		else {
