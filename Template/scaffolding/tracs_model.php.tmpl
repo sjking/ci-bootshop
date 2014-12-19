@@ -83,8 +83,12 @@ $MODEL_INSTANCE_VARIABLES$
 	function rowCount($data = null)
 	{
 		$this->db->from('$DB_TABLE_NAME$');
-		if ($data)
-			$this->db->where($data);
+		if ($data) {
+			foreach($data as $key => $val) {
+				if ($val)
+					$this->db->like($key, $val);
+			}
+		}
 
 		return $this->db->count_all_results();
 	}
@@ -92,13 +96,23 @@ $MODEL_INSTANCE_VARIABLES$
 	/* gets all rows for a pagination page
 	 * @param $limit
 	 * @param $start
+	 * @param $data option filter data
 	 */
-	function get_rows_pagination($limit, $start)
+	function get_rows_pagination($limit, $start, $data = null)
 	{
 		$this->db->limit($limit, $start);
 		$this->db->select('$MODEL_SELECT_COLUMNS$' . ', ' 
 			. '$MODEL_TABLE_ID_COL$ as $MODEL_NAME$_id');
-		$query = $this->db->get('$DB_TABLE_NAME$');
+		$this->db->from('$DB_TABLE_NAME$');
+
+		if ($data) {
+			foreach($data as $key => $val) {
+				if ($val)
+					$this->db->like($key, $val);
+			}
+		}
+
+		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
             return $query->result_array();

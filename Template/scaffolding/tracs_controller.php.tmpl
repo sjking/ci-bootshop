@@ -39,14 +39,38 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['delete_link'] = base_url('lut/' . $data['controller'] . '/delete');
 		$data['display_name'] = '$CONTROLLER_NAME$';
 
+		$data['table_col_params'] = $TABLE_COL_PARAMS$;
+
+		if ($this->input->post()) {
+			$post_data = $this->input->post(null, true);
+
+			if ($this->input->post('filter-submit') == 'submit') {
+				unset($post_data['filter-submit']);
+				$this->session->set_userdata('filter_data', $post_data);
+			}
+			else if ($this->input->post('filter-submit') == 'clear') {
+				$this->session->unset_userdata('filter_data');
+			}
+
+		}
+		$filter_data = $this->session->userdata('filter_data') ? 
+			$this->session->userdata('filter_data') : null;
+
+		$filter_fields = array_keys($data['table_col_params']);
+		$data['filter_fields'] = array();
+		foreach($filter_fields as $field) {
+			$data['filter_fields'][$field] = $filter_data ? $filter_data[$field] : null;
+		}
+
 		// Pagination
 		$config['base_url'] = base_url() . 'lut/' . $data['controller'];
-		$config['total_rows'] = $this->$MODEL_NAME$->rowCount();
+		$config['total_rows'] = $this->$MODEL_NAME$->rowCount($filter_data);
 		$config['per_page'] = 20;
 		$this->pagination->initialize($config);
 		$data['table_rows'] = $this->$MODEL_NAME$
-			->get_rows_pagination($config['per_page'], $page);
+			->get_rows_pagination($config['per_page'], $page, $filter_data);
 		$data['links'] = $this->pagination->create_links();
+		$data['number_of_records'] = $config['total_rows'];
 
 		if ($this->input->is_ajax_request()) {
 			$this->load->helper('ajax_helper');
@@ -58,6 +82,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		else {
 			$this->load->view('_templates/admin/header', $data);
 			$this->load->view('$VIEW_NAME_LINK$', $data);
+			$this->load->view('$FILTER_PANEL_LINK$', $data);
 			$this->load->view('$PANEL_HEADER_PATH$', $data);
 			$this->load->view('$TABLE_VIEW_LINK$', $data);
 			$this->load->view('$PANEL_FOOTER_PATH$', $data);
