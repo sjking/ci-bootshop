@@ -27,6 +27,8 @@ class Table extends HTMLElement
 			$hdr = '<th>' . $col_name . '</th>';
 			$tbl = $this->nest_str($hdr, $tbl);
 		}
+		$hdr = '<th></th>' . "\n" . '<th></th>';
+		$tbl = $this->nest_str($hdr, $tbl);
 		$tbl .= "\n" . '</thead>';
 
 		return $tbl;
