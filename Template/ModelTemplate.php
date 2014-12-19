@@ -1,6 +1,7 @@
 <?php namespace Generator;
 
 include_once("Template.php");
+include_once(dirname(__DIR__) . "/Model/TableModel.php");
 
 class ModelTemplate extends Template
 {
@@ -73,12 +74,15 @@ class ModelTemplate extends Template
 	/* sets the columns that are selected from get queries
 	 * @param $cols array of column names
 	 */
-	public function set_columns($cols)
+	public function set_columns(array $cols)
 	{
 		$columns = '';
 		foreach($cols as $col)
 		{
-			$columns .= $col . ', ';
+			if ($col instanceof TableColumn)
+				$columns .= $col->get_name() . ', ';
+			else
+				$columns .= $col . ', ';
 		}
 		$columns = substr($columns, 0, strlen($columns) - 2);
 

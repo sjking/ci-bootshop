@@ -7,6 +7,7 @@ include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/TracsForm.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/JavascriptTemplate.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
+include_once(dirname(dirname(__DIR__)) . "/Model/TableModel.php");
 
 class GeneratorTracsLUT extends Generator
 {
@@ -36,6 +37,7 @@ class GeneratorTracsLUT extends Generator
 
 	private $panelHeaderTemplate;
 	private $panelFooterTemplate;
+	private $filterPanelTemplate;
 
 	/* Create a new generator
 	 * @param $name the naming of files and classnames in project
@@ -43,7 +45,7 @@ class GeneratorTracsLUT extends Generator
 	 * @param $table_model model with selected fields for table view
 	 * @param $detail_model selected fields for detailed form edit view
 	 */
-	function __construct($name, GeneratorConfig $config, Model $table_model,
+	function __construct($name, GeneratorConfig $config, TableModel $table_model,
 		FormModel $detail_model)
 	{
 		parent::__construct($name, $config, $table_model);
@@ -67,6 +69,7 @@ class GeneratorTracsLUT extends Generator
 		$this->modelTemplate->set_name($this->model->get_name());
 		$this->modelTemplate->set_vars(null);
 		$this->modelTemplate->set_columns($this->model->get_columns());
+		// print_r($this->model->get_columns()); exit();
 
 		// detail form view template
 		$this->detailModelTemplate = new ModelTemplate($this->config);
@@ -112,6 +115,11 @@ class GeneratorTracsLUT extends Generator
 			'tracs_panel_footer.php.tmpl');
 		$this->panelFooterTemplate->set_name($name, 'panel_footer');
 
+		// filter panel
+		$this->filterPanelTemplate = new ViewTemplate($this->config,
+			'tracs_filter_panel.php.tmpl');
+		$this->filterPanelTemplate->set_name($name, 'filter_panel');
+
 		$this->data = $this->_init();
 	}
 
@@ -150,6 +158,13 @@ class GeneratorTracsLUT extends Generator
 		$panel_header_path = $this->panelHeaderTemplate->get_path();
 		if ($this->files->write($panel_header_path, $panel_header_view))
 			$this->filenames[] = $panel_header_path;
+
+		// filter panel
+		$filter_panel_template = $this->files->read($this->filterPanelTemplate->get_template());
+		$filter_panel_view = $this->compiler->compile($filter_panel_template, $this->data);
+		$filter_panel_path = $this->filterPanelTemplate->get_path();
+		if ($this->files->write($filter_panel_path, $filter_panel_view))
+			$this->filenames[] = $filter_panel_path;
 
 		// controller
 		$template = $this->files->read($this->controllerTemplate->get_template());
@@ -268,6 +283,21 @@ class GeneratorTracsLUT extends Generator
 		return $str;
 	}
 
+	private function get_table_col_params_array(array $cols)
+	{
+		$str = 'array(';
+
+		foreach($cols as $col) {
+			foreach($col->get_params() as $key => $val) {
+				$str .= "'" . $col->get_name() . "'" . ' => ';
+				$str .= "'" . $key . '=' .'"' . $val . '"' . "'" . ',';
+			}
+		}
+		$str = rtrim($str, ',') . ')';
+
+		return $str;
+	}
+
 	/* initialize the replacements data */
 	private function _init()
 	{
@@ -287,6 +317,8 @@ class GeneratorTracsLUT extends Generator
 		$data['PANEL_HEADER_PATH'] = 'lut/' . $this->panelHeaderTemplate->get_link();
 		$data['PANEL_FOOTER_PATH'] = 'lut/' . $this->panelFooterTemplate->get_link();
 
+		$data['TABLE_COL_PARAMS'] = $this->get_table_col_params_array($this->model->get_columns());
+
 		// detail view
 		$data['DETAIL_VIEW_LINK'] = 'lut/' . $this->detailViewTemplate->get_link();
 		$data['DETAIL_MODEL_SELECT_COLUMNS'] = $this->detailModelTemplate->get_columns();
@@ -299,6 +331,8 @@ class GeneratorTracsLUT extends Generator
 		// create view
 		$data['CREATE_VIEW_LINK'] = 'lut/' . $this->createViewTemplate->get_link();
 		$data['CREATE_VIEW_HEADER_LINK'] = 'lut/' . $this->createViewHeader->get_link();
+
+		$data['FILTER_PANEL_LINK'] = 'lut/' . $this->filterPanelTemplate->get_link();
 
 		// javascript
 		$data['JAVASCRIPT_TABLE'] = 'lut/' . $this->javascriptTableTemplate->get_link();

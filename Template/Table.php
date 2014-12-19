@@ -20,7 +20,11 @@ class Table extends HTMLElement
 	{
 		$tbl = '<thead>';
 		foreach($this->columns as $col) {
-			$hdr = '<th>' . $col . '</th>';
+			if ($col instanceof TableColumn)
+				$col_name = $col->get_name();
+			else
+				$col_name = $col;
+			$hdr = '<th>' . $col_name . '</th>';
 			$tbl = $this->nest_str($hdr, $tbl);
 		}
 		$tbl .= "\n" . '</thead>';
