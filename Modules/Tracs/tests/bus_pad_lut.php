@@ -28,7 +28,7 @@ $conf = new GeneratorConfig('config.ini', MODULE_DIR);
 // $cols = array('NameAbb', 'Name');
 $cols = array();
 $cols[] = new TableColumn('NameAbb', array('class' => 'col-xs-2'));
-$cols[] = new TableColumn('Name', array('class' => 'col-xs-6'));
+$cols[] = new TableColumn('Name', array('class' => 'col-xs-7'));
 $params = array('id' => $name . '-table', 
 				'class' => 'list table table-striped table-hover');
 $table_model = new TableModel($name, $table, $cols, 'pad_id', $params);
