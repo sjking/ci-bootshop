@@ -79,7 +79,12 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			$this->load->helper('ajax_helper');
 			$views = array();
 			$views['links'] = $data['links'];
-			$views['table'] = $this->load->view('$TABLE_VIEW_LINK$', $data, true);
+			if ($data['number_of_records'] > 0) {
+				$views['table'] = $this->load->view('$TABLE_VIEW_LINK$', $data, true);
+			}
+			else {
+				$views['table'] = 'No Records Found.';
+			}
 			if ($is_filter_request) {
 				$views['num_records'] = $data['number_of_records'] ? $data['number_of_records'] : 0;
 			}

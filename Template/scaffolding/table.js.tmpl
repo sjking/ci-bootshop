@@ -12,7 +12,7 @@ $(document).ready(function ()
 		event.preventDefault();
 
 		var href = $(location).attr('href');
-		var $panel = $('#$NAME$-table').parent();
+		var $panel = $('#$NAME$-results-panel').find('.panel-body');
 		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
