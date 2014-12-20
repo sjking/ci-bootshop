@@ -298,6 +298,19 @@ class GeneratorTracsLUT extends Generator
 		return $str;
 	}
 
+	private function get_table_column_display_name_map_array(array $cols)
+	{
+		$str = 'array(';
+
+		foreach($cols as $col) {
+			$str .= "'" . $col->get_name() . "'" . ' => ';
+			$str .= "'" . $col->get_display_name() . "'" . ',';
+		}
+		$str = rtrim($str, ',') . ')';
+
+		return $str;
+	}
+
 	/* initialize the replacements data */
 	private function _init()
 	{
@@ -333,6 +346,7 @@ class GeneratorTracsLUT extends Generator
 		$data['CREATE_VIEW_HEADER_LINK'] = 'lut/' . $this->createViewHeader->get_link();
 
 		$data['FILTER_PANEL_LINK'] = 'lut/' . $this->filterPanelTemplate->get_link();
+		$data['TABLE_COL_DISPLAY_NAME_MAP'] = $this->get_table_column_display_name_map_array($this->model->get_columns());
 
 		// javascript
 		$data['JAVASCRIPT_TABLE'] = 'lut/' . $this->javascriptTableTemplate->get_link();

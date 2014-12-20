@@ -21,7 +21,7 @@ class Table extends HTMLElement
 		$tbl = '<thead>';
 		foreach($this->columns as $col) {
 			if ($col instanceof TableColumn)
-				$col_name = $col->get_name();
+				$col_name = $col->get_display_name();
 			else
 				$col_name = $col;
 			$hdr = '<th>' . $col_name . '</th>';
