@@ -1,8 +1,10 @@
 <?php namespace Generator;
+/* Adds buttons to table for edit/delete
+ * @author Steve King
+ */
 
 include_once('Table.php');
 
-/* Generate an html table */
 class TracsTable extends Table
 {
 	

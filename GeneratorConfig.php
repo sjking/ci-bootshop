@@ -1,8 +1,11 @@
 <?php namespace Generator;
+/* define the required fields for configuration of program 
+ * @author Steve King
+ */
 
 use \Exception;
 
-/* define the required fields for configuration of program */
+
 class GeneratorConfig
 {
 	protected $settings; // associative array of configurations

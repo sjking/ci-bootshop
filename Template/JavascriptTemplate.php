@@ -1,4 +1,7 @@
 <?php namespace Generator;
+/* Generic template for a javascript file
+ * @author Steve King
+ */
 
 include_once("Template.php");
 

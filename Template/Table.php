@@ -1,8 +1,10 @@
 <?php namespace Generator;
+/* Generate an html table 
+ * @author Steve King
+ */
 
 include_once('HTMLElement.php');
 
-/* Generate an html table */
 class Table extends HTMLElement
 {
 	protected $name;

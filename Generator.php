@@ -1,4 +1,9 @@
 <?php namespace Generator;
+/*
+ * Extend this class to implement custom template generators
+ * @author Steve King
+ */
+
 
 use \Exception;
 

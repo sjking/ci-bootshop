@@ -1,4 +1,7 @@
 <?php namespace Generator;
+/* representing the data model for an html form
+ * @author Steve King
+ */
 
 include_once(dirname(__DIR__) . '/Template/FormElement.php');
 

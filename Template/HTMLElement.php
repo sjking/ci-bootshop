@@ -1,6 +1,9 @@
 <?php namespace Generator;
+/* Generic html element: <content>...</content> 
+ * Extend this class to make html elements
+ * @author Steve King
+ */
 
-/* Generic html element: <content>...</content> */
 abstract class HTMLElement
 {
 	const NEST_SEP = '  ';

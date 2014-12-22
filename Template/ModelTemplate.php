@@ -1,4 +1,7 @@
 <?php namespace Generator;
+/* Generic template for a model file
+ * @author Steve King
+ */
 
 include_once("Template.php");
 include_once(dirname(__DIR__) . "/Model/TableModel.php");

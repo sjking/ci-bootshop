@@ -1,10 +1,11 @@
 <?php namespace Generator;
+/* Representation of a form element in an html view, focussing on the php code
+ * that is used to get dynamic data from the controller
+ * @author Steve King
+ */
 
 include_once(dirname(__DIR__) . '/Model/FormModel.php');
 
-/* Representation of a form element in an html view, focussing on the php code
- * that is used to get dynamic data from the controller
- */
 abstract class FormElement
 {
 	protected $model; // FormFieldModel instance

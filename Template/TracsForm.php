@@ -1,8 +1,10 @@
 <?php namespace Generator;
+/* Adds bootstrap styling to a form
+ * @author Steve King
+ */
 
 include_once('Form.php');
 
-/* Generate an html table */
 class TracsForm extends Form
 {	
 	/* override the form fields output */

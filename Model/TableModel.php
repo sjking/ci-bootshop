@@ -1,4 +1,7 @@
 <?php namespace Generator;
+/* data model for an html table
+ * @author Steve King
+ */
 
 include_once('Model.php');
 

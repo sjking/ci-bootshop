@@ -1,11 +1,12 @@
 <?php namespace Generator;
+/* Generate an HTML form
+ * @author Steve King
+ */
 
 include_once('HTMLElement.php');
 include_once('FormElement.php');
 include_once(dirname(__DIR__) . '/Model/FormModel.php');
 
-
-/* Generate an html table */
 class Form extends HTMLElement
 {	
 	protected $elements; // array of FormElement template objects
