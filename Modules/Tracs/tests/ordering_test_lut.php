@@ -26,12 +26,12 @@ $table_model->set_order_column('order');
 $fields = array();
 
 $field = new FormFieldModel('name', 'input',
-	array('class' => 'form-control', 'id' => 'NameAbb-input'));
+	array('class' => 'form-control', 'id' => 'name-input'));
 $field->set_label_name('Name');
 $fields[] = $field;
 
 $field = new FormFieldModel('order', 'input',
-	array('class' => 'form-control', 'id' => 'Name-input'));
+	array('class' => 'form-control', 'id' => 'order-input'));
 $field->set_label_name('Order');
 $fields[] = $field;
 
