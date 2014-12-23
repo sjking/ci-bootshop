@@ -1,0 +1,54 @@
+<?php namespace Generator;
+
+define('MODULE_DIR', dirname(__DIR__));
+
+include_once(MODULE_DIR . '/GeneratorTracsLUT_ordering.php');
+
+$name = 'vegetable';
+$table = 'vegetable';
+const BASE_URL = 'dev.busdevw/tracs/admin';
+
+$conf = new GeneratorConfig('config.ini', MODULE_DIR);
+
+/* Main List View data */
+// $cols = array('NameAbb', 'Name');
+$cols = array();
+$col = new TableColumn('name', array('class' => 'col-xs-9'));
+$col->set_display_name('Name');
+$cols[] = $col;
+
+$params = array('id' => $name . '-table', 
+				'class' => 'list table table-striped table-hover');
+$table_model = new TableModel($name, $table, $cols, 'id', $params);
+$table_model->set_order_column('order');
+
+/* Detail View Data */
+$fields = array();
+
+$field = new FormFieldModel('name', 'input',
+	array('class' => 'form-control', 'id' => 'NameAbb-input'));
+$field->set_label_name('Name');
+$fields[] = $field;
+
+$field = new FormFieldModel('order', 'input',
+	array('class' => 'form-control', 'id' => 'Name-input'));
+$field->set_label_name('Order');
+$fields[] = $field;
+
+$id = 'id';
+$label_params = array('class' => 'control-label col-md-2');
+$button_params = array('class' => 'btn btn-primary');
+$params = array('id' => 'vegetable-form', 'class' => 'form-horizontal', 'method' => 'post');
+
+$detail_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
+$detail_model->set_col_header('name');
+
+$generator = new GeneratorTracsLUT_ordering($name, $conf, $table_model, $detail_model);
+
+$data = array('CONTROLLER_NAME' => $name,
+			  'PAGE_TITLE' => 'Vegetables',
+			  'HEADER' => 'Vegetables'
+			  );
+
+$generator->init($data);
+$generator->generate();

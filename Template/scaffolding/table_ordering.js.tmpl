@@ -1,0 +1,119 @@
+$(document).ready(function ()
+{
+	pagination_links();
+
+	var $filter_button;
+
+	$('#$NAME$-filter').find('button').on('click', function() {
+		$filter_button = $(this);
+	});
+
+	$('#$NAME$-filter').on('submit', function(event) {
+		event.preventDefault();
+
+		var href = $(location).attr('href');
+		var $panel = $('#$NAME$-results-panel').find('.panel-body');
+		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img.attr('class', 'loading');
+		$panel.empty().html($img);
+		var filter_data = $(this).serialize();
+		filter_data = filter_data + '&' + $filter_button.attr('name') + '=' + $filter_button.val();
+
+		$.post(href, filter_data, function(data) {
+			$panel.html(data.table);
+			$('.pagination-links').empty().html(data.links);
+			$('#filter-panel').find('.panel-heading').find('strong').text(data.num_records);
+
+			if ($filter_button.val() == 'clear') {
+				$('#bus_pad-filter').find('.filter-input').val('');
+			}
+			pagination_links();
+		});
+	});
+
+	$('.ordering-btn').on('click', function(event) {
+		event.preventDefault();
+		var $current_row = $(this).parent().parent().parent();
+		var href = $(this).attr('href');
+
+		$.post(href, function(data) {
+			if (href.match('/up/')) {
+				$current_row.each( function() {
+					$(this).insertBefore($(this).prev());
+				});
+			}
+			else {
+				$current_row.each( function() {
+					$(this).insertAfter($(this).next());
+				});
+			}
+		});
+	});
+
+});
+
+function pagination_links()
+{
+	$('.pagination').find('li').not('.active').find('a').on('click', function(event) {
+		event.preventDefault();
+		var $page = $(this);
+		var href = $page.attr('href');
+
+		var $panel = $('#$NAME$-table').parent();
+		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img.attr('class', 'loading');
+		$panel.empty().html($img);
+
+		$.post(href, function(data) {
+			$panel.html(data.table);
+			$('.pagination-links').empty().html(data.links);
+			pagination_links();
+		});
+	});
+
+	$('a.edit-$NAME$').on('click', function(event) {
+		// TO-DO:
+		// Action to take when edit button clicked
+	});
+
+	$('a.delete-$NAME$').on('click', function(event) {
+		event.preventDefault();
+		var href = $(this).attr('href');
+		var id = href.substr(href.lastIndexOf('/') + 1);
+		$('#universalModal').modal('show');
+		$('#universalModal .modal-title').html('Delete Confirm');
+		$('#universalModal form').attr('id','delete-$NAME$-form');
+		$('#universalModal .modal-body')
+			.html('Are you sure you want to delete record ' + id + '?');
+		$('#universalModal .modal-footer button#submitButton')
+			.attr('class', 'btn btn-primary');
+		$('#universalModal .modal-footer button#submitButton')
+			.html('<span class="glyphicon glyphicon-trash"></span> Delete');
+
+		$('#delete-$NAME$-form').on('submit', function(event) {
+			event.preventDefault();
+			$.post(href, function(resp) {
+				if (resp.success) {
+					delete_success(resp.msg);
+				}
+				else {
+					delete_failure(resp.msg);
+				}
+			});
+		});
+	});
+}
+
+function delete_success(id)
+{
+	$('#universalModal').modal('hide');
+	$('#' + id).remove();
+}
+
+function delete_failure(msg)
+{
+	$('#error-alert').show();
+	$('#error-alert').find('.alert-msg').text('Error: ' + msg);
+	$('#universalModal').modal('hide');
+	$('#error-alert').show();
+}

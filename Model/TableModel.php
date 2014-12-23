@@ -7,6 +7,8 @@ include_once('Model.php');
 
 class TableModel extends Model
 {
+	protected $order_column = null;
+
 	/* create new table model
 	 * @param $name
 	 * @param $table 
@@ -29,6 +31,16 @@ class TableModel extends Model
 		$this->table = $table;
 		$this->id = $id;
 		$this->params = $params;
+	}
+
+	public function set_order_column($col)
+	{
+		$this->order_column = $col;
+	}
+
+	public function get_order_column()
+	{
+		return $this->order_column;
 	}
 
 }
