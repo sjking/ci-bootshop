@@ -8,7 +8,7 @@
 use \Exception;
 
 include_once(dirname(dirname(__DIR__)) . "/Generator.php");
-include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable.php");
+include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable_ordering.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/TracsForm.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/JavascriptTemplate.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
@@ -135,7 +135,7 @@ class GeneratorTracsLUT_ordering extends Generator
 			throw new Exception('Generator Error: Data must be initialized.');
 		
 		// table view
-		$table = new TracsTable($this->model->get_name(), 
+		$table = new TracsTable_ordering($this->model->get_name(), 
 								$this->model->get_columns(),
 								$this->model->get_params());
 		$template = $this->files->read($this->tableTemplate->get_template());

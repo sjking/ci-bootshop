@@ -18,7 +18,7 @@ class Table extends HTMLElement
 		$this->columns = $columns;
 	}
 
-	private function header()
+	protected function header()
 	{
 		$tbl = '<thead>';
 		foreach($this->columns as $col) {

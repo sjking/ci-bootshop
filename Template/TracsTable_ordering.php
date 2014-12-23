@@ -5,7 +5,7 @@
 
 include_once('Table.php');
 
-class TracsTable extends Table
+class TracsTable_ordering extends Table
 {
 	
 	function __construct($name, $columns, $params = null)
@@ -24,7 +24,7 @@ class TracsTable extends Table
 			$hdr = '<th>' . $col_name . '</th>';
 			$tbl = $this->nest_str($hdr, $tbl);
 		}
-		$hdr = '<th></th>' . "\n" . '<th></th>';
+		$hdr = '<th></th>' . "\n" . '<th></th>' . "\n" . '<th></th>';
 		$tbl = $this->nest_str($hdr, $tbl);
 		$tbl .= "\n" . '</thead>';
 
