@@ -16,7 +16,7 @@
 
 define('MODULE_DIR', dirname(__DIR__));
 
-include_once(MODULE_DIR . '/GeneratorTracsLUT.php');
+include_once(MODULE_DIR . '/GeneratorTracsLUT_sorting.php');
 
 $name = 'bus_pad';
 $table = 'bus_pad_lut';
@@ -133,7 +133,7 @@ $params = array('id' => 'bus_pad_lut-form', 'class' => 'form-horizontal', 'metho
 $detail_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $detail_model->set_col_header('Name');
 
-$generator = new GeneratorTracsLUT($name, $conf, $table_model, $detail_model);
+$generator = new GeneratorTracsLUT_sorting($name, $conf, $table_model, $detail_model);
 
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Business Program Area Department',

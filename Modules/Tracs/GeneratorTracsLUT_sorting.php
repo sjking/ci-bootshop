@@ -13,7 +13,7 @@ include_once(dirname(dirname(__DIR__)) . "/Template/JavascriptTemplate.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/TableModel.php");
 
-class GeneratorTracsLUT extends Generator
+class GeneratorTracsLUT_sorting extends Generator
 {
 	protected $controllerTemplate;
 	protected $viewTemplate;
@@ -108,7 +108,7 @@ class GeneratorTracsLUT extends Generator
 
 		// javascript
 		$this->javascriptTableTemplate = new JavascriptTemplate($this->config, 
-			'table.js.tmpl');
+			'table_sorting.js.tmpl');
 		$this->javascriptTableTemplate->set_name($name, 'table');
 
 		// panel

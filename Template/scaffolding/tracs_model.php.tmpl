@@ -96,20 +96,24 @@ $MODEL_INSTANCE_VARIABLES$
 	/* gets all rows for a pagination page
 	 * @param $limit
 	 * @param $start
-	 * @param $data option filter data
+	 * @param $filter_data option filter data
+	 * @param $sort_data optional sort data
 	 */
-	function get_rows_pagination($limit, $start, $data = null)
+	function get_rows_pagination($limit, $start, $filter_data = null, $sort_data = null)
 	{
 		$this->db->limit($limit, $start);
 		$this->db->select('$MODEL_SELECT_COLUMNS$' . ', ' 
 			. '$MODEL_TABLE_ID_COL$ as $MODEL_NAME$_id');
 		$this->db->from('$DB_TABLE_NAME$');
 
-		if ($data) {
-			foreach($data as $key => $val) {
+		if ($filter_data) {
+			foreach($filter_data as $key => $val) {
 				if ($val)
 					$this->db->like($key, $val);
 			}
+		}
+		if ($sort_data) {
+			$this->db->order_by($sort_data['col'], $sort_data['order']);
 		}
 
 		$query = $this->db->get();
