@@ -80,6 +80,32 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['links'] = $this->pagination->create_links();
 		$data['number_of_records'] = $config['total_rows'];
 
+		$data['sort'] = array();
+		foreach($data['table_col_display_name_map'] as $key => $val) {
+			if ($key != '$MODEL_NAME$_id') {
+				if ($sort_data) {
+					if ($sort_data['col'] == $key) {
+						switch ($sort_data['order']) {
+							case 'ASC': 
+								$data['sort'][$key] = 'sorting-ascending';
+								break;
+							case 'DESC':
+								$data['sort'][$key] = 'sorting-descending';
+								break;
+							default:
+								$data['sort'][$key] = 'sorting-disabled';
+						}
+					}
+					else {
+						$data['sort'][$key] = 'sorting-disabled';
+					}
+				}
+				else {
+					$data['sort'][$key] = 'sorting-disabled';
+				}
+			}
+		}
+
 		if ($this->input->is_ajax_request()) {
 			$this->load->helper('ajax_helper');
 			$views = array();
@@ -115,7 +141,13 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		if ($this->session->userdata('sort_data')) {
 			$sort_data = $this->session->userdata('sort_data');
-			$sort_data['order'] = $sort_data['order'] == 'ASC' ? 'DESC' : 'ASC';
+			if ($sort_data['col'] == $col) {
+				$sort_data['order'] = $sort_data['order'] == 'ASC' ? 'DESC' : 'ASC';
+			}
+			else {
+				$sort_data['order'] = 'ASC';
+				$sort_data['col'] = $col;
+			}
 			$this->session->unset_userdata('sort_data');
 		}
 		else {

@@ -22,7 +22,8 @@ class TracsTable_sorting extends Table
 			else
 				$col_name = $col;
 			$anchor = '<a href="<?php echo $sort_link; ?>/' . $col->get_name() . '">' . $col_name . '&nbsp;';
-			$span = '<span class="glyphicon glyphicon-sort"></span>';
+			$sort_class = '$sort[' . "'" . $col->get_name() . "'" . ']';
+			$span = '<span class="<?php echo ' . $sort_class . '; ?>"></span>';
 			$hdr = '<th>';
 			$anchor = $this->nest_str($span, $anchor) . "\n" . "</a>";
 			$hdr = $this->nest_str($anchor, $hdr) . "\n" . '</th>';
