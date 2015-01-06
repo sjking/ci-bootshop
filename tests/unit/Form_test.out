@@ -1,4 +1,4 @@
-<form id="foobar-form" class="form-horizontal">
+<form id="foobar-form" class="form-horizontal" method="post">
   <label for="id" class="control-label">id</label>
   <input name="id" value="<?php echo $foobar_row['id']; ?>" class="form-control" id="id-input">
   <label for="name" class="control-label">name</label>
@@ -9,5 +9,5 @@
       <option value="<?php echo $val; ?>" <?php echo $val == $foobar_row['status']_selected ? "selected" : null ?>><?php echo $name; ?></option>
     <?php } ?>
   </select>
-  <button type="submit">Submit</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>

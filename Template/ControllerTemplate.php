@@ -1,4 +1,7 @@
 <?php namespace Generator;
+/* hold information about a controller, such as filename, and path
+ * @author Steve King
+ */
 
 include_once("Template.php");
 

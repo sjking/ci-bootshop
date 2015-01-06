@@ -1,0 +1,229 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class $CONTROLLER_NAME$ extends CI_Controller 
+{
+	function __construct()
+	{
+		parent::__construct();
+
+    	//Setup the CAS Authentication and Access Control.
+        $this->load->model('User_access');
+        $this->load->library('error');
+    	
+    	if( !$this->User_access->allowAccessType( array('Admin') ) ){
+    		$msg = 'You ("' . $_SESSION['tracs_userComputingID'] . 
+				'") do not have the permission to access this page.';
+			$link = base_url('admin');
+			$this->error->access_denied($msg, $link);
+		}
+	}
+
+	public function index($page = null)
+	{
+		$this->load->model('lut/$MODEL_NAME$');
+		$this->load->library('pagination');
+
+		$data['siteTitle'] 		= "TRACS";
+		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
+		$data['javaScript'] 	= array('$JAVASCRIPT_TABLE$',
+										'alert.js'
+									   );
+		$data['styleSheets']    = array('alert.css',
+										'lut/lut_main.css'
+									   );
+		$data['header'] = '$HEADER$';
+
+		$data['controller'] = strtolower('$CONTROLLER_NAME$');
+		$data['create_link'] = base_url('lut/' . $data['controller'] . '/create');
+		$data['view_link'] = base_url('lut/' . $data['controller'] . '/view');
+		$data['delete_link'] = base_url('lut/' . $data['controller'] . '/delete');
+		$data['display_name'] = '$CONTROLLER_NAME$';
+
+		$data['order_up_link'] = base_url('lut/' . $data['controller'] . '/re_order/up');
+		$data['order_down_link'] = base_url('lut/' . $data['controller'] . '/re_order/down');
+
+		$data['table_col_params'] = $TABLE_COL_PARAMS$;
+		$data['table_col_display_name_map'] = $TABLE_COL_DISPLAY_NAME_MAP$;
+
+		$is_filter_request = false;
+
+		if ($this->input->post()) {
+			$post_data = $this->input->post(null, true);
+
+			if ($this->input->post('filter-submit') == 'submit') {
+				unset($post_data['filter-submit']);
+				$this->session->set_userdata('filter_data', $post_data);
+			}
+			else if ($this->input->post('filter-submit') == 'clear') {
+				$this->session->unset_userdata('filter_data');
+			}
+			$is_filter_request = true;
+		}
+		$filter_data = $this->session->userdata('filter_data') ? 
+			$this->session->userdata('filter_data') : null;
+
+		$filter_fields = array_keys($data['table_col_params']);
+		$data['filter_fields'] = array();
+		foreach($filter_fields as $field) {
+			$data['filter_fields'][$field] = $filter_data ? $filter_data[$field] : null;
+		}
+
+		// Pagination
+		$config['base_url'] = base_url() . 'lut/' . $data['controller'];
+		$config['total_rows'] = $this->$MODEL_NAME$->rowCount($filter_data);
+		$config['per_page'] = 10;
+		$this->pagination->initialize($config);
+		$data['table_rows'] = $this->$MODEL_NAME$
+			->get_rows_pagination($config['per_page'], $page, $filter_data);
+		$data['links'] = $this->pagination->create_links();
+		$data['number_of_records'] = $config['total_rows'];
+
+		if ($this->input->is_ajax_request()) {
+			$this->load->helper('ajax_helper');
+			$views = array();
+			$views['links'] = $data['links'];
+			if ($data['number_of_records'] > 0) {
+				$views['table'] = $this->load->view('$TABLE_VIEW_LINK$', $data, true);
+			}
+			else {
+				$views['table'] = 'No Records Found.';
+			}
+			if ($is_filter_request) {
+				$views['num_records'] = $data['number_of_records'] ? $data['number_of_records'] : 0;
+			}
+			echo ajax_html($views);
+		}
+		else {
+			$this->load->view('_templates/admin/header', $data);
+			$this->load->view('$VIEW_NAME_LINK$', $data);
+			$this->load->view('$FILTER_PANEL_LINK$', $data);
+			$this->load->view('$PANEL_HEADER_PATH$', $data);
+			$this->load->view('$TABLE_VIEW_LINK$', $data);
+			$this->load->view('$PANEL_FOOTER_PATH$', $data);
+			$this->load->view('_templates/universal_modal_view.php');
+			$this->load->view('_templates/alerts_view.php');
+			$this->load->view('_templates/admin/footer', $data);
+		}
+	}
+
+	public function view($id)
+	{
+		$this->load->model('lut/$MODEL_NAME$');
+
+		// check if its a post (update)
+		if ($update = $this->input->post()) {
+			$this->$MODEL_NAME$->update($id, $update);
+		}
+
+		$data['siteTitle'] 		= "TRACS";
+		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
+		$data['javaScript'] 	= array(
+									   );
+		$data['styleSheets']    = array(
+									   );
+		
+		$data['$DETAIL_ROW$'] = $this->$MODEL_NAME$->get($id);
+		$data['header'] = $data['$DETAIL_ROW$']['$DETAIL_HEADER$'];
+		$data['detail_id'] = $id;
+		$data['controller'] = strtolower('$CONTROLLER_NAME$');
+		$DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES$
+
+		$this->load->view('_templates/admin/header', $data);
+		$this->load->view('$DETAIL_VIEW_HEADER_LINK$', $data);
+		$this->load->view('$DETAIL_VIEW_LINK$', $data);
+		$this->load->view('_templates/admin/footer', $data);
+	}
+
+	public function create()
+	{
+		$this->load->model('lut/$MODEL_NAME$');
+
+		// check if its a post (create)
+		if ($update = $this->input->post()) {
+			if ($id = $this->$MODEL_NAME$->create($update)) {
+				// redirect to detail view for newly created entry
+				$controller = strtolower('$CONTROLLER_NAME$');
+				$view = base_url('lut/' . $controller . '/view/' . $id);
+				redirect($view, 'refresh');
+			}
+		}
+
+		$data['siteTitle'] 		= "TRACS";
+		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
+		$data['javaScript'] 	= array(
+									   );
+		$data['styleSheets']    = array(
+									   );
+
+		$data['header'] = 'Create new $CONTROLLER_NAME$ entry.';
+		$data['controller'] = strtolower('$CONTROLLER_NAME$');
+		$DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES$
+
+		$this->load->view('_templates/admin/header', $data);
+		$this->load->view('$CREATE_VIEW_HEADER_LINK$', $data);
+		$this->load->view('$CREATE_VIEW_LINK$', $data);
+		$this->load->view('_templates/admin/footer', $data);
+	}
+
+	public function delete($id)
+	{
+		$this->load->model('lut/$MODEL_NAME$');
+		$this->load->helper('url');
+		$this->load->helper('ajax_helper');
+		$controller = strtolower('$CONTROLLER_NAME$');
+
+		if ($this->$MODEL_NAME$->delete($id)) {
+			if ($this->input->is_ajax_request()) {
+				echo ajax_success($id);
+			}
+			else {
+				$to = base_url('lut/' . $controller);
+				redirect($to, 'refresh');
+			}
+		}
+		else {
+			$msg = 'Could not delete record ' . $id . '.';
+			if ($this->input->is_ajax_request()) {
+				echo ajax_failure($msg);
+			}
+			else {
+				$link = base_url('lut/' . $controller);
+				$this->error->error_page($msg, $link);
+			}
+		}
+	}
+
+	/* re-order the entry with $id in $direction (up or down)
+	 * @param $direction
+	 * @param $id
+	 */
+	public function re_order($direction, $id)
+	{
+		$controller = strtolower('$CONTROLLER_NAME$');
+		$this->load->helper('ajax_helper');
+
+		$this->load->model('lut/$MODEL_NAME$');
+		$success = $this->$MODEL_NAME$->re_order($direction, $id);
+		$to = base_url('lut/' . $controller);
+
+		if ($success) {
+			if ($this->input->is_ajax_request()) {
+				echo ajax_success();
+			}
+			else {
+				redirect($to, 'refresh');
+			}
+		}
+		else {
+			$msg = 'Could not re-order record ' . $id . '.';
+			if ($this->input->is_ajax_request()) {
+				echo ajax_failure($msg);
+			}
+			else {
+				$link = base_url('lut/' . $controller);
+				$this->error->error_page($msg, $link);
+			}
+		}
+	}
+
+}

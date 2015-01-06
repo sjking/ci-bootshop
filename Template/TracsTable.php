@@ -1,21 +1,16 @@
 <?php namespace Generator;
-/* Generate an html table 
+/* Adds buttons to table for edit/delete
  * @author Steve King
  */
 
-include_once('HTMLElement.php');
+include_once('Table.php');
 
-class Table extends HTMLElement
+class TracsTable extends Table
 {
-	protected $name;
-	protected $columns = null; // the column names for the table header
-
+	
 	function __construct($name, $columns, $params = null)
 	{
-		parent::__construct('table', $params);
-
-		$this->name = $name;
-		$this->columns = $columns;
+		parent::__construct($name, $columns, $params);
 	}
 
 	protected function header()
@@ -32,18 +27,6 @@ class Table extends HTMLElement
 		$hdr = '<th></th>' . "\n" . '<th></th>';
 		$tbl = $this->nest_str($hdr, $tbl);
 		$tbl .= "\n" . '</thead>';
-
-		return $tbl;
-	}
-
-	/* output the table */
-	public function generate()
-	{
-		$tbl = $this->start();
-		if ($this->columns)
-			$tbl = $this->nest_str($this->header(), $tbl);
-		$tbl = $this->nest_str($this->body(), $tbl);
-		$tbl .= "\n" . $this->end();
 
 		return $tbl;
 	}

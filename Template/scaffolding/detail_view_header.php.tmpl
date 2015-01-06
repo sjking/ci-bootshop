@@ -3,7 +3,8 @@
   <div class="col-md-12 col-sm-12">
   <ul class="breadcrumb">
     <li><a href="/tracs/admin">TRACS</a></li>
-    <li class="active"><?php echo $display_name; ?></li>
+    <li><a href="/tracs/lut/<?=$controller;?>">$CONTROLLER_NAME$</a></li>
+    <li class="active">Edit</li>
   </ul>
   </div>
 </div>
@@ -12,11 +13,7 @@
   <div class="col-md-12 col-sm-12">
     <div class="page-header">
       <h1><?php echo $header; ?>
-      	<a href="<?php echo $create_link; ?>" 
-          class="btn btn-default btn-xs" id="addButton">
-      		<span class="glyphicon glyphicon-plus"></span> 
-      		Add a new <?php echo $display_name; ?> Entry
-      	</a>
+        <small>ID: <?php echo $detail_id; ?></small>
       </h1>
     </div>
   </div>

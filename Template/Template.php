@@ -1,4 +1,7 @@
 <?php namespace Generator;
+/* Generic template class, extend to represent a template file
+ * @author Steve King
+ */
 
 abstract class Template 
 {

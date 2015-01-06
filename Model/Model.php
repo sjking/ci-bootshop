@@ -1,4 +1,7 @@
 <?php namespace Generator;
+/* generic data model for a template
+ * @author Steve King
+ */
 
 class Model 
 {
