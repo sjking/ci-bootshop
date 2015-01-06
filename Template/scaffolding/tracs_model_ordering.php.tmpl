@@ -143,16 +143,20 @@ $MODEL_INSTANCE_VARIABLES$
 			
 			$this->db->where('$MODEL_TABLE_ID_COL$', $id);
 			$this->db->set('$ORDERING_COLUMN$', self::TEMP_ORDER);
-			$this->db->update('$DB_TABLE_NAME$');
+			if (!$this->db->update('$DB_TABLE_NAME$'))
+				return false;
 
 			$this->db->where('$MODEL_TABLE_ID_COL$', $other_id);
 			$this->db->set('$ORDERING_COLUMN$', $current_order);
-			$this->db->update('$DB_TABLE_NAME$');
+			if (!$this->db->update('$DB_TABLE_NAME$'))
+				return false;
 
 			$this->db->where('$MODEL_TABLE_ID_COL$', $id);
 			$this->db->set('$ORDERING_COLUMN$', $new_order);
-			$this->db->update('$DB_TABLE_NAME$');
+			if (!$this->db->update('$DB_TABLE_NAME$'))
+				return false;
 		}
+		return true;
 	}
 
 	$DETAIL_MODEL_DROPDOWN_METHODS$

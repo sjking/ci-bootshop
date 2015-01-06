@@ -203,15 +203,26 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$this->load->helper('ajax_helper');
 
 		$this->load->model('lut/$MODEL_NAME$');
-		$this->$MODEL_NAME$->re_order($direction, $id);
+		$success = $this->$MODEL_NAME$->re_order($direction, $id);
 		$to = base_url('lut/' . $controller);
 
-		if ($this->input->is_ajax_request()) {
-			ajax_redirect($to);
-			// redirect($to, 'refresh');
+		if ($success) {
+			if ($this->input->is_ajax_request()) {
+				echo ajax_success();
+			}
+			else {
+				redirect($to, 'refresh');
+			}
 		}
 		else {
-			redirect($to, 'refresh');
+			$msg = 'Could not re-order record ' . $id . '.';
+			if ($this->input->is_ajax_request()) {
+				echo ajax_failure($msg);
+			}
+			else {
+				$link = base_url('lut/' . $controller);
+				$this->error->error_page($msg, $link);
+			}
 		}
 	}
 
