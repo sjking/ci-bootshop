@@ -15,7 +15,7 @@ class TracsTable_sorting extends Table
 
 	protected function header()
 	{
-		$tbl = '<thead>';
+		$tbl = '<thead id="sorting-header">';
 		foreach($this->columns as $col) {
 			if ($col instanceof TableColumn)
 				$col_name = $col->get_display_name();

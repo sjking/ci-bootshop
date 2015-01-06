@@ -12,7 +12,7 @@ $(document).ready(function ()
 		event.preventDefault();
 
 		var href = $(location).attr('href');
-		var $panel = $('#$NAME$-results-panel').find('.panel-body');
+		var $panel = $('#results-panel').find('.results-body');
 		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
@@ -23,6 +23,7 @@ $(document).ready(function ()
 			$panel.html(data.table);
 			$('.pagination-links').empty().html(data.links);
 			$('#filter-panel').find('.panel-heading').find('strong').text(data.num_records);
+			$('.results-count').find('strong').text(data.num_records);
 
 			if ($filter_button.val() == 'clear') {
 				$('#bus_pad-filter').find('.filter-input').val('');
