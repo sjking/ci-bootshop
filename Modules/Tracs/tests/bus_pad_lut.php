@@ -27,10 +27,10 @@ $conf = new GeneratorConfig('config.ini', MODULE_DIR);
 /* Main List View data */
 // $cols = array('NameAbb', 'Name');
 $cols = array();
-$col = new TableColumn('NameAbb', array('class' => 'col-xs-2'));
+$col = new TableColumn('NameAbb', array('class' => 'col-lg-2 col-md-2 col-sm-3 col-xs-3'));
 $col->set_display_name('Abbreviation');
 $cols[] = $col;
-$col = new TableColumn('Name', array('class' => 'col-xs-8'));
+$col = new TableColumn('Name', array('class' => 'col-lg-8 col-md-8 col-sm-6 col-xs-6'));
 $col->set_display_name('Name');
 $cols[] = $col;
 $params = array('id' => $name . '-table', 
