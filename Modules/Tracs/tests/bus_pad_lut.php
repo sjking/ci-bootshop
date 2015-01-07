@@ -30,7 +30,7 @@ $cols = array();
 $col = new TableColumn('NameAbb', array('class' => 'col-xs-2'));
 $col->set_display_name('Abbreviation');
 $cols[] = $col;
-$col = new TableColumn('Name', array('class' => 'col-xs-7'));
+$col = new TableColumn('Name', array('class' => 'col-xs-8'));
 $col->set_display_name('Name');
 $cols[] = $col;
 $params = array('id' => $name . '-table', 
