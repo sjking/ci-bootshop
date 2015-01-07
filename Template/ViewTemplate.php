@@ -38,7 +38,7 @@ class ViewTemplate extends Template
 	 */
 	public function get_link() 
 	{
-		return $this->_name . '/' . $this->name;
+		return $this->_name . '/' . strtolower($this->name);
 	}
 
 	/* set an extra folder depth for models when setting the name
