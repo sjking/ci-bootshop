@@ -189,7 +189,7 @@ class GeneratorTracsLUT_ordering extends Generator
 
 		// detail view (for editing)
 		$form = new TracsForm($this->detail_model);
-		$form->set_submit_button('Update');
+		$form->set_submit_button('<span class="glyphicon glyphicon-save"></span>&nbsp;Update');
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
 		$form_view_path = $this->detailViewTemplate->get_path();
@@ -204,7 +204,7 @@ class GeneratorTracsLUT_ordering extends Generator
 
 		// create view
 		$form = new TracsForm($this->create_model);
-		$form->set_submit_button('Create');
+		$form->set_submit_button('<span class="glyphicon glyphicon-check"></span>&nbsp;Create');
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
 		$form_view_path = $this->createViewTemplate->get_path();
