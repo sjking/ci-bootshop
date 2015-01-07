@@ -73,7 +73,6 @@ class GeneratorTracsLUT_sorting extends Generator
 		$this->modelTemplate->set_name($this->model->get_name());
 		$this->modelTemplate->set_vars(null);
 		$this->modelTemplate->set_columns($this->model->get_columns());
-		// print_r($this->model->get_columns()); exit();
 
 		// detail form view template
 		$this->detailModelTemplate = new ModelTemplate($this->config);
@@ -222,6 +221,15 @@ class GeneratorTracsLUT_sorting extends Generator
 		$js_path = $this->javascriptTableTemplate->get_path();
 		if ($this->files->write($js_path, $js))
 			$this->filenames[] = $js_path;
+
+		// put link in portal page csv
+		$str = $this->data['PORTAL_LINK_NAME'];
+		$str .= ',' . $this->data['PORTAL_LINK_DESC'];
+		$str .= ',' . $this->data['PORTAL_LINK'];
+		$csv_path = $this->config->get('PORTAL', 'PATH');
+		$csv = $this->files->read($csv_path);
+		$csv .= "\n" . $str;
+		$this->files->write($csv_path, $csv);
 	}
 
 	/* initialize the data for the template compilation

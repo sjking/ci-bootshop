@@ -137,7 +137,10 @@ $generator = new GeneratorTracsLUT_sorting($name, $conf, $table_model, $detail_m
 
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Business Program Area Department',
-			  'HEADER' => 'Business Program Area Department'
+			  'HEADER' => 'Business Program Area Department',
+			  'PORTAL_LINK_NAME' => 'Business Program Area Department',
+			  'PORTAL_LINK_DESC' => 'Manage the Program Area Department',
+			  'PORTAL_LINK' => '/tracs/lut/bus_pad'
 			  );
 
 $generator->init($data);

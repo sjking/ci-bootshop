@@ -47,7 +47,10 @@ $generator = new GeneratorTracsLUT_ordering($name, $conf, $table_model, $detail_
 
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Vegetables',
-			  'HEADER' => 'Vegetables'
+			  'HEADER' => 'Vegetables',
+			  'PORTAL_LINK_NAME' => 'Vegetables',
+			  'PORTAL_LINK_DESC' => 'Manage the Vegetable System',
+			  'PORTAL_LINK' => '/tracs/lut/vegetable'
 			  );
 
 $generator->init($data);
