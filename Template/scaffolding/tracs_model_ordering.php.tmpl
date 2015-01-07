@@ -32,7 +32,7 @@ $MODEL_INSTANCE_VARIABLES$
 		$this->db->where('$MODEL_TABLE_ID_COL$', $id);
 		$query = $this->db->get('$DB_TABLE_NAME$');
 
-		return $query->result_array()[0];
+		return array_pop($query->result_array());
 	}
 
 	/* Update field with primary key $id with data $data
