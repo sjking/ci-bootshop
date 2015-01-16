@@ -57,17 +57,17 @@ $radio = new RadioFormFieldModel('Status', 'radio', array('id' => 'Status-radio'
 $radio->set_enum_array(array('Active' => 'Active', 'Delete' => 'Delete'));
 $fields[] = $radio;
 
+$checkbox = new CheckboxFormFieldModel('ListChairOnContract', 'checkbox', array('id' => 'ListChairOnContract-checkbox'));
+$checkbox->set_checked_value('Yes');
+$checkbox->set_default_value('No');
+$checkbox->set_label_name('Set Chair on Contract');
+$fields[] = $checkbox;
+
 $dropdown = new DropdownFormFieldModel('Pad_Id', 'dropdown', 
 	array('class' => 'form-control', 'id' => 'Pad-dropdown'));
 $dropdown->set_table_col('bus_pad_lut', 'pad_id', 'Name');
 $dropdown->set_label_name('PAD');
 $fields[] = $dropdown;
-
-// change to enum
-$field = new FormFieldModel('ListChairOnContract', 'input',
-	array('class' => 'form-control', 'id' => 'ListChairOnContract-input'));
-$field->set_label_name('List Chair on Contract? (Yes or No)');
-$fields[] = $field;
 
 $id = 'committee_id';
 $label_params = array('class' => 'control-label col-md-2');
