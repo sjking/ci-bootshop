@@ -1,4 +1,9 @@
 <?php namespace Generator;
+/* 
+ * Ordering Example - Vegetables
+ *
+ * @author Steve King
+ */
 
 define('MODULE_DIR', dirname(__DIR__));
 
@@ -11,7 +16,6 @@ const BASE_URL = 'dev.busdevw/tracs/admin';
 $conf = new GeneratorConfig('config.ini', MODULE_DIR);
 
 /* Main List View data */
-// $cols = array('NameAbb', 'Name');
 $cols = array();
 $col = new TableColumn('name', array('class' => 'col-xs-9'));
 $col->set_display_name('Name');
@@ -28,11 +32,6 @@ $fields = array();
 $field = new FormFieldModel('name', 'input',
 	array('class' => 'form-control', 'id' => 'name-input'));
 $field->set_label_name('Name');
-$fields[] = $field;
-
-$field = new FormFieldModel('order', 'input',
-	array('class' => 'form-control', 'id' => 'order-input'));
-$field->set_label_name('Order');
 $fields[] = $field;
 
 $id = 'id';

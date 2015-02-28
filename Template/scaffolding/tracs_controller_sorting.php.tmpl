@@ -51,15 +51,15 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 			if ($this->input->post('filter-submit') == 'submit') {
 				unset($post_data['filter-submit']);
-				$this->session->set_userdata('filter_data', $post_data);
+				$this->session->set_userdata('filter_data_$CONTROLLER_NAME$', $post_data);
 			}
 			else if ($this->input->post('filter-submit') == 'clear') {
-				$this->session->unset_userdata('filter_data');
+				$this->session->unset_userdata('filter_data_$CONTROLLER_NAME$');
 			}
 			$is_filter_request = true;
 		}
-		$filter_data = $this->session->userdata('filter_data') ? 
-			$this->session->userdata('filter_data') : null;
+		$filter_data = $this->session->userdata('filter_data_$CONTROLLER_NAME$') ? 
+			$this->session->userdata('filter_data_$CONTROLLER_NAME$') : null;
 
 		$filter_fields = array_keys($data['table_col_params']);
 		$data['filter_fields'] = array();
