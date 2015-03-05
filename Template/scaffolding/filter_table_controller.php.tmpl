@@ -1,0 +1,165 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class $CONTROLLER_NAME$ extends CI_Controller 
+{
+	function __construct()
+	{
+		parent::__construct();
+
+    	//Setup the CAS Authentication and Access Control.
+        $this->load->model('User_access');
+        $this->load->library('error');
+    	
+    	if( !$this->User_access->allowAccessType( array('Admin') ) ){
+    		$msg = 'You ("' . $_SESSION['tracs_userComputingID'] . 
+				'") do not have the permission to access this page.';
+			$link = base_url('admin');
+			$this->error->access_denied($msg, $link);
+		}
+	}
+
+	public function index($page = null)
+	{
+		$this->load->model('$MODEL_NAME$');
+		$this->load->library('pagination');
+
+		$data['siteTitle'] 		= "TRACS";
+		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
+		$data['javaScript'] 	= array('$JAVASCRIPT_TABLE$',
+										'alert.js'
+									   );
+		$data['styleSheets']    = array('alert.css',
+										'lut/lut_main.css'
+									   );
+		$data['header'] = '$HEADER$';
+
+		$data['controller'] = strtolower('$CONTROLLER_NAME$');
+		$data['display_name'] = '$CONTROLLER_NAME$';
+
+		$data['table_col_params'] = $TABLE_COL_PARAMS$;
+		$data['table_col_display_name_map'] = $TABLE_COL_DISPLAY_NAME_MAP$;
+
+		$data['sort_link'] = base_url('admin/' . $data['controller'] . '/sort');
+
+		$is_filter_request = false;
+
+		if ($this->input->post()) {
+			$post_data = $this->input->post(null, true);
+
+			if ($this->input->post('filter-submit') == 'submit') {
+				unset($post_data['filter-submit']);
+				$this->session->set_userdata('filter_data_$CONTROLLER_NAME$', $post_data);
+			}
+			else if ($this->input->post('filter-submit') == 'clear') {
+				$this->session->unset_userdata('filter_data_$CONTROLLER_NAME$');
+			}
+			$is_filter_request = true;
+		}
+		$filter_data = $this->session->userdata('filter_data_$CONTROLLER_NAME$') ? 
+			$this->session->userdata('filter_data_$CONTROLLER_NAME$') : null;
+
+		$filter_fields = array_keys($data['table_col_params']);
+		$data['filter_fields'] = array();
+		foreach($filter_fields as $field) {
+			$data['filter_fields'][$field] = $filter_data ? $filter_data[$field] : null;
+		}
+
+		// sorting
+		$sort_data = $this->session->userdata('$CONTROLLER_NAME$-sort_data');
+
+		// Pagination
+		$config['base_url'] = base_url() . $data['controller'];
+		$config['total_rows'] = $this->$MODEL_NAME$->rowCount($filter_data);
+		$config['per_page'] = 20;
+		$this->pagination->initialize($config);
+		$data['table_rows'] = $this->$MODEL_NAME$
+			->get_rows_pagination($config['per_page'], $page, $filter_data, $sort_data);
+		$data['links'] = $this->pagination->create_links();
+		$data['number_of_records'] = $config['total_rows'];
+
+		$data['$DETAIL_ROW$'] = $this->$MODEL_NAME$->get($id);
+
+		$data['sort'] = array();
+		foreach($data['table_col_display_name_map'] as $key => $val) {
+			if ($key != '$MODEL_NAME$_id') {
+				if ($sort_data) {
+					if ($sort_data['col'] == $key) {
+						switch ($sort_data['order']) {
+							case 'ASC': 
+								$data['sort'][$key] = 'sorting-ascending';
+								break;
+							case 'DESC':
+								$data['sort'][$key] = 'sorting-descending';
+								break;
+							default:
+								$data['sort'][$key] = 'sorting-disabled';
+						}
+					}
+					else {
+						$data['sort'][$key] = 'sorting-disabled';
+					}
+				}
+				else {
+					$data['sort'][$key] = 'sorting-disabled';
+				}
+			}
+		}
+
+		if ($this->input->is_ajax_request()) {
+			$this->load->helper('ajax_helper');
+			$views = array();
+			$views['links'] = $data['links'];
+			if ($data['number_of_records'] > 0) {
+				$views['table'] = $this->load->view('$TABLE_VIEW_LINK$', $data, true);
+			}
+			else {
+				$views['table'] = 'No Records Found.';
+			}
+			if ($is_filter_request) {
+				$views['num_records'] = $data['number_of_records'] ? $data['number_of_records'] : 0;
+			}
+			echo ajax_html($views);
+		}
+		else {
+			$this->load->view('_templates/admin/header', $data);
+			$this->load->view('admin/$VIEW_NAME_LINK$', $data);
+			$this->load->view('admin/$FILTER_PANEL_LINK$', $data);
+			$this->load->view('admin/$PANEL_HEADER_PATH$', $data);
+			$this->load->view('admin/$TABLE_VIEW_LINK$', $data);
+			$this->load->view('admin/$PANEL_FOOTER_PATH$', $data);
+			$this->load->view('_templates/universal_modal_view.php');
+			$this->load->view('_templates/alerts_view.php');
+			$this->load->view('_templates/admin/footer', $data);
+		}
+	}
+
+	public function sort($col)
+	{
+		$sort_data = null;
+		$controller = strtolower('$CONTROLLER_NAME$');
+
+		if ($this->session->userdata('$CONTROLLER_NAME$-sort_data')) {
+			$sort_data = $this->session->userdata('$CONTROLLER_NAME$-sort_data');
+			if ($sort_data['col'] == $col) {
+				$sort_data['order'] = $sort_data['order'] == 'ASC' ? 'DESC' : 'ASC';
+			}
+			else {
+				$sort_data['order'] = 'ASC';
+				$sort_data['col'] = $col;
+			}
+			$this->session->unset_userdata('$CONTROLLER_NAME$-sort_data');
+		}
+		else {
+			$sort_data = array();
+			$sort_data['col'] = $col;
+			$sort_data['order'] = 'ASC';
+		}
+
+		$this->session->set_userdata('$CONTROLLER_NAME$-sort_data', $sort_data);
+
+		$to = base_url('admin/' . $controller);
+		redirect($to, 'location');
+	}
+
+
+}

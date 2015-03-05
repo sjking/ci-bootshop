@@ -1,0 +1,22 @@
+<tbody>
+<?php
+if ($table_rows) {
+	foreach($table_rows as $row) {
+?>
+	<tr id="<?php echo $row['$MODEL_NAME$_id']; ?>">
+<?php
+		$id;
+		foreach($row as $key => $val) {
+			if ($key == '$MODEL_NAME$_id') {
+				$id = $val;
+				continue;
+			}
+?>
+		<td name="<?php echo $key; ?>" <?php echo $table_col_params[$key]; ?>><?php echo $val; ?></td>
+<?php 	} ?>
+	</tr>
+<?php
+	}
+}
+?>
+</tbody>
