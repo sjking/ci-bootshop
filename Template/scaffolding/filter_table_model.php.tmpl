@@ -25,56 +25,15 @@ $MODEL_INSTANCE_VARIABLES$
 	 * from table $DB_TABLE_NAME$ with primary key $id
 	 * @param $id the primary key name of the table
 	 */
-	function get($id)
-	{
-		$this->db->select('$DETAIL_MODEL_SELECT_COLUMNS$' . ', ' 
-			. '$MODEL_TABLE_ID_COL$ as $MODEL_NAME$_id');
-		$this->db->where('$MODEL_TABLE_ID_COL$', $id);
-		$query = $this->db->get('$DB_TABLE_NAME$');
+	// function get($id)
+	// {
+	// 	$this->db->select('$DETAIL_MODEL_SELECT_COLUMNS$' . ', ' 
+	// 		. '$MODEL_TABLE_ID_COL$ as $MODEL_NAME$_id');
+	// 	$this->db->where('$MODEL_TABLE_ID_COL$', $id);
+	// 	$query = $this->db->get('$DB_TABLE_NAME$');
 
-		return array_pop($query->result_array());
-	}
-
-	/* Update field with primary key $id with data $data
-	 * @param $id
-	 * @param $data
-	 */
-	function update($id, $data)
-	{
-		$this->db->where('$MODEL_TABLE_ID_COL$', $id);
-		$result = $this->db->update('$DB_TABLE_NAME$', $data);
-		return $result;
-	}
-
-	/* Delete the field with primary key $id 
-	 * @param $id
-	 */
-	function delete($id)
-	{
-		$this->db->where('$MODEL_TABLE_ID_COL$', $id);
-		$result = $this->db->delete('$DB_TABLE_NAME$');
-		return $result;
-	}
-
-	/* Create a new entry with $data data, and return its id
-	 * @params $data
-	 */
-	function create($data)
-	{
-        $id = isset($data['$MODEL_TABLE_ID_COL$']) ? 
-        	$data['$MODEL_TABLE_ID_COL$'] : null;
-		
-		$this->db->trans_start();
-		if($this->db->insert('$DB_TABLE_NAME$', $data)) {
-			$id = $id ? $id : $this->db->insert_id();
-		}
-		else {
-			$id = null;
-		}
-		$this->db->trans_complete();
-
-		return $id;
-	}
+	// 	return array_pop($query->result_array());
+	// }
 
 	/* Return the count of all records matching select $data, or count of all
 	 * rows for the table if $data is null
@@ -123,5 +82,7 @@ $MODEL_INSTANCE_VARIABLES$
         else 
             return false;
 	}
+
+	$DETAIL_MODEL_DROPDOWN_METHODS$
 
 }

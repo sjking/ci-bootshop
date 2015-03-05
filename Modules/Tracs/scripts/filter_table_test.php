@@ -45,7 +45,7 @@ $fields[] = $dropdown;
 
 $checkbox = new CheckboxFormFieldModel('vegetarian', 'checkbox', array('id' => 'vegetarian-checkbox'));
 $checkbox->set_checked_value('1');
-$checkbox->set_default_value('2');
+$checkbox->set_default_value('0');
 $checkbox->set_label_name('Vegetarian');
 $fields[] = $checkbox;
 
@@ -62,8 +62,8 @@ $fields[] = $radio;
 
 $id = 'id';
 $label_params = array('class' => 'control-label col-md-2');
-$button_params = array('class' => 'btn btn-primary');
-$params = array('id' => 'vegetable_fans-form', 'class' => 'form-inline', 'method' => 'post');
+$button_params = array('class' => 'btn btn-default');
+$params = array('id' => 'vegetable_fans-form', 'class' => 'form-horizontal filter-table-form img-rounded', 'method' => 'post');
 
 $filter_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $filter_model->set_col_header('name'); // table column used for title of page (OR NOT!)

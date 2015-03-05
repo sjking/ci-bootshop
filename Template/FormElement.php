@@ -78,7 +78,7 @@ class DropdownFormElement extends FormElement
 		$out .= "\n  ";
 		$out .= '<option value="<?php echo $val; ?>"';
 		if ($selected) // true if its edit form, false if its create form
-			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "selected" : null; ?>';
+			$out .= ' <?php echo (isset($$DETAIL_ROW$[' . "'" . $selected . "']" . ') && $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ') ? "selected" : null; ?>';
 		$out .= '>';
 		$out .= '<?php echo $name; ?></option>';
 		$out .= "\n";
@@ -123,7 +123,7 @@ class RadioFormElement extends FormElement
 			$out .= $this->params_str;
 		}
 		if ($selected) // true if its edit form, false if its create form
-			$out .= ' <?php echo $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' ? "checked" : null; ?>';
+			$out .= ' <?php echo (isset($$DETAIL_ROW$[' . "'" . $selected . "']" . ') && $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ') ? "checked" : null; ?>';
 		$out .= '>';
 		$out .= "\n      ";
 		$out .= '<?php echo $name; ?>';
@@ -159,7 +159,7 @@ class CheckboxFormElement extends FormElement
 		$check .= 'name="' . $this->name() . '" ';
 		$check .= 'value="' . $checked .'"';
 		if ($selected)
-			$check .= ' <?php echo $$DETAIL_ROW$[' . "'" . $selected . "']" . '== "' . $checked . '" ? "checked" : null; ?>';
+			$check .= ' <?php echo (isset($$DETAIL_ROW$[' . "'" . $selected . "']" . ') && $$DETAIL_ROW$[' . "'" . $selected . "']" . '== "' . $checked . '") ? "checked" : null; ?>';
 
 		return $hidden . "\n" . $check;
 	}

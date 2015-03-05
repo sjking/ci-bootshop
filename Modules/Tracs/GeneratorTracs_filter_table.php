@@ -8,7 +8,7 @@ use \Exception;
 
 include_once(dirname(dirname(__DIR__)) . "/Generator.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/FilterTable.php");
-include_once(dirname(dirname(__DIR__)) . "/Template/TracsForm.php");
+include_once(dirname(dirname(__DIR__)) . "/Template/FilterTableForm.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/JavascriptTemplate.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/TableModel.php");
@@ -119,8 +119,10 @@ class GeneratorTracs_filter_table extends Generator
 			$this->filenames[] = $panel_header_path;
 
 		// filter panel
-		$form = new TracsForm($this->filter_model);
+		$form = new FilterTableForm($this->filter_model);
 		$form->set_submit_button('<span class="glyphicon glyphicon-filter"></span>&nbsp;Filter');
+		$form->set_clear_button('<span class="glyphicon glyphicon-remove"></span>&nbsp;Clear');
+		$form->set_container_params(array("class" => 'img-rounded'));
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
 		$form_view_path = $this->filterPanelTemplate->get_path();
@@ -207,7 +209,7 @@ class GeneratorTracs_filter_table extends Generator
 				if ($count > 0)
 					$str .= "\n\t\t";
 				$str .= '$data[' . "'" . $field->get_controller_array_variable() . "'" . ']';
-				$str .= ' = ' . '$this->' . $this->detailModelTemplate->get_name() . '->';
+				$str .= ' = ' . '$this->' . $this->modelTemplate->get_name() . '->';
 				$str .= $field->get_method_name() . '();';
 				$count += 1;
 			}
@@ -244,6 +246,17 @@ class GeneratorTracs_filter_table extends Generator
 		return $str;
 	}
 
+	private function php_array(array $data)
+	{
+		$str = 'array(';
+
+		foreach($data as $val) {
+			$str .= "'" . $val . "', ";
+		}
+		$str = rtrim($str, ', ') . ')';
+		return $str;
+	}
+
 	/* initialize the replacements data */
 	private function _init()
 	{
@@ -267,7 +280,15 @@ class GeneratorTracs_filter_table extends Generator
 
 		// filter panel
 		$data['FILTER_PANEL_LINK'] = $this->filterPanelTemplate->get_link();
+		
+		// vegetable filter row: This is an array variable that holds all the 
+		// selected column values in each key that matches the column name
+		// It should be chosen by default or by filter data that is stored in
+		// session variables
 		$data['DETAIL_ROW'] = $this->filter_model->get_row();
+		$data['DETAIL_MODEL_SELECT_COLUMNS'] = $this->php_array($this->filter_model->get_columns());
+		$data['DETAIL_MODEL_DROPDOWN_METHODS'] = $this->get_array_methods($this->filter_model);
+		$data['DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES'] = $this->get_array_controller_variables($this->filter_model);
 
 		$data['TABLE_COL_DISPLAY_NAME_MAP'] = $this->get_table_column_display_name_map_array($this->model->get_columns());
 

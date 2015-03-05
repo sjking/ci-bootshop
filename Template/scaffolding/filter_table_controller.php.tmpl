@@ -29,7 +29,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 										'alert.js'
 									   );
 		$data['styleSheets']    = array('alert.css',
-										'lut/lut_main.css'
+										'lut/lut_main.css',
+										'filter_table.css'
 									   );
 		$data['header'] = '$HEADER$';
 
@@ -58,11 +59,19 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$filter_data = $this->session->userdata('filter_data_$CONTROLLER_NAME$') ? 
 			$this->session->userdata('filter_data_$CONTROLLER_NAME$') : null;
 
-		$filter_fields = array_keys($data['table_col_params']);
-		$data['filter_fields'] = array();
-		foreach($filter_fields as $field) {
-			$data['filter_fields'][$field] = $filter_data ? $filter_data[$field] : null;
+		$select_columns = $DETAIL_MODEL_SELECT_COLUMNS$;
+		$active_filters = array();
+		if ($filter_data) {
+
+			$this->output_array($filter_data);
+
+			foreach ($select_columns as $col) {
+				if (isset($filter_data[$col])) {
+					$active_filters[$col] = $filter_data[$col];
+				}
+			}
 		}
+		$data['$DETAIL_ROW$'] = $active_filters;
 
 		// sorting
 		$sort_data = $this->session->userdata('$CONTROLLER_NAME$-sort_data');
@@ -76,8 +85,6 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			->get_rows_pagination($config['per_page'], $page, $filter_data, $sort_data);
 		$data['links'] = $this->pagination->create_links();
 		$data['number_of_records'] = $config['total_rows'];
-
-		$data['$DETAIL_ROW$'] = $this->$MODEL_NAME$->get($id);
 
 		$data['sort'] = array();
 		foreach($data['table_col_display_name_map'] as $key => $val) {
@@ -104,6 +111,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 				}
 			}
 		}
+
+		$DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES$
 
 		if ($this->input->is_ajax_request()) {
 			$this->load->helper('ajax_helper');
@@ -159,6 +168,13 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		$to = base_url('admin/' . $controller);
 		redirect($to, 'location');
+	}
+
+	private function output_array(array $a) 
+	{
+		echo '<pre>';
+		echo print_r($a);
+		echo '</pre>';
 	}
 
 
