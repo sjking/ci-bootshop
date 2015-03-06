@@ -73,13 +73,21 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		}
 		$data['$DETAIL_ROW$'] = $active_filters;
 
+		$DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES$
+
 		// sorting
 		$sort_data = $this->session->userdata('$CONTROLLER_NAME$-sort_data');
+
+		$results_per_page = $data['results_per_page_default'];
+		if (isset($filter_data['results_per_page'])) {
+			$results_per_page = $filter_data['results_per_page'];
+			unset($filter_data['results_per_page']);
+		}
 
 		// Pagination
 		$config['base_url'] = base_url() . $data['controller'];
 		$config['total_rows'] = $this->$MODEL_NAME$->rowCount($filter_data);
-		$config['per_page'] = 20;
+		$config['per_page'] = $results_per_page;
 		$this->pagination->initialize($config);
 		$data['table_rows'] = $this->$MODEL_NAME$
 			->get_rows_pagination($config['per_page'], $page, $filter_data, $sort_data);
@@ -111,8 +119,6 @@ class $CONTROLLER_NAME$ extends CI_Controller
 				}
 			}
 		}
-
-		$DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES$
 
 		if ($this->input->is_ajax_request()) {
 			$this->load->helper('ajax_helper');
