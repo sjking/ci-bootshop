@@ -13,11 +13,11 @@ $(document).ready(function ()
 
 	var $filter_button;
 
-	$('#$NAME$-filter').find('button').on('click', function() {
+	$('#$NAME$-form').find('button').on('click', function() {
 		$filter_button = $(this);
 	});
 
-	$('#$NAME$-filter').on('submit', function(event) {
+	$('#$NAME$-form').on('submit', function(event) {
 		event.preventDefault();
 
 		var href = $(location).attr('href');

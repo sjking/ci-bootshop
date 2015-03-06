@@ -19,14 +19,11 @@ $conf = new GeneratorConfig('filter_table_config.ini', MODULE_DIR);
 
 /* Main List View data */
 $cols = array();
-$col = new TableColumn('EMPLID', array('class' => 'col-lg-4 col-md-3 col-sm-3 col-xs-3'));
+$col = new TableColumn('EMPLID', array('class' => 'col-lg-5 col-md-5 col-sm-5 col-xs-5'));
 $col->set_display_name('Name');
 $cols[] = $col;
 $col = new TableColumn('UNITS', array('class' => 'col-lg-1 col-md-1 col-sm-1 col-xs-1'));
 $col->set_display_name('Units');
-$cols[] = $col;
-$col = new TableColumn('CGPA', array('class' => 'col-lg-1 col-md-1 col-sm-1 col-xs-1'));
-$col->set_display_name('CGPA');
 $cols[] = $col;
 
 // workshop columns
@@ -64,38 +61,38 @@ $fields[] = $field;
 
 // workshops
 $checkbox = new CheckboxFormFieldModel('BCP_INT', 'checkbox', array('id' => 'BCP_INT-checkbox'));
-$checkbox->set_checked_value('1');
-$checkbox->set_default_value('0');
+$checkbox->set_checked_value('0');
+$checkbox->set_default_value('1');
 $checkbox->set_label_name('Interview Preparation & Tactics');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('BCP_JSS', 'checkbox', array('id' => 'BCP_JSS-checkbox'));
-$checkbox->set_checked_value('1');
-$checkbox->set_default_value('0');
+$checkbox->set_checked_value('0');
+$checkbox->set_default_value('1');
 $checkbox->set_label_name('Job Search Strategies & Career Management');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('BCP_RES', 'checkbox', array('id' => 'BCP_RES-checkbox'));
-$checkbox->set_checked_value('1');
-$checkbox->set_default_value('0');
+$checkbox->set_checked_value('0');
+$checkbox->set_default_value('1');
 $checkbox->set_label_name('RES');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('BCP_CL', 'checkbox', array('id' => 'BCP_CL-checkbox'));
-$checkbox->set_checked_value('1');
-$checkbox->set_default_value('0');
+$checkbox->set_checked_value('0');
+$checkbox->set_default_value('1');
 $checkbox->set_label_name('Competitive Cover Letters');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('BCP_SA', 'checkbox', array('id' => 'BCP_SA-checkbox'));
-$checkbox->set_checked_value('1');
-$checkbox->set_default_value('0');
+$checkbox->set_checked_value('0');
+$checkbox->set_default_value('1');
 $checkbox->set_label_name('Self Assessment & Finding Your Fit');
 $fields[] = $checkbox;
 
 $checkbox = new CheckboxFormFieldModel('BCP_NBE', 'checkbox', array('id' => 'BCP_NBE-checkbox'));
-$checkbox->set_checked_value('1');
-$checkbox->set_default_value('0');
+$checkbox->set_checked_value('0');
+$checkbox->set_default_value('1');
 $checkbox->set_label_name('Networking & Business Etiquette');
 $fields[] = $checkbox;
 
@@ -115,7 +112,7 @@ $fields[] = $dropdown;
 $id = 'EMPLID';
 $label_params = array('class' => 'control-label col-md-2');
 $button_params = array('class' => 'btn btn-default');
-$params = array('id' => 'career_passport-form', 'class' => 'form-horizontal filter-table-form img-rounded', 'method' => 'post');
+$params = array('id' => $name . '-form', 'class' => 'form-horizontal filter-table-form img-rounded', 'method' => 'post');
 
 $filter_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $filter_model->set_col_header('EMPLID'); // table column used for title of page (OR NOT!)
