@@ -57,8 +57,10 @@ class InputFormElement extends FormElement
 	{
 		$val = $this->model->variable_name();
 		$out = '';
-		if ($val) // true if its edit form, false if its create form
-			$out = '<?php echo $$DETAIL_ROW$[' . "'" . $val . "']" . '; ?>';
+		if ($val) {// true if its edit form, false if its create form
+			$out .= '<?php echo isset($$DETAIL_ROW$[' . "'" . $val . "']) ? ";
+			$out .= '$$DETAIL_ROW$[' . "'" . $val . "']" . ' : null; ?>';
+		}
 		return $out;
 	}
 
