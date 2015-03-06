@@ -62,8 +62,6 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$active_filters = array();
 		if ($filter_data) {
 
-			$this->output_array($filter_data);
-
 			foreach ($select_columns as $col) {
 				if (isset($filter_data[$col])) {
 					$active_filters[$col] = $filter_data[$col];
@@ -84,7 +82,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		}
 
 		// Pagination
-		$config['base_url'] = base_url() . $data['controller'];
+		$config['base_url'] = base_url() . '/admin/' . $data['controller'];
 		$config['total_rows'] = $this->$MODEL_NAME$->rowCount($filter_data);
 		$config['per_page'] = $results_per_page;
 		$this->pagination->initialize($config);
@@ -95,27 +93,25 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		$data['sort'] = array();
 		foreach($data['table_col_display_name_map'] as $key => $val) {
-			if ($key != '$MODEL_NAME$_id') {
-				if ($sort_data) {
-					if ($sort_data['col'] == $key) {
-						switch ($sort_data['order']) {
-							case 'ASC': 
-								$data['sort'][$key] = 'sorting-ascending';
-								break;
-							case 'DESC':
-								$data['sort'][$key] = 'sorting-descending';
-								break;
-							default:
-								$data['sort'][$key] = 'sorting-disabled';
-						}
-					}
-					else {
-						$data['sort'][$key] = 'sorting-disabled';
+			if ($sort_data) {
+				if ($sort_data['col'] == $key) {
+					switch ($sort_data['order']) {
+						case 'ASC': 
+							$data['sort'][$key] = 'sorting-ascending';
+							break;
+						case 'DESC':
+							$data['sort'][$key] = 'sorting-descending';
+							break;
+						default:
+							$data['sort'][$key] = 'sorting-disabled';
 					}
 				}
 				else {
 					$data['sort'][$key] = 'sorting-disabled';
 				}
+			}
+			else {
+				$data['sort'][$key] = 'sorting-disabled';
 			}
 		}
 
@@ -124,7 +120,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			$views = array();
 			$views['links'] = $data['links'];
 			if ($data['number_of_records'] > 0) {
-				$views['table'] = $this->load->view('$TABLE_VIEW_LINK$', $data, true);
+				$views['table'] = $this->load->view('admin/$TABLE_VIEW_LINK$', $data, true);
 			}
 			else {
 				$views['table'] = 'No Records Found.';

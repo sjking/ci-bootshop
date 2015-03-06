@@ -68,9 +68,9 @@ class GeneratorTracs_filter_table extends Generator
 		$this->modelTemplate->set_columns($this->model->get_columns());
 
 		// javascript
-		// $this->javascriptTableTemplate = new JavascriptTemplate($this->config, 
-		// 	'table_sorting.js.tmpl');
-		// $this->javascriptTableTemplate->set_name($name, 'table');
+		$this->javascriptTableTemplate = new JavascriptTemplate($this->config, 
+			'filter_table.js.tmpl');
+		$this->javascriptTableTemplate->set_name($name, 'table');
 
 		// panel
 		$this->panelHeaderTemplate = new ViewTemplate($this->config,
@@ -153,11 +153,11 @@ class GeneratorTracs_filter_table extends Generator
 			$this->filenames[] = $model_path;
 
 		// javascript
-		// $template = $this->files->read($this->javascriptTableTemplate->get_template());
-		// $js = $this->compiler->compile($template, $this->data);
-		// $js_path = $this->javascriptTableTemplate->get_path();
-		// if ($this->files->write($js_path, $js))
-		// 	$this->filenames[] = $js_path;
+		$template = $this->files->read($this->javascriptTableTemplate->get_template());
+		$js = $this->compiler->compile($template, $this->data);
+		$js_path = $this->javascriptTableTemplate->get_path();
+		if ($this->files->write($js_path, $js))
+			$this->filenames[] = $js_path;
 	}
 
 	/* initialize the data for the template compilation
@@ -301,7 +301,7 @@ class GeneratorTracs_filter_table extends Generator
 		$data['TABLE_COL_DISPLAY_NAME_MAP'] = $this->get_table_column_display_name_map_array($this->model->get_columns());
 
 		// javascript
-		$data['JAVASCRIPT_TABLE'] = null;//$this->javascriptTableTemplate->get_link();
+		$data['JAVASCRIPT_TABLE'] = $this->javascriptTableTemplate->get_link();
 
 		return $data;
 	}
