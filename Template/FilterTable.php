@@ -21,7 +21,7 @@ class FilterTable extends Table
 				$col_name = $col->get_display_name();
 			else
 				$col_name = $col;
-			$anchor = '<a href="<?php echo $sort_link; ?>/' . $col->get_name() . '">' . '<div class="sorting-header-container">' . $col_name . '&nbsp;';
+			$anchor = '<a href="<?php echo $sort_link; ?>/' . $col->get_name() . '">' . '<div id="sort-' . $col->get_name() . '" class="sorting-header-container">' . $col_name . '&nbsp;';
 			$sort_class = '$sort[' . "'" . $col->get_name() . "'" . ']';
 			$span = '<div class="pull-right"><span class="<?php echo ' . $sort_class . '; ?>"></span></div>';
 			$hdr = '<th>';

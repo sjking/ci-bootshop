@@ -52,15 +52,29 @@ function pagination_links()
 		});
 	});
 
+	$('#$NAME$-table').find('th').find('a').hover(
+		function() {
+			$container = $(this).find('.sorting-header-container');
+			$container.addClass('sorting-header-container-hover');
+		}, function() {
+			$container = $(this).find('.sorting-header-container');
+			$container.removeClass('sorting-header-container-hover');
+		}
+	);
+
 	$('#$NAME$-table').find('th').find('a').on('click', function(event) {
 		event.preventDefault();
 		var href = $(this).attr('href');
 		var $panel = $('#$NAME$-table').parent();
+		var id = $(this).find('.sorting-header-container').attr('id');
 
 		$.post(href, function(data) {
 			$panel.empty().html(data.table);
 			$('.pagination-links').empty().html(data.links);
 			pagination_links();
+
+			var $div = $('#' + id);
+			$div.addClass('sorting-header-container-selected');
 		});
 	});
 
