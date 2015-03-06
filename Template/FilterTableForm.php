@@ -40,7 +40,7 @@ class FilterTableForm extends TracsForm
 			$form .= $this->params_str($this->container_params);
 		}
 		$form .= '>';
-		
+
 		$form = $this->nest_str(parent::generate(), $form);
 		$form .= "\n" . '</div>';
 

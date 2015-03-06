@@ -73,12 +73,19 @@ class DropdownFormElement extends FormElement
 	{	
 		$dropdown = $this->model->get_controller_array_variable();
 		$selected = $this->model->variable_name();
+		$default = $this->model->get_default_controller_array_variable();
 
 		$out = '<?php foreach($' . $dropdown . ' as $name => $val) { ?>';
 		$out .= "\n  ";
 		$out .= '<option value="<?php echo $val; ?>"';
-		if ($selected) // true if its edit form, false if its create form
-			$out .= ' <?php echo (isset($$DETAIL_ROW$[' . "'" . $selected . "']" . ') && $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ') ? "selected" : null; ?>';
+		if ($selected) { // true if its edit form, false if its create form
+			if ($default) {
+				$out .= ' <?php echo (isset($$DETAIL_ROW$[' . "'" . $selected . "']" . ') && $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ' || isset($' . $default .') && $val == $' . $default . ') ? "selected" : null; ?>';
+			}
+			else {
+				$out .= ' <?php echo (isset($$DETAIL_ROW$[' . "'" . $selected . "']" . ') && $val == $$DETAIL_ROW$[' . "'" . $selected . "']" . ') ? "selected" : null; ?>';
+			}
+		}
 		$out .= '>';
 		$out .= '<?php echo $name; ?></option>';
 		$out .= "\n";

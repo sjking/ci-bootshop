@@ -60,6 +60,19 @@ $radio->set_enum_array($status);
 $radio->set_label_name('Vegetable Status');
 $fields[] = $radio;
 
+$results_per_page_choices = array('10' => '10',
+										  '20' => '20',
+										  '50' => '50',
+										  '100' => '100',
+										  '200' => '200',
+										  'all' => 'all');
+$dropdown = new DropdownFormFieldModel('results_per_page', 'dropdown', 
+	array('class' => 'form-control', 'id' => 'results_per_page-dropdown'));
+$dropdown->set_enum_array($results_per_page_choices);
+$dropdown->set_label_name('Results Per Page');
+$dropdown->set_default_value('20');
+$fields[] = $dropdown;
+
 $id = 'id';
 $label_params = array('class' => 'control-label col-md-2');
 $button_params = array('class' => 'btn btn-default');

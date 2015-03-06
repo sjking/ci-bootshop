@@ -211,6 +211,14 @@ class GeneratorTracs_filter_table extends Generator
 				$str .= '$data[' . "'" . $field->get_controller_array_variable() . "'" . ']';
 				$str .= ' = ' . '$this->' . $this->modelTemplate->get_name() . '->';
 				$str .= $field->get_method_name() . '();';
+
+				if ($field->type() == 'dropdown' && $field->get_default_value()) {
+					$str .= "\n\t\t";
+					$str .= '$data[' . "'" . $field->get_default_controller_array_variable() . "'" . ']';
+					$str .= ' = ' . '$this->' . $this->modelTemplate->get_name() . '->';
+					$str .= $field->get_default_method_name() . '();';
+				}
+
 				$count += 1;
 			}
 		}

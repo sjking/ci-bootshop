@@ -120,6 +120,8 @@ class DropdownFormFieldModel extends FormFieldModel
 	protected $table = null; // table where to get the data
 	protected $table_id = null; // the column primary key in the table
 	protected $table_col = null; // the name of the row to display to user
+	protected $default_value = null;
+	protected $default_method_name = null;
 
 	// enum
 	protected $enum_array = null; // an array of pre-set enums
@@ -128,6 +130,7 @@ class DropdownFormFieldModel extends FormFieldModel
 	{
 		parent::__construct($name, $type, $params);
 		$this->method_name = 'get_' . $this->name . '_' . $type;
+		$this->default_method_name = 'get_' . $this->name . '_default';
 	}
 
 	/* set the pre-set values of the dropdown
@@ -146,10 +149,27 @@ class DropdownFormFieldModel extends FormFieldModel
 		return $this->method_name;
 	}
 
+	public function get_default_method_name()
+	{
+		return $this->default_method_name;
+	}
+
 	/* return the controller variable used in controller and view */
 	public function get_controller_array_variable()
 	{
 		$str = $this->name . '_' . $this->array_var_suffix;
+		return $str;
+	}
+
+	public function get_default_controller_array_variable()
+	{
+		$default = $this->default_value;
+		$str = '';
+
+		if ($default) {
+			$str = $this->name . '_default';
+		}
+
 		return $str;
 	}
 
@@ -164,6 +184,16 @@ class DropdownFormFieldModel extends FormFieldModel
 		$this->table_id = $id;
 		$this->table_col = $col;
 		$this->enum_array = null;
+	}
+
+	public function set_default_value($value)
+	{
+		$this->default_value = $value;
+	}
+
+	public function get_default_value()
+	{
+		return $this->default_value;
 	}
 
 	protected function is_enum()
@@ -186,6 +216,27 @@ class DropdownFormFieldModel extends FormFieldModel
 		$str .= "\t" . '{' . "\n";
 		$str .= "\t\t" . $this->get_values();
 		$str .= "\n\t" . '}';
+
+		$default = $this->default_value_method();
+		if ($default) {
+			$str .= "\n\n\t";
+			$str .= $default;
+		}
+
+		return $str;
+	}
+
+	private function default_value_method()
+	{
+		$default = $this->default_value;
+		$str = '';
+
+		if ($default) {
+			$str .= 'function ' . $this->default_method_name . "()\n";
+			$str .= "\t" . '{' . "\n";
+			$str .= "\t\treturn '" . $default . "';";
+			$str .= "\n\t" . '}';
+		}
 
 		return $str;
 	}
@@ -315,6 +366,13 @@ class FormModel
 	public function get_fields()
 	{
 		return $this->fields;
+	}
+
+	public function add_fields(FormFieldModel $field)
+	{
+		if (!$this->fields)
+			$this->fields = array();
+		array_push($this->fields, $field);
 	}
 
 	public function get_columns()
