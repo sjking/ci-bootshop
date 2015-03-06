@@ -1,6 +1,15 @@
 $(document).ready(function ()
 {
-	pagination_links();
+	var $div;
+	if ($(this).find('span.sorting-descending').length > 0) {
+		$div = $(this).find('span.sorting-descending').parent().parent();
+	}
+	else if ($(this).find('span.sorting-ascending').length > 0) {
+		$div = $(this).find('span.sorting-ascending').parent().parent();
+	}
+	var sort_id = $div.attr('id');
+
+	pagination_links(sort_id);
 
 	var $filter_button;
 
@@ -13,6 +22,7 @@ $(document).ready(function ()
 
 		var href = $(location).attr('href');
 		var $panel = $('#results-panel').find('.results-body');
+		var sort_id = $panel.find('.sorting-header-container-selected').attr('id');
 		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
@@ -28,19 +38,23 @@ $(document).ready(function ()
 			if ($filter_button.val() == 'clear') {
 				$('#bus_pad-filter').find('.filter-input').val('');
 			}
-			pagination_links();
+			pagination_links(sort_id);
 		});
 	});
 });
 
-function pagination_links()
+function pagination_links(sort_id)
 {
+	var $div = $('#' + sort_id);
+	$div.addClass('sorting-header-container-selected');
+
 	$('.pagination').find('li').not('.active').find('a').on('click', function(event) {
 		event.preventDefault();
 		var $page = $(this);
 		var href = $page.attr('href');
 
 		var $panel = $('#$NAME$-table').parent();
+		var sort_id = $panel.find('.sorting-header-container-selected').attr('id');
 		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
@@ -48,7 +62,7 @@ function pagination_links()
 		$.post(href, function(data) {
 			$panel.html(data.table);
 			$('.pagination-links').empty().html(data.links);
-			pagination_links();
+			pagination_links(sort_id);
 		});
 	});
 
@@ -66,15 +80,12 @@ function pagination_links()
 		event.preventDefault();
 		var href = $(this).attr('href');
 		var $panel = $('#$NAME$-table').parent();
-		var id = $(this).find('.sorting-header-container').attr('id');
+		var sort_id = $(this).find('.sorting-header-container').attr('id');
 
 		$.post(href, function(data) {
 			$panel.empty().html(data.table);
 			$('.pagination-links').empty().html(data.links);
-			pagination_links();
-
-			var $div = $('#' + id);
-			$div.addClass('sorting-header-container-selected');
+			pagination_links(sort_id);
 		});
 	});
 
