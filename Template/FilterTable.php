@@ -23,9 +23,9 @@ class FilterTable extends Table
 				$col_name = $col;
 			$anchor = '<a href="<?php echo $sort_link; ?>/' . $col->get_name() . '">' . $col_name . '&nbsp;';
 			$sort_class = '$sort[' . "'" . $col->get_name() . "'" . ']';
-			$span = '<span class="<?php echo ' . $sort_class . '; ?>"></span>';
+			$span = '<div class="pull-right"><span class="<?php echo ' . $sort_class . '; ?>"></span></div>';
 			$hdr = '<th>';
-			$anchor = $this->nest_str($span, $anchor) . "\n" . "</a>";
+			$anchor = $anchor . $span . '</a>';//$this->nest_str($span, $anchor) . "\n" . "</a>";
 			$hdr = $this->nest_str($anchor, $hdr) . "\n" . '</th>';
 			$tbl = $this->nest_str($hdr, $tbl);
 		}
