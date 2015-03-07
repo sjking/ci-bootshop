@@ -59,6 +59,15 @@ $field = new FormFieldModel('UNITS', 'input',
 $field->set_label_name('Units Completed');
 $fields[] = $field;
 
+$pending_workshops = array('0' => '0', '1' => '1', '2' => '2', '3' => '3', 
+						   '4' => '4', '5' => '5', '6' => '6');
+$dropdown = new DropdownFormFieldModel('pending_workshops', 'dropdown', 
+	array('class' => 'form-control', 'id' => 'pending_workshops-dropdown'));
+$dropdown->set_enum_array($pending_workshops);
+$dropdown->set_label_name('Pending Workshops');
+$dropdown->set_default_value('0');
+$fields[] = $dropdown;
+
 // workshops
 $checkbox = new CheckboxFormFieldModel('BCP_INT', 'checkbox', array('id' => 'BCP_INT-checkbox'));
 $checkbox->set_checked_value('0');

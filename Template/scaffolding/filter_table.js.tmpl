@@ -23,14 +23,11 @@ $(document).ready(function ()
 		var href = $(location).attr('href');
 		var $panel = $('#results-panel').find('.results-body');
 		var sort_id = $panel.find('.sorting-header-container-selected').attr('id');
-		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
-		$img.attr('class', 'loading');
-		$panel.empty().html($img);
 		var filter_data = $(this).serialize();
 		filter_data = filter_data + '&' + $filter_button.attr('name') + '=' + $filter_button.val();
 
 		$.post(href, filter_data, function(data) {
-			$panel.html(data.table);
+			$panel.empty().html(data.table);
 			$('.pagination-links').empty().html(data.links);
 			$('#filter-panel').find('.panel-heading').find('strong').text(data.num_records);
 			$('.results-count').find('strong').text(data.num_records);
@@ -55,12 +52,9 @@ function pagination_links(sort_id)
 
 		var $panel = $('#$NAME$-table').parent();
 		var sort_id = $panel.find('.sorting-header-container-selected').attr('id');
-		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
-		$img.attr('class', 'loading');
-		$panel.empty().html($img);
 
 		$.post(href, function(data) {
-			$panel.html(data.table);
+			$panel.empty().html(data.table);
 			$('.pagination-links').empty().html(data.links);
 			pagination_links(sort_id);
 		});
