@@ -61,4 +61,6 @@ Login to the virtual machine. Go to the directory that contains the script and r
     /vagrant/sites/beedie-ssl/tracs/application/models/vegetable_filter_model.php
     /vagrant/sites/beedie-ssl/tracs/assets/js/vegetable_filter/vegetable_filter_table.js
 
-Now, navigate to the address '/tracs/admin/vegetable_filter'.
+Now, navigate to the address '/tracs/admin/vegetable_filter'. You should see a new filter table interface that looks like the following image:
+
+![Vegetable Filter Table](vegetable_filter_table.png)
