@@ -26,6 +26,7 @@ abstract class Generator
 	protected $config;
 	protected $compiler;
 	protected $files; // read/write files
+	protected $filenames;
 
 	/* create a new generator
 	 * @param $name the naming of files and classnames in project
@@ -39,6 +40,20 @@ abstract class Generator
 		$this->name = $name;
 		$this->compiler = new TemplateCompiler();
 		$this->files = new Files();
+	}
+
+	/* 
+	 * output all the files that were created
+	 */
+	public function output()
+	{
+		$files = $this->filenames;
+		$number = sizeof($files);
+		$msg = "Created {$number} files:\n";
+		foreach ($files as $file) {
+			$msg .= "{$file}\n";
+		}
+		echo $msg;
 	}
 
 	/* generates the boilerplate in the project directory */

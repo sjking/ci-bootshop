@@ -34,4 +34,31 @@ To do the tutorial, we will need to setup some database tables in your virtual m
 
 ## Look-up tables
 
-There are two testing scripts that generate interfaces for managing lookup tables in TRACS. The lookup table interface is located at '/tracs/admin/lut'. The script ordering_test_lut.php generates a lookup table interface that allows ordering
+There are two testing scripts that generate interfaces for managing lookup tables in TRACS. The lookup table interface is located at '/tracs/admin/lut'. Each of the two generators for lookup table interfaces creates a master-detail view. The master view shows a table with all of the data, and it may be truncated. The master view also has filters to search for specific data in the tabels. On each column of the master view, there is an edit button. When the edit button is clicked, it will take you to a detailed view for the entry in the row that was clicked. 
+
+The script ordering_test_lut.php generates a lookup table interface that allows re-ordering of the entries with up and downs arrows on each row. The script sorting_test_lut.php creates an interfaces where the columns of the master table view can be sorted in ascending or descending order.
+
+TO-DO: Finish tutorial on the look-up tables
+
+## Filter Table
+
+There is a testing script that generates a simple one-page interfaces that
+includes a filter form and a master table view. Each row of the filter table interface can be sorted in ascending or descending order. The file 'filter_table_test.php' will generate a testing interfaces located at '/tracs/admin/vegetable_filter'. 
+
+### Running the Script
+
+Login to the virtual machine. Go to the directory that contains the script and run it:
+
+    $ cd /vagrant/generator/Modules/Tracs/scripts
+    $ php -f filter_table_test.php
+    Created 8 files:
+    /vagrant/sites/beedie-ssl/tracs/application/views/admin/vegetable_filter/vegetable_filter_table_view.php
+    /vagrant/sites/beedie-ssl/tracs/application/views/admin/vegetable_filter/vegetable_filter_panel_footer_view.php
+    /vagrant/sites/beedie-ssl/tracs/application/views/admin/vegetable_filter/vegetable_filter_panel_header_view.php
+    /vagrant/sites/beedie-ssl/tracs/application/views/admin/vegetable_filter/vegetable_filter_filter_panel_view.php
+    /vagrant/sites/beedie-ssl/tracs/application/controllers/admin/vegetable_filter.php
+    /vagrant/sites/beedie-ssl/tracs/application/views/admin/vegetable_filter/vegetable_filter_view.php
+    /vagrant/sites/beedie-ssl/tracs/application/models/vegetable_filter_model.php
+    /vagrant/sites/beedie-ssl/tracs/assets/js/vegetable_filter/vegetable_filter_table.js
+
+Now, navigate to the address '/tracs/admin/vegetable_filter'.

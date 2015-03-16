@@ -91,3 +91,4 @@ $data = array('CONTROLLER_NAME' => $name,
 
 $generator->init($data);
 $generator->generate();
+$generator->output();
