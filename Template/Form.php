@@ -22,7 +22,7 @@ class Form extends HTMLElement
 	{
 		parent::__construct('form', $model->get_params());
 
-		$this->set_elements($model->get_fields(), $model->get_row());
+		$this->set_elements($model->get_fields());
 		if ($model->get_label_params())
 			$this->set_label_params($model->get_label_params());
 		if ($model->get_button_params())
@@ -31,7 +31,7 @@ class Form extends HTMLElement
 		$this->fields();
 	}
 
-	protected function set_elements(array $fields, $row)
+	protected function set_elements(array $fields)
 	{
 		$elements = array();
 

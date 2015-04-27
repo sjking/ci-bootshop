@@ -17,10 +17,10 @@ $conf = new GeneratorConfig('config.ini', MODULE_DIR);
 
 /* Main List View data */
 $cols = array();
-$col = new TableColumn('event_id', array('class' => 'col-lg-2 col-md-2 col-sm-3 col-xs-3'));
+$col = new TableColumn('event_id', array('class' => 'col-lg-4 col-md-4 col-sm-4 col-xs-4'));
 $col->set_display_name('Event ID');
 $cols[] = $col;
-$col = new TableColumn('name', array('class' => 'col-lg-8 col-md-8 col-sm-6 col-xs-6'));
+$col = new TableColumn('name', array('class' => 'col-lg-6 col-md-6 col-sm-6 col-xs-6'));
 $col->set_display_name('Name');
 $cols[] = $col;
 $params = array('id' => $name . '-table', 
@@ -40,16 +40,22 @@ $field = new FormFieldModel('name', 'input',
 $field->set_label_name('Name');
 $fields[] = $field;
 
-$dropdown = new DropdownFormFieldModel('category', 'dropdown', 
-	array('class' => 'form-control', 'id' => 'category-dropdown'));
-$dropdown->set_table_col('email_category', 'category', 'category');
+// $dropdown = new DropdownFormFieldModel('category', 'dropdown', 
+// 	array('class' => 'form-control', 'id' => 'category-dropdown'));
+// $dropdown->set_table_col('email_category', 'category', 'category');
+// $dropdown->set_label_name('Category');
+// $fields[] = $dropdown;
+
+$dropdown = new DropdownFormFieldModel('category_id', 'dropdown', 
+	array('class' => 'form-control', 'id' => 'category_id-dropdown'));
+$dropdown->set_table_col('email_category', 'category_id', 'category');
 $dropdown->set_label_name('Category');
 $fields[] = $dropdown;
 
-$checkbox = new CheckboxFormFieldModel('active', 'checkbox', array('id' => 'active-checkbox'));
+$checkbox = new CheckboxFormFieldModel('enable', 'checkbox', array('id' => 'active-checkbox'));
 $checkbox->set_checked_value('1');
 $checkbox->set_default_value('0');
-$checkbox->set_label_name('Active');
+$checkbox->set_label_name('Enabled');
 $fields[] = $checkbox;
 
 $radio = new RadioFormFieldModel('status', 'radio', array('id' => 'status-radio'));
