@@ -1,6 +1,6 @@
 <?php namespace Generator;
 /* 
- * Sorting Example - Vegetable Fans
+ * Email templates management master view
  *
  * @author Steve King
  */
@@ -20,20 +20,23 @@ $cols = array();
 $col = new TableColumn('template_id', array('class' => 'col-lg-1 col-md-1 col-sm-1 col-xs-1'));
 $col->set_display_name('ID');
 $cols[] = $col;
-$col = new TableColumn('Name', array('class' => 'col-lg-5 col-md-5 col-sm-5 col-xs-5'));
+$col = new TableColumn('Name', array('class' => 'col-lg-3 col-md-3 col-sm-3 col-xs-3'));
 $col->set_display_name('Name');
+$cols[] = $col;
+$col = new TableColumn('TemplateDescription', array('class' => 'col-lg-3 col-md-3 col-sm-3 col-xs-3'));
+$col->set_display_name('Description');
 $cols[] = $col;
 $col = new TableColumn('Category_ID', array('class' => 'col-lg-2 col-md-2 col-sm-2 col-xs-2'));
 $col->set_display_name('Category');
 $cols[] = $col;
-$col = new TableColumn('Status', array('class' => 'col-lg-2 col-md-2 col-sm-2 col-xs-2'));
+$col = new TableColumn('Status', array('class' => 'col-lg-1 col-md-1 col-sm-1 col-xs-1'));
 $col->set_display_name('Status');
 $cols[] = $col;
 $col = new TableColumn('', array('class' => 'col-lg-2 col-md-2 col-sm-2 col-xs-2'));
 $col->set_display_name('');
 $cols[] = $col;
 $params = array('id' => $name . '-table', 
-				'class' => 'list table table-striped table-hover');
+				'class' => 'list table table-striped table-hover filter-table');
 $table_model = new TableModel($name, $table, $cols, 'template_id', $params);
 
 /* Filter form Data */
@@ -75,7 +78,7 @@ $fields[] = $dropdown;
 $id = 'template_id';
 $label_params = array('class' => 'control-label');
 $button_params = array('class' => 'btn btn-default');
-$params = array('id' => $name. '-form', 'class' => 'form-inline filter-table-form img-rounded', 'method' => 'post');
+$params = array('id' => $name. '-form', 'class' => 'form-inline filter-table-form', 'method' => 'post');
 
 $filter_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $filter_model->set_col_header('Name'); // table column used for title of page (OR NOT!)

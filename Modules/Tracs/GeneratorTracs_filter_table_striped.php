@@ -53,7 +53,7 @@ class GeneratorTracs_filter_table_striped extends Generator
 		$this->tableTemplate->set_name($name, 'table');
 		
 		$this->controllerTemplate = new ControllerTemplate($this->config, 
-			'filter_table_controller.php.tmpl');
+			'filter_table_inline_controller.php.tmpl');
 		$this->controllerTemplate->set_name($name);
 		
 		$this->viewTemplate = new ViewTemplate($this->config, 
