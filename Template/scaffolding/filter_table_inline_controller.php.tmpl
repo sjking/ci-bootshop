@@ -30,7 +30,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 									   );
 		$data['styleSheets']    = array('alert.css',
 										'filter_table.css',
-										'filter_form.css'
+										'filter_form_inline.css'
 									   );
 		$data['header'] = '$HEADER$';
 
@@ -172,6 +172,13 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		$to = base_url('admin/' . $controller);
 		redirect($to, 'location');
+	}
+
+	private function output_array(array $a) 
+	{
+		echo '<pre>';
+		echo print_r($a);
+		echo '</pre>';
 	}
 
 

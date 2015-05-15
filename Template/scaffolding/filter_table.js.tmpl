@@ -1,13 +1,15 @@
 $(document).ready(function ()
 {
 	var $div;
+	var sort_id;
 	if ($(this).find('span.sorting-descending').length > 0) {
 		$div = $(this).find('span.sorting-descending').parent().parent();
+		sort_id = $div.attr('id');
 	}
 	else if ($(this).find('span.sorting-ascending').length > 0) {
 		$div = $(this).find('span.sorting-ascending').parent().parent();
+		sort_id = $div.attr('id');
 	}
-	var sort_id = $div.attr('id');
 
 	pagination_links(sort_id);
 

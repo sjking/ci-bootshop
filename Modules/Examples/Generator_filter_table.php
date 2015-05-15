@@ -29,7 +29,6 @@ class Generator_filter_table extends Generator
 	protected $createViewHeader;
 	
 	private $init; // flag to see if data is initialized
-	private $filenames; // array of filename paths that were created
 
 	private $javascriptTableTemplate;
 

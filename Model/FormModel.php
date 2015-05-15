@@ -323,7 +323,7 @@ class FormModel
 		$label_params = null, $button_params = null)
 	{
 		$this->name = $name;
-		$this->table = $table;
+		// $this->table = $table;
 		$this->id = $id;
 		$this->fields = $fields;
 		$this->init_cols($fields);

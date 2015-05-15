@@ -9,9 +9,9 @@ define('MODULE_DIR', dirname(__DIR__));
 
 include_once(MODULE_DIR . '/Generator_filter_table.php');
 
-$name = 'vegetable_filter';
-$table = 'vegetable_fans';
-const BASE_URL = 'codeigniter.vagrant';
+$name = 'vegetable_filter'; // the name of the controller
+$table = 'vegetable_fans'; // the database table name
+const BASE_URL = 'dev.busdevw/tracs/admin';
 
 $conf = new GeneratorConfig('filter_table_config.ini', MODULE_DIR);
 
@@ -91,3 +91,4 @@ $data = array('CONTROLLER_NAME' => $name,
 
 $generator->init($data);
 $generator->generate();
+$generator->output();

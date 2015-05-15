@@ -68,7 +68,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		}
 
 		// sorting
-		$sort_data = $this->session->userdata('sort_data');
+		$sort_data = $this->session->userdata('sort_data_$CONTROLLER_NAME$');
 
 		// Pagination
 		$config['base_url'] = base_url() . 'lut/' . $data['controller'];
@@ -139,8 +139,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$sort_data = null;
 		$controller = strtolower('$CONTROLLER_NAME$');
 
-		if ($this->session->userdata('sort_data')) {
-			$sort_data = $this->session->userdata('sort_data');
+		if ($this->session->userdata('sort_data_$CONTROLLER_NAME$')) {
+			$sort_data = $this->session->userdata('sort_data_$CONTROLLER_NAME$');
 			if ($sort_data['col'] == $col) {
 				$sort_data['order'] = $sort_data['order'] == 'ASC' ? 'DESC' : 'ASC';
 			}
@@ -148,7 +148,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 				$sort_data['order'] = 'ASC';
 				$sort_data['col'] = $col;
 			}
-			$this->session->unset_userdata('sort_data');
+			$this->session->unset_userdata('sort_data_$CONTROLLER_NAME$');
 		}
 		else {
 			$sort_data = array();
@@ -156,7 +156,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			$sort_data['order'] = 'ASC';
 		}
 
-		$this->session->set_userdata('sort_data', $sort_data);
+		$this->session->set_userdata('sort_data_$CONTROLLER_NAME$', $sort_data);
 
 		$to = base_url('lut/' . $controller);
 		redirect($to, 'location');
