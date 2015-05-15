@@ -21,20 +21,6 @@ $MODEL_INSTANCE_VARIABLES$
 		return $query->result_array();
 	}
 
-	/* Return fields $DETAIL_MODEL_SELECT_COLUMNS$
-	 * from table $DB_TABLE_NAME$ with primary key $id
-	 * @param $id the primary key name of the table
-	 */
-	// function get($id)
-	// {
-	// 	$this->db->select('$DETAIL_MODEL_SELECT_COLUMNS$' . ', ' 
-	// 		. '$MODEL_TABLE_ID_COL$ as $MODEL_NAME$_id');
-	// 	$this->db->where('$MODEL_TABLE_ID_COL$', $id);
-	// 	$query = $this->db->get('$DB_TABLE_NAME$');
-
-	// 	return array_pop($query->result_array());
-	// }
-
 	/* Return the count of all records matching select $data, or count of all
 	 * rows for the table if $data is null
 	 * @param $data

@@ -1,19 +1,20 @@
 <?php namespace Generator;
 /* Master detail interface template. There is a master view of all data in a 
- * table, and a detail edit view for each table entry
+ * table, and a detail edit view for each table entry.
+ * Adds custom ordering column to move row order up/down on each entry.
  * @author Steve King
  */
 
 use \Exception;
 
 include_once(dirname(dirname(__DIR__)) . "/Generator.php");
-include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable_sorting.php");
+include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable_ordering.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/TracsForm.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/JavascriptTemplate.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/TableModel.php");
 
-class GeneratorTracsLUT_sorting extends Generator
+class Generator_ordering extends Generator
 {
 	protected $controllerTemplate;
 	protected $viewTemplate;
@@ -57,11 +58,11 @@ class GeneratorTracsLUT_sorting extends Generator
 
 		// table view template
 		$this->tableTemplate = new ViewTemplate($this->config, 
-			'tracs_tbody.php.tmpl');
+			'tracs_ordering_tbody.php.tmpl');
 		$this->tableTemplate->set_name($name, 'table');
 		
 		$this->controllerTemplate = new ControllerTemplate($this->config, 
-			'tracs_controller_sorting.php.tmpl');
+			'tracs_controller_ordering.php.tmpl');
 		$this->controllerTemplate->set_name($name);
 		
 		$this->viewTemplate = new ViewTemplate($this->config, 
@@ -69,10 +70,11 @@ class GeneratorTracsLUT_sorting extends Generator
 		$this->viewTemplate->set_name($name);
 
 		$this->modelTemplate = new ModelTemplate($this->config, 
-			'tracs_model.php.tmpl');
+			'tracs_model_ordering.php.tmpl');
 		$this->modelTemplate->set_name($this->model->get_name());
 		$this->modelTemplate->set_vars(null);
 		$this->modelTemplate->set_columns($this->model->get_columns());
+		// print_r($this->model->get_columns()); exit();
 
 		// detail form view template
 		$this->detailModelTemplate = new ModelTemplate($this->config);
@@ -107,7 +109,7 @@ class GeneratorTracsLUT_sorting extends Generator
 
 		// javascript
 		$this->javascriptTableTemplate = new JavascriptTemplate($this->config, 
-			'table_sorting.js.tmpl');
+			'table_ordering.js.tmpl');
 		$this->javascriptTableTemplate->set_name($name, 'table');
 
 		// panel
@@ -133,7 +135,7 @@ class GeneratorTracsLUT_sorting extends Generator
 			throw new Exception('Generator Error: Data must be initialized.');
 		
 		// table view
-		$table = new TracsTable_sorting($this->model->get_name(), 
+		$table = new TracsTable_ordering($this->model->get_name(), 
 								$this->model->get_columns(),
 								$this->model->get_params());
 		$template = $this->files->read($this->tableTemplate->get_template());
@@ -354,6 +356,8 @@ class GeneratorTracsLUT_sorting extends Generator
 
 		$data['FILTER_PANEL_LINK'] = 'lut/' . $this->filterPanelTemplate->get_link();
 		$data['TABLE_COL_DISPLAY_NAME_MAP'] = $this->get_table_column_display_name_map_array($this->model->get_columns());
+
+		$data['ORDERING_COLUMN'] = $this->model->get_order_column();
 
 		// javascript
 		$data['JAVASCRIPT_TABLE'] = 'lut/' . $this->javascriptTableTemplate->get_link();

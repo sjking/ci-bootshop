@@ -7,11 +7,11 @@
 
 define('MODULE_DIR', dirname(__DIR__));
 
-include_once(MODULE_DIR . '/GeneratorTracs_filter_table.php');
+include_once(MODULE_DIR . '/Generator_filter_table.php');
 
 $name = 'vegetable_filter';
 $table = 'vegetable_fans';
-const BASE_URL = 'dev.busdevw/tracs/admin';
+const BASE_URL = 'codeigniter.vagrant';
 
 $conf = new GeneratorConfig('filter_table_config.ini', MODULE_DIR);
 
@@ -81,7 +81,7 @@ $params = array('id' => $name. '-form', 'class' => 'form-horizontal filter-table
 $filter_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $filter_model->set_col_header('name'); // table column used for title of page (OR NOT!)
 
-$generator = new GeneratorTracs_filter_table($name, $conf, $table_model, $filter_model);
+$generator = new Generator_filter_table($name, $conf, $table_model, $filter_model);
 
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Vegetable Fans',
