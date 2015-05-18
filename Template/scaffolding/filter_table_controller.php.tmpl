@@ -6,16 +6,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 	{
 		parent::__construct();
 
-    	//Setup the CAS Authentication and Access Control.
-        $this->load->model('User_access');
-        $this->load->library('error');
-    	
-    	if( !$this->User_access->allowAccessType( array('Admin') ) ){
-    		$msg = 'You ("' . $_SESSION['tracs_userComputingID'] . 
-				'") do not have the permission to access this page.';
-			$link = base_url('admin');
-			$this->error->access_denied($msg, $link);
-		}
+		$this->load->helper('url');
+		$this->load->library('session');
 	}
 
 	public function index($page = null)
@@ -134,15 +126,15 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			echo ajax_html($views);
 		}
 		else {
-			$this->load->view('_templates/admin/header', $data);
-			$this->load->view('admin/$VIEW_NAME_LINK$', $data);
-			$this->load->view('admin/$FILTER_PANEL_LINK$', $data);
-			$this->load->view('admin/$PANEL_HEADER_PATH$', $data);
-			$this->load->view('admin/$TABLE_VIEW_LINK$', $data);
-			$this->load->view('admin/$PANEL_FOOTER_PATH$', $data);
-			$this->load->view('_templates/universal_modal_view.php');
-			$this->load->view('_templates/alerts_view.php');
-			$this->load->view('_templates/admin/footer', $data);
+			$this->load->view('header', $data);
+			$this->load->view('$VIEW_NAME_LINK$', $data);
+			$this->load->view('$FILTER_PANEL_LINK$', $data);
+			$this->load->view('$PANEL_HEADER_PATH$', $data);
+			$this->load->view('$TABLE_VIEW_LINK$', $data);
+			$this->load->view('$PANEL_FOOTER_PATH$', $data);
+			$this->load->view('universal_modal_view.php');
+			$this->load->view('alerts_view.php');
+			$this->load->view('footer', $data);
 		}
 	}
 

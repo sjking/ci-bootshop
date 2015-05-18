@@ -121,7 +121,7 @@ class Generator_filter_table extends Generator
 		$form = new FilterTableForm($this->filter_model);
 		$form->set_submit_button('<span class="glyphicon glyphicon-filter"></span>&nbsp;Filter');
 		$form->set_clear_button('<span class="glyphicon glyphicon-remove"></span>&nbsp;Clear');
-		$form->set_container_params(array("class" => 'img-rounded'));
+		$form->set_container_params(array("class" => 'img-rounded filter-form-container'));
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
 		$form_view_path = $this->filterPanelTemplate->get_path();

@@ -11,7 +11,7 @@ include_once(MODULE_DIR . '/Generator_filter_table.php');
 
 $name = 'vegetable_filter'; // the name of the controller
 $table = 'vegetable_fans'; // the database table name
-const BASE_URL = 'dev.busdevw/tracs/admin';
+const BASE_URL = 'codeigniter.vagrant';
 
 $conf = new GeneratorConfig('filter_table_config.ini', MODULE_DIR);
 
@@ -86,7 +86,7 @@ $generator = new Generator_filter_table($name, $conf, $table_model, $filter_mode
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Vegetable Fans',
 			  'HEADER' => 'Vegetable Fans',
-			  'PORTAL_LINK' => '/tracs/admin/vegetable_filter'
+			  'PORTAL_LINK' => '/vegetable_filter'
 			  );
 
 $generator->init($data);
