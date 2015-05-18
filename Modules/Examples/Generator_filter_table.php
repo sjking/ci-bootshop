@@ -125,8 +125,6 @@ class Generator_filter_table extends Generator
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
 		$form_view_path = $this->filterPanelTemplate->get_path();
-		// $filter_panel_view = $this->compiler->compile($filter_panel_template, $this->data);
-		// $filter_panel_path = $this->filterPanelTemplate->get_path();
 		if ($this->files->write($form_view_path, $form_view))
 			$this->filenames[] = $form_view_path;
 

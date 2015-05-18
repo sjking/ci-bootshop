@@ -1,11 +1,11 @@
 <?php namespace Generator;
-/* Adds bootstrap styling to a form
+/* Adds bootstrap styling to filter table type form
  * @author Steve King
  */
 
-include_once('TracsForm.php');
+include_once('BootstrapForm.php');
 
-class FilterTableForm extends TracsForm
+class FilterTableForm extends BootstrapForm
 {	
 	protected $clear_btn;
 	protected $container_params;

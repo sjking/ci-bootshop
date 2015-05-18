@@ -5,7 +5,7 @@
 
 include_once('Form.php');
 
-class TracsForm extends Form
+class BootstrapForm extends Form
 {	
 	/* override the form fields output */
 	protected function fields()
