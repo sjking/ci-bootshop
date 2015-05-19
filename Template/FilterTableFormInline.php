@@ -3,9 +3,9 @@
  * @author Steve King
  */
 
-include_once('TracsForm.php');
+include_once('BootstrapForm.php');
 
-class FilterTableFormInline extends TracsForm
+class FilterTableFormInline extends BootstrapForm
 {	
 	protected $clear_btn;
 	protected $container_params;

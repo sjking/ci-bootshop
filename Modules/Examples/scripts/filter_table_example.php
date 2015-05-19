@@ -7,7 +7,7 @@
 
 define('MODULE_DIR', dirname(__DIR__));
 
-include_once(MODULE_DIR . '/Generator_filter_table.php');
+include_once(MODULE_DIR . '/Generator_filter_table_inline.php');
 
 $name = 'vegetable_filter'; // the name of the controller
 $table = 'vegetable_fans'; // the database table name
@@ -74,14 +74,14 @@ $dropdown->set_default_value('20');
 $fields[] = $dropdown;
 
 $id = 'id';
-$label_params = array('class' => 'control-label col-md-2');
+$label_params = array('class' => 'control-label');
 $button_params = array('class' => 'btn btn-default');
-$params = array('id' => $name. '-form', 'class' => 'form-horizontal filter-table-form img-rounded', 'method' => 'post');
+$params = array('id' => $name. '-form', 'class' => 'form-inline filter-table-form', 'method' => 'post');
 
 $filter_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $filter_model->set_col_header('name'); // table column used for title of page (OR NOT!)
 
-$generator = new Generator_filter_table($name, $conf, $table_model, $filter_model);
+$generator = new Generator_filter_table_inline($name, $conf, $table_model, $filter_model);
 
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Vegetable Fans',

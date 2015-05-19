@@ -35,7 +35,7 @@ $(document).ready(function ()
 			$('.results-count').find('strong').text(data.num_records);
 
 			if ($filter_button.val() == 'clear') {
-				$('#bus_pad-filter').find('.filter-input').val('');
+				$('#$NAME$-form').trigger("reset");
 			}
 			pagination_links(sort_id);
 		});

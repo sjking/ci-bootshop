@@ -6,16 +6,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 	{
 		parent::__construct();
 
-    	//Setup the CAS Authentication and Access Control.
-        $this->load->model('User_access');
-        $this->load->library('error');
-    	
-    	if( !$this->User_access->allowAccessType( array('Admin') ) ){
-    		$msg = 'You ("' . $_SESSION['tracs_userComputingID'] . 
-				'") do not have the permission to access this page.';
-			$link = base_url('admin');
-			$this->error->access_denied($msg, $link);
-		}
+    $this->load->helper('url');
+		$this->load->library('session');
 	}
 
 	public function index($page = null)
@@ -23,7 +15,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$this->load->model('$MODEL_NAME$');
 		$this->load->library('pagination');
 
-		$data['siteTitle'] 		= "TRACS";
+		$data['siteTitle'] 		= "CodeIgniter Bootshop";
 		$data['title'] 			= $data['siteTitle'] . ' - $PAGE_TITLE$';
 		$data['javaScript'] 	= array('$JAVASCRIPT_TABLE$',
 										'alert.js'
@@ -40,7 +32,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		$data['table_col_params'] = $TABLE_COL_PARAMS$;
 		$data['table_col_display_name_map'] = $TABLE_COL_DISPLAY_NAME_MAP$;
 
-		$data['sort_link'] = base_url('admin/' . $data['controller'] . '/sort');
+		$data['sort_link'] = base_url($data['controller'] . '/sort');
 
 		$is_filter_request = false;
 
@@ -85,7 +77,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 		}
 
 		// Pagination
-		$config['base_url'] = base_url() . '/admin/' . $data['controller'];
+		$config['base_url'] = base_url() . $data['controller'];
 		$config['total_rows'] = $this->$MODEL_NAME$->rowCount($filter_data);
 		$config['per_page'] = $results_per_page;
 		$this->pagination->initialize($config);
@@ -123,7 +115,7 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			$views = array();
 			$views['links'] = $data['links'];
 			if ($data['number_of_records'] > 0) {
-				$views['table'] = $this->load->view('admin/$TABLE_VIEW_LINK$', $data, true);
+				$views['table'] = $this->load->view('$TABLE_VIEW_LINK$', $data, true);
 			}
 			else {
 				$views['table'] = 'No Records Found.';
@@ -134,15 +126,15 @@ class $CONTROLLER_NAME$ extends CI_Controller
 			echo ajax_html($views);
 		}
 		else {
-			$this->load->view('_templates/admin/header', $data);
-			$this->load->view('admin/$VIEW_NAME_LINK$', $data);
-			$this->load->view('admin/$FILTER_PANEL_LINK$', $data);
-			$this->load->view('admin/$PANEL_HEADER_PATH$', $data);
-			$this->load->view('admin/$TABLE_VIEW_LINK$', $data);
-			$this->load->view('admin/$PANEL_FOOTER_PATH$', $data);
-			$this->load->view('_templates/universal_modal_view.php');
-			$this->load->view('_templates/alerts_view.php');
-			$this->load->view('_templates/admin/footer', $data);
+			$this->load->view('header', $data);
+			$this->load->view('$VIEW_NAME_LINK$', $data);
+			$this->load->view('$FILTER_PANEL_LINK$', $data);
+			$this->load->view('$PANEL_HEADER_PATH$', $data);
+			$this->load->view('$TABLE_VIEW_LINK$', $data);
+			$this->load->view('$PANEL_FOOTER_PATH$', $data);
+			$this->load->view('universal_modal_view.php');
+			$this->load->view('alerts_view.php');
+			$this->load->view('footer', $data);
 		}
 	}
 
@@ -170,15 +162,8 @@ class $CONTROLLER_NAME$ extends CI_Controller
 
 		$this->session->set_userdata('$CONTROLLER_NAME$-sort_data', $sort_data);
 
-		$to = base_url('admin/' . $controller);
+		$to = base_url($controller);
 		redirect($to, 'location');
-	}
-
-	private function output_array(array $a) 
-	{
-		echo '<pre>';
-		echo print_r($a);
-		echo '</pre>';
 	}
 
 
