@@ -1,6 +1,5 @@
 <?php namespace Generator;
-/* Master detail interface template. There is a master view of all data in a 
- * table, and a detail edit view for each table entry
+/* Filter table master view
  * @author Steve King
  */
 

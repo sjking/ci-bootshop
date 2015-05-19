@@ -5,7 +5,7 @@
 
 include_once('Table.php');
 
-class TracsTable extends Table
+class Table_sorting extends Table
 {
 	
 	function __construct($name, $columns, $params = null)
@@ -15,13 +15,18 @@ class TracsTable extends Table
 
 	protected function header()
 	{
-		$tbl = '<thead>';
+		$tbl = '<thead id="sorting-header">';
 		foreach($this->columns as $col) {
 			if ($col instanceof TableColumn)
 				$col_name = $col->get_display_name();
 			else
 				$col_name = $col;
-			$hdr = '<th>' . $col_name . '</th>';
+			$anchor = '<a href="<?php echo $sort_link; ?>/' . $col->get_name() . '">' . $col_name . '&nbsp;';
+			$sort_class = '$sort[' . "'" . $col->get_name() . "'" . ']';
+			$span = '<span class="<?php echo ' . $sort_class . '; ?>"></span>';
+			$hdr = '<th>';
+			$anchor = $this->nest_str($span, $anchor) . "\n" . "</a>";
+			$hdr = $this->nest_str($anchor, $hdr) . "\n" . '</th>';
 			$tbl = $this->nest_str($hdr, $tbl);
 		}
 		$hdr = '<th></th>' . "\n" . '<th></th>';

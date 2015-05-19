@@ -13,7 +13,7 @@ $(document).ready(function ()
 
 		var href = $(location).attr('href');
 		var $panel = $('#results-panel').find('.results-body');
-		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img = $('<img>').attr('src', '/assets/img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
 		var filter_data = $(this).serialize();
@@ -41,7 +41,7 @@ function pagination_links()
 		var href = $page.attr('href');
 
 		var $panel = $('#$NAME$-table').parent();
-		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img = $('<img>').attr('src', '/assets/img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
 

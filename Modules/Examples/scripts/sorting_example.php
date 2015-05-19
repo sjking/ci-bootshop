@@ -7,11 +7,10 @@
 
 define('MODULE_DIR', dirname(__DIR__));
 
-include_once(MODULE_DIR . '/GeneratorTracsLUT_sorting.php');
+include_once(MODULE_DIR . '/Generator_sorting.php');
 
 $name = 'vegetable_fans';
 $table = 'vegetable_fans';
-const BASE_URL = 'dev.busdevw/tracs/admin';
 
 $conf = new GeneratorConfig('config.ini', MODULE_DIR);
 
@@ -76,15 +75,16 @@ $params = array('id' => 'vegetable_fans-form', 'class' => 'form-horizontal', 'me
 $detail_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $detail_model->set_col_header('name'); // table column used for title of page
 
-$generator = new GeneratorTracsLUT_sorting($name, $conf, $table_model, $detail_model);
+$generator = new Generator_sorting($name, $conf, $table_model, $detail_model);
 
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Vegetable Fans',
 			  'HEADER' => 'Vegetable Fans',
 			  'PORTAL_LINK_NAME' => 'Vegetable Fans',
 			  'PORTAL_LINK_DESC' => 'Manage the vegetable fans',
-			  'PORTAL_LINK' => '/tracs/lut/vegetable_fans'
+			  'PORTAL_LINK' => '/vegetable_fans'
 			  );
 
 $generator->init($data);
 $generator->generate();
+$generator->output();

@@ -12,7 +12,7 @@ include_once(MODULE_DIR . '/Generator_filter_table_inline.php');
 $name = 'vegetable_filter'; // the name of the controller
 $table = 'vegetable_fans'; // the database table name
 
-$conf = new GeneratorConfig('filter_table_config.ini', MODULE_DIR);
+$conf = new GeneratorConfig('config.ini', MODULE_DIR);
 
 /* Main List View data */
 $cols = array();
