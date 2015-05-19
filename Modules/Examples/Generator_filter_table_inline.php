@@ -154,6 +154,16 @@ class Generator_filter_table_inline extends Generator
 		$js_path = $this->javascriptTableTemplate->get_path();
 		if ($this->files->write($js_path, $js))
 			$this->filenames[] = $js_path;
+
+		// put link in portal page csv
+		$str = $this->data['PORTAL_LINK_NAME'];
+		$str .= ',' . $this->data['PORTAL_LINK_DESC'];
+		$str .= ',' . $this->data['PORTAL_LINK'];
+		$csv_path = $this->config->get('PORTAL', 'PATH');
+		$csv = $this->files->read($csv_path);
+		$csv .= "\n" . $str;
+		if($this->files->write($csv_path, $csv))
+			$this->filenames[] = $csv_path;
 	}
 
 	/* initialize the data for the template compilation

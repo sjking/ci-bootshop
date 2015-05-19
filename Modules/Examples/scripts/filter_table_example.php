@@ -86,7 +86,9 @@ $generator = new Generator_filter_table_inline($name, $conf, $table_model, $filt
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Vegetable Fans',
 			  'HEADER' => 'Vegetable Fans',
-			  'PORTAL_LINK' => '/vegetable_filter'
+			  'PORTAL_LINK' => '/vegetable_filter',
+			  'PORTAL_LINK_NAME' => 'Vegetable Fans Filter',
+			  'PORTAL_LINK_DESC' => 'Filter favorite vegetables for vegetable fans'
 			  );
 
 $generator->init($data);
