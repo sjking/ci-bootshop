@@ -1,6 +1,5 @@
 <?php namespace Generator;
-/* Master detail interface template. There is a master view of all data in a 
- * table, and a detail edit view for each table entry
+/* Filter table master view
  * @author Steve King
  */
 
@@ -73,10 +72,10 @@ class Generator_filter_table_inline extends Generator
 
 		// panel
 		$this->panelHeaderTemplate = new ViewTemplate($this->config,
-			'tracs_panel_header.php.tmpl');
+			'panel_header.php.tmpl');
 		$this->panelHeaderTemplate->set_name($name, 'panel_header');
 		$this->panelFooterTemplate = new ViewTemplate($this->config,
-			'tracs_panel_footer.php.tmpl');
+			'panel_footer.php.tmpl');
 		$this->panelFooterTemplate->set_name($name, 'panel_footer');
 
 		// filter panel
@@ -286,7 +285,7 @@ class Generator_filter_table_inline extends Generator
 		// filter panel
 		$data['FILTER_PANEL_LINK'] = $this->filterPanelTemplate->get_link();
 		
-		// vegetable filter row: This is an array variable that holds all the 
+		// filter row: This is an array variable that holds all the 
 		// selected column values in each key that matches the column name
 		// It should be chosen by default or by filter data that is stored in
 		// session variables

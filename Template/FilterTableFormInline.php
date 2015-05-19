@@ -24,7 +24,6 @@ class FilterTableFormInline extends BootstrapForm
 	{
 		$str = '<div class="form-group">';
 		$label = $this->form_label();
-		// $btn = parent::submit_btn();
 		$btn = $this->submit_buttons();
 		$btn = $this->form_group($btn, true);
 		$str = $this->nest_str($label, $str);
