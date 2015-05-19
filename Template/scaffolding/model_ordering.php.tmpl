@@ -7,6 +7,7 @@ $MODEL_INSTANCE_VARIABLES$
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->database();
 	}
 
 	/* returns all entries for table 
@@ -31,8 +32,9 @@ $MODEL_INSTANCE_VARIABLES$
 			. '$MODEL_TABLE_ID_COL$ as $MODEL_NAME$_id');
 		$this->db->where('$MODEL_TABLE_ID_COL$', $id);
 		$query = $this->db->get('$DB_TABLE_NAME$');
+		$result = $query->result_array();
 
-		return array_pop($query->result_array());
+		return array_pop($result);
 	}
 
 	/* Update field with primary key $id with data $data
@@ -61,8 +63,8 @@ $MODEL_INSTANCE_VARIABLES$
 	 */
 	function create($data)
 	{
-        $id = isset($data['$MODEL_TABLE_ID_COL$']) ? 
-        	$data['$MODEL_TABLE_ID_COL$'] : null;
+    $id = isset($data['$MODEL_TABLE_ID_COL$']) ? 
+    $data['$MODEL_TABLE_ID_COL$'] : null;
 		
 		$this->db->trans_start();
 		if($this->db->insert('$DB_TABLE_NAME$', $data)) {

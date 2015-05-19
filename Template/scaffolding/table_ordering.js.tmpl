@@ -16,7 +16,7 @@ $(document).ready(function ()
 		filter_is_active = true;
 		var href = $(location).attr('href');
 		var $panel = $('#results-panel').find('.results-body');
-		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img = $('<img>').attr('src', '/assets/img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
 		var filter_data = $(this).serialize();
@@ -25,7 +25,6 @@ $(document).ready(function ()
 		$.post(href, filter_data, function(data) {
 			$panel.html(data.table);
 			$('.pagination-links').empty().html(data.links);
-			// $('#filter-panel').find('.panel-heading').find('strong').text(data.num_records);
 			$('.results-count').find('strong').text(data.num_records);
 
 			if ($filter_button.val() == 'clear') {
@@ -108,7 +107,7 @@ function pagination_links(filter_is_active)
 		var href = $page.attr('href');
 
 		var $panel = $('#$NAME$-table').parent();
-		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img = $('<img>').attr('src', '/assets/img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
 

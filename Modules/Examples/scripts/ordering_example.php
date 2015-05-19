@@ -7,11 +7,10 @@
 
 define('MODULE_DIR', dirname(__DIR__));
 
-include_once(MODULE_DIR . '/GeneratorTracsLUT_ordering.php');
+include_once(MODULE_DIR . '/Generator_ordering.php');
 
 $name = 'vegetable';
 $table = 'vegetable';
-const BASE_URL = 'dev.busdevw/tracs/admin';
 
 $conf = new GeneratorConfig('config.ini', MODULE_DIR);
 
@@ -42,15 +41,16 @@ $params = array('id' => 'vegetable-form', 'class' => 'form-horizontal', 'method'
 $detail_model = new FormModel($name, $table, $fields, $id, $params, $label_params, $button_params);
 $detail_model->set_col_header('name');
 
-$generator = new GeneratorTracsLUT_ordering($name, $conf, $table_model, $detail_model);
+$generator = new Generator_ordering($name, $conf, $table_model, $detail_model);
 
 $data = array('CONTROLLER_NAME' => $name,
 			  'PAGE_TITLE' => 'Vegetables',
 			  'HEADER' => 'Vegetables',
 			  'PORTAL_LINK_NAME' => 'Vegetables',
-			  'PORTAL_LINK_DESC' => 'Manage the Vegetable System',
-			  'PORTAL_LINK' => '/tracs/lut/vegetable'
+			  'PORTAL_LINK_DESC' => 'Manage the Vegetable List',
+			  'PORTAL_LINK' => '/vegetable'
 			  );
 
 $generator->init($data);
 $generator->generate();
+$generator->output();

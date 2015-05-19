@@ -5,7 +5,7 @@
 
 include_once('Table.php');
 
-class TracsTable_ordering extends Table
+class Table_ordering extends Table
 {
 	
 	function __construct($name, $columns, $params = null)

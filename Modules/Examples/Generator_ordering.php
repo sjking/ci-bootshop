@@ -8,8 +8,8 @@
 use \Exception;
 
 include_once(dirname(dirname(__DIR__)) . "/Generator.php");
-include_once(dirname(dirname(__DIR__)) . "/Template/TracsTable_ordering.php");
-include_once(dirname(dirname(__DIR__)) . "/Template/TracsForm.php");
+include_once(dirname(dirname(__DIR__)) . "/Template/Table_ordering.php");
+include_once(dirname(dirname(__DIR__)) . "/Template/BootstrapForm.php");
 include_once(dirname(dirname(__DIR__)) . "/Template/JavascriptTemplate.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/FormModel.php");
 include_once(dirname(dirname(__DIR__)) . "/Model/TableModel.php");
@@ -57,11 +57,11 @@ class Generator_ordering extends Generator
 
 		// table view template
 		$this->tableTemplate = new ViewTemplate($this->config, 
-			'tracs_ordering_tbody.php.tmpl');
+			'ordering_tbody.php.tmpl');
 		$this->tableTemplate->set_name($name, 'table');
 		
 		$this->controllerTemplate = new ControllerTemplate($this->config, 
-			'tracs_controller_ordering.php.tmpl');
+			'controller_ordering.php.tmpl');
 		$this->controllerTemplate->set_name($name);
 		
 		$this->viewTemplate = new ViewTemplate($this->config, 
@@ -69,11 +69,10 @@ class Generator_ordering extends Generator
 		$this->viewTemplate->set_name($name);
 
 		$this->modelTemplate = new ModelTemplate($this->config, 
-			'tracs_model_ordering.php.tmpl');
+			'model_ordering.php.tmpl');
 		$this->modelTemplate->set_name($this->model->get_name());
 		$this->modelTemplate->set_vars(null);
 		$this->modelTemplate->set_columns($this->model->get_columns());
-		// print_r($this->model->get_columns()); exit();
 
 		// detail form view template
 		$this->detailModelTemplate = new ModelTemplate($this->config);
@@ -113,15 +112,15 @@ class Generator_ordering extends Generator
 
 		// panel
 		$this->panelHeaderTemplate = new ViewTemplate($this->config,
-			'tracs_panel_header.php.tmpl');
+			'panel_header.php.tmpl');
 		$this->panelHeaderTemplate->set_name($name, 'panel_header');
 		$this->panelFooterTemplate = new ViewTemplate($this->config,
-			'tracs_panel_footer.php.tmpl');
+			'panel_footer.php.tmpl');
 		$this->panelFooterTemplate->set_name($name, 'panel_footer');
 
 		// filter panel
 		$this->filterPanelTemplate = new ViewTemplate($this->config,
-			'tracs_filter_panel.php.tmpl');
+			'filter_panel.php.tmpl');
 		$this->filterPanelTemplate->set_name($name, 'filter_panel');
 
 		$this->data = $this->_init();
@@ -134,7 +133,7 @@ class Generator_ordering extends Generator
 			throw new Exception('Generator Error: Data must be initialized.');
 		
 		// table view
-		$table = new TracsTable_ordering($this->model->get_name(), 
+		$table = new Table_ordering($this->model->get_name(), 
 								$this->model->get_columns(),
 								$this->model->get_params());
 		$template = $this->files->read($this->tableTemplate->get_template());
@@ -187,7 +186,7 @@ class Generator_ordering extends Generator
 			$this->filenames[] = $model_path;
 
 		// detail view (for editing)
-		$form = new TracsForm($this->detail_model);
+		$form = new BootstrapForm($this->detail_model);
 		$form->set_submit_button('<span class="glyphicon glyphicon-save"></span>&nbsp;Update');
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
@@ -202,7 +201,7 @@ class Generator_ordering extends Generator
 			$this->filenames[] = $detail_header_path;
 
 		// create view
-		$form = new TracsForm($this->create_model);
+		$form = new BootstrapForm($this->create_model);
 		$form->set_submit_button('<span class="glyphicon glyphicon-check"></span>&nbsp;Create');
 		$form_view = $form->generate();
 		$form_view = $this->compiler->compile($form_view, $this->data);
@@ -326,40 +325,40 @@ class Generator_ordering extends Generator
 		$data['CONTROLLER_NAME'] = $this->controllerTemplate->get_name();
 		$data['NAME'] = strtolower($data['CONTROLLER_NAME']);
 		$data['VIEW_NAME'] = $this->viewTemplate->get_name();
-		$data['VIEW_NAME_LINK'] = 'lut/' . $this->viewTemplate->get_link();
+		$data['VIEW_NAME_LINK'] = $this->viewTemplate->get_link();
 		$data['MODEL_NAME'] = $this->modelTemplate->get_name();
 		$data['TABLE_VIEW'] = $this->tableTemplate->get_name();
-		$data['TABLE_VIEW_LINK'] = 'lut/' . $this->tableTemplate->get_link();
+		$data['TABLE_VIEW_LINK'] = $this->tableTemplate->get_link();
 		$data['DB_TABLE_NAME'] = $this->model->get_table_name();
 		$data['MODEL_INSTANCE_VARIABLES'] = $this->modelTemplate->get_vars();
 		$data['MODEL_SELECT_COLUMNS'] = $this->modelTemplate->get_columns();
 		$data['MODEL_TABLE_ID_COL'] = $this->model->get_id();
 
-		$data['PANEL_HEADER_PATH'] = 'lut/' . $this->panelHeaderTemplate->get_link();
-		$data['PANEL_FOOTER_PATH'] = 'lut/' . $this->panelFooterTemplate->get_link();
+		$data['PANEL_HEADER_PATH'] = $this->panelHeaderTemplate->get_link();
+		$data['PANEL_FOOTER_PATH'] = $this->panelFooterTemplate->get_link();
 
 		$data['TABLE_COL_PARAMS'] = $this->get_table_col_params_array($this->model->get_columns());
 
 		// detail view
-		$data['DETAIL_VIEW_LINK'] = 'lut/' . $this->detailViewTemplate->get_link();
+		$data['DETAIL_VIEW_LINK'] = $this->detailViewTemplate->get_link();
 		$data['DETAIL_MODEL_SELECT_COLUMNS'] = $this->detailModelTemplate->get_columns();
 		$data['DETAIL_ROW'] = $this->detail_model->get_row();
 		$data['DETAIL_HEADER'] = $this->detail_model->get_col_header();
-		$data['DETAIL_VIEW_HEADER_LINK'] = 'lut/' . $this->detailViewHeader->get_link();
+		$data['DETAIL_VIEW_HEADER_LINK'] = $this->detailViewHeader->get_link();
 		$data['DETAIL_MODEL_DROPDOWN_METHODS'] = $this->get_array_methods($this->detail_model);
 		$data['DETAIL_MODEL_DROPDOWN_CONTROLLER_VARIABLES'] = $this->get_array_controller_variables($this->detail_model);
 
 		// create view
-		$data['CREATE_VIEW_LINK'] = 'lut/' . $this->createViewTemplate->get_link();
-		$data['CREATE_VIEW_HEADER_LINK'] = 'lut/' . $this->createViewHeader->get_link();
+		$data['CREATE_VIEW_LINK'] = $this->createViewTemplate->get_link();
+		$data['CREATE_VIEW_HEADER_LINK'] = $this->createViewHeader->get_link();
 
-		$data['FILTER_PANEL_LINK'] = 'lut/' . $this->filterPanelTemplate->get_link();
+		$data['FILTER_PANEL_LINK'] = $this->filterPanelTemplate->get_link();
 		$data['TABLE_COL_DISPLAY_NAME_MAP'] = $this->get_table_column_display_name_map_array($this->model->get_columns());
 
 		$data['ORDERING_COLUMN'] = $this->model->get_order_column();
 
 		// javascript
-		$data['JAVASCRIPT_TABLE'] = 'lut/' . $this->javascriptTableTemplate->get_link();
+		$data['JAVASCRIPT_TABLE'] = $this->javascriptTableTemplate->get_link();
 
 		return $data;
 	}

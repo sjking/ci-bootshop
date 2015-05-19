@@ -13,7 +13,7 @@ $(document).ready(function ()
 
 		var href = $(location).attr('href');
 		var $panel = $('#$NAME$-results-panel').find('.panel-body');
-		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img = $('<img>').attr('src', '../img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
 		var filter_data = $(this).serialize();
@@ -25,7 +25,7 @@ $(document).ready(function ()
 			$('#filter-panel').find('.panel-heading').find('strong').text(data.num_records);
 
 			if ($filter_button.val() == 'clear') {
-				$('#bus_pad-filter').find('.filter-input').val('');
+				$('#$NAME$-filter').find('.filter-input').val('');
 			}
 			pagination_links();
 		});
@@ -40,7 +40,7 @@ function pagination_links()
 		var href = $page.attr('href');
 
 		var $panel = $('#$NAME$-table').parent();
-		$img = $('<img>').attr('src', '/tracs/assets/img/loading.gif');
+		$img = $('<img>').attr('src', '../img/loading.gif');
 		$img.attr('class', 'loading');
 		$panel.empty().html($img);
 
